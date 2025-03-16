@@ -1,0 +1,48 @@
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 6px 10px;  
+  border: none;
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.btn.primary {
+  --btn-bg: var(--secondary);
+  --btn-bg-hover: var(--primary);
+  --btn-color: #ffffff;
+}
+
+.btn.secondary {
+  --btn-bg: var(--secondary);
+  --btn-bg-hover: var(--primary);
+  --btn-color: #ffffff;
+}
+
+.btn.tertiary {
+  --btn-bg: rgba(var(--primary-rgb), 0.13);
+  --btn-bg-hover: rgba(var(--primary-rgb), 0.1);
+  --btn-color: #ffffff;
+}
+
+.btn:hover {
+  background: var(--btn-bg-hover);
+  color: white;
+}
+
+.btn.small {
+  padding: 6px 10px;
+}
+
+.btn.medium {
+  padding: 8px 10px;  
+  width: 5rem;
+}
+
+.btn.large {
+  width: 10rem;
+}

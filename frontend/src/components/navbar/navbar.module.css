@@ -1,0 +1,53 @@
+.navBar {
+  padding: 1.5rem;
+  padding-inline: 5rem;
+  border-bottom: 1px solid var(--tertiary);
+  /* background-color: rgb(0, 0, 0); */
+}
+
+.nav {
+  /* background-color: rgb(2, 91, 91); */
+}
+
+.navLinks {
+  display: flex;
+  gap: 4rem;
+  padding-top: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.5rem;
+  /* background-color: rgb(169, 176, 174); */
+  list-style: none;
+  direction: rtl;
+}
+
+.navLinks li a {
+  text-decoration: none;
+  color: var(--primary);
+}
+
+.navBrand {
+  /* background-color: blanchedalmond; */
+  width: 75%;
+  display: flex;
+  align-items: center;
+  height: 5rem;
+}
+
+
+.navIcons {
+  width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content:end;
+  gap: 2rem;
+}
+
+.logoImg {
+  width: 6rem;
+}
+
+.logoTextImg {
+  width: 12rem;
+  height: 2.3rem;
+}

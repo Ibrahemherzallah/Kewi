@@ -1,0 +1,60 @@
+.typo {
+  direction: rtl;
+}
+
+.primary {
+  color: var(--primary);
+}
+
+.secondary {
+  color: var(--secondary);
+}
+
+.tertiary {
+  color: gray;
+  opacity: 0.8;
+}
+
+.typo.under {
+  text-decoration: underline;
+}
+
+.typo.above {
+  text-decoration: line-through;
+}
+
+
+.typo.h1 {
+  font-size: 2rem;
+  font-weight: 650;
+}
+
+.typo.h2 {
+  font-size: 1.75rem;
+  font-weight: 650;
+}
+
+.typo.h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.typo.h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.typo.h5 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.typo.h6 {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.typo.p {
+  font-size: 0.85rem;
+  font-weight: 450;
+}
