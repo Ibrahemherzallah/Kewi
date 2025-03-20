@@ -58,3 +58,25 @@
   font-size: 0.85rem;
   font-weight: 450;
 }
+
+
+.typo.xs {
+  font-size: 0.75rem;
+}
+
+.typo.sm {
+  font-size: 1.25rem;
+}
+
+.typo.md {
+  font-size: 1.5rem;
+}
+
+.typo.lg {
+  font-size: 1.75rem;
+}
+
+.typo.xl {
+  font-size: 2.25rem;
+}
+

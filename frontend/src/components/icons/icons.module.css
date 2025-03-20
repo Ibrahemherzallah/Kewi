@@ -8,8 +8,9 @@
 }
 
 .iconBtn.circle {
-  border: 2px solid var(--tertiary);
+  border: 1px solid gray;
   border-radius: 50%;
+  color: gray;
   transition: all 0.3s ease-in-out;
 }
 
@@ -18,6 +19,7 @@
 }
 
 .iconBtn.circle:hover {
+  border: none;
   background-color: var(--secondary);
   color: white;
   transform: scale(1.1);

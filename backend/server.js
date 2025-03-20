@@ -1,17 +1,23 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './db/connectDB.js';
+import authRoutes from './routes/adminRoutes/auth.routes.js';
+import wholesalerRoutes from './routes/adminRoutes/wholesalers.routes.js';
+import productRoutes from './routes/adminRoutes/product.routes.js';
+
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 const app = express();
 
-console.log("The port is  : ", PORT);
-
+app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.status(200).send('Hello World');
 })
 
+app.use('/admin', productRoutes)
+app.use('/admin', wholesalerRoutes)
+app.use('/auth', authRoutes);
 
 app.listen(PORT , ()=> {
     connectDB();

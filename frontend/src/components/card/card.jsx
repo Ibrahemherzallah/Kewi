@@ -10,7 +10,7 @@ export function Card ({children,...props}){
 
 export function CardImg ({alt,src}) {
   return(
-    <img className= {style.img} src={src} alt={alt} />
+    <img className={style.img} src={src} alt={alt} />
   )
 }
 
@@ -32,8 +32,8 @@ export function CardDescription ({children}) {
   )
 }
 
-export function CardButton ({size,variant,children}) {
+export function CardButton ({size,variant,children,...props}) {
   return(
-    <Button variant={variant} size={size}>{children}</Button>
+    <Button variant={variant} size={size} {...props}>{children}</Button>
   )
 }
