@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import Button from "../components/button/button.jsx";
 import Typography from '../components/typography/typography.jsx';
-import { CardNormal, CardSoldOut, CardSale, ImageCard } from '../containers/card.jsx';
+// import { CardNormal, CardSoldOut, CardSale } from '../containers/card.jsx';
 import img from "../assets/img.jpg"
 import NavBar from '../containers/navbar.jsx';
 import { IconBtn } from '../components/icons/icons.jsx';
@@ -84,19 +84,19 @@ const Hui = () => {
 
     <h1>Card</h1><br />
     <div className='d-flex gap-3'>
-      <CardNormal src={img}></CardNormal>
-      <CardSoldOut src={img}></CardSoldOut>
-      <CardSale src={img}></CardSale>
+      {/*<CardNormal src={img}></CardNormal>*/}
+      {/*<CardSoldOut src={img}></CardSoldOut>*/}
+      {/*<CardSale src={img}></CardSale>*/}
     </div><br />
     <hr />
     <br /><br />
 
     <h1>Image Card</h1><br />
     <div className="d-flex gap-4">
-      <ImageCard src={bagImg} text={"handbag"}></ImageCard>
-      <ImageCard src={img} text={"handbag"}></ImageCard>
-      <ImageCard src={bagImg} text={"handbag"}></ImageCard>
-      <ImageCard src={img} text={"handbag"}></ImageCard>
+      {/*<ImageCard src={bagImg} text={"handbag"}></ImageCard>*/}
+      {/*<ImageCard src={img} text={"handbag"}></ImageCard>*/}
+      {/*<ImageCard src={bagImg} text={"handbag"}></ImageCard>*/}
+      {/*<ImageCard src={img} text={"handbag"}></ImageCard>*/}
     </div>
 
     <br /><br />

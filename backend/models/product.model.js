@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
+// import {Double} from "mongodb";
 
-const productSchema = new Schema({
+const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
   },
   image: {
-    type: String,
+      type: [String],
     required: true
   },
   description: {
@@ -14,11 +15,13 @@ const productSchema = new Schema({
     default: ""
   },
   categoryId: {
+      // type: Number,
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
     required: true
   },
   brandId: {
+      // type: Number,
     type: mongoose.Schema.Types.ObjectId,
     ref: "Brand",
     required: true
@@ -38,15 +41,15 @@ const productSchema = new Schema({
     enum: ['صغير','وسط','كبير']
   },
   customerPrice: {
-    type: Double,
+      type: Number,
     required: true,
   },
   wholesalerPrice: {
-    type: Double,
+      type: Number,
     required: true,
   },
   salePrice: {
-    type: Double,
+      type: Number,
     required: true,
   },
   isSoldOut: {
