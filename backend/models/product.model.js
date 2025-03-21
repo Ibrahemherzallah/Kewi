@@ -15,15 +15,15 @@ const productSchema = new mongoose.Schema({
     default: ""
   },
   categoryId: {
-      type: Number,
-      // type: mongoose.Schema.Types.ObjectId,
-      // ref: "Category",
+      // type: Number,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
     required: true
   },
   brandId: {
-      type: Number,
-      // type: mongoose.Schema.Types.ObjectId,
-      // ref: "Brand",
+      // type: Number,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Brand",
     required: true
   },
   gender: {

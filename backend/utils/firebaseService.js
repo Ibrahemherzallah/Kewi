@@ -6,7 +6,7 @@ import {bucket} from "./firebaseConfig.js";
  * @param {String} productId - Product ID to organize images
  * @returns {Array} - Array of image URLs
  */
-const uploadProductImages = async (files, productId) => {
+export const uploadProductImages = async (files, productId) => {
     try {
         if (!files || files.length === 0) throw new Error("No images provided");
 
@@ -18,10 +18,9 @@ const uploadProductImages = async (files, productId) => {
                 metadata: {contentType: file.mimetype},
             });
 
-            // Generate signed URL (public link)
             const [url] = await fileUpload.getSignedUrl({
                 action: "read",
-                expires: "03-01-2030", // Adjust expiration as needed
+                expires: "03-01-2030",
             });
 
             return url;
@@ -34,4 +33,26 @@ const uploadProductImages = async (files, productId) => {
     }
 };
 
-export default uploadProductImages;
+
+export const uploadCategoryImage = async (file) => {
+    try {
+        if (!file) throw new Error("No image provided");
+
+        const fileName = `category_images/${Date.now()}.${file.mimetype.split("/")[1]}`;
+        const fileUpload = bucket.file(fileName);
+
+        await fileUpload.save(file.buffer, {
+            metadata: { contentType: file.mimetype },
+        });
+
+        const [url] = await fileUpload.getSignedUrl({
+            action: "read",
+            expires: "03-01-2030",
+        });
+
+        return url;
+    } catch (error) {
+        console.error("Firebase Upload Error:", error);
+        throw error;
+    }
+};

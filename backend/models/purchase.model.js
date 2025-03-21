@@ -12,8 +12,13 @@ const purchaseSchema = new mongoose.Schema({
   },
   city: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "City",
+    refPath: "cityModel",
     required: true
+  },
+  cityModel: {
+    type: String,
+    required: true,
+    enum: ["City", "Product"]
   },
   deliveryType: {
     type: String,

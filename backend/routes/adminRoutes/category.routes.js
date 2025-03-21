@@ -1,12 +1,13 @@
 import express from "express";
 import {addCategory, deleteCategory, getCategories, updateCategory} from "../../controllers/categories.controller.js";
-
+import multer from "multer";
+const upload = multer({ storage: multer.memoryStorage() });
 const router = express.Router();
 
 
-router.get('/admin/Categories', getCategories);
-router.post("/admin/Categories", addCategory);
-router.put("/admin/Categories/:id", updateCategory);
-router.delete("admin/Categories/:id", deleteCategory);
+router.get('/categories', getCategories);
+router.post("/categories", upload.single("image"), addCategory);
+router.put("/categories/:id", updateCategory);
+router.delete("/categories/:id", deleteCategory);
 
 export default router;
