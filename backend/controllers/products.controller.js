@@ -122,3 +122,13 @@ export const deleteProduct = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const getFeaturesProducts = async (req, res) => {
+    try {
+        const featuredProducts = await Product.find().sort({ createdAt: -1 }).limit(8);
+        res.status(200).json(featuredProducts);
+    } catch (error) {
+        console.error("Error fetching featured products:", error);
+        res.status(500).json({ error: error.message });
+    }
+};

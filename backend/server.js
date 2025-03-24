@@ -5,6 +5,7 @@ import authRoutes from './routes/adminRoutes/auth.routes.js';
 import wholesalerRoutes from './routes/adminRoutes/wholesalers.routes.js';
 import productRoutes from './routes/adminRoutes/product.routes.js';
 import categoryRoutes from './routes/adminRoutes/category.routes.js';
+import homeRoutes from './routes/userRoutes/home.routes.js';
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +21,7 @@ app.use('/admin', categoryRoutes)
 app.use('/admin', productRoutes)
 app.use('/admin', wholesalerRoutes)
 app.use('/auth', authRoutes);
+app.use('/home', homeRoutes);
 
 app.listen(PORT , ()=> {
     connectDB();
