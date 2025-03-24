@@ -2,7 +2,7 @@ import style from './navbar.module.css';
 
 export function Navbar ({children}) {
   return(
-    <header className={`pb-0 ${style.navBar}`}>{children}</header>
+    <header className={`${style.navBar}`}>{children}</header>
   )
 }
 

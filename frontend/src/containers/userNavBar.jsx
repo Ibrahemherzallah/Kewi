@@ -7,7 +7,7 @@ import { IconBtn } from '../components/icons/icons.jsx';
 import { faStore } from "@fortawesome/free-solid-svg-icons"; // Import the store icon
 import { faSun } from "@fortawesome/free-solid-svg-icons";
 
-const NavBar = () => {
+const UserNavBar = () => {
   return(
     <Navbar>
       <Nav>
@@ -44,4 +44,4 @@ const NavBar = () => {
   )
 }
 
-export default NavBar;
+export default UserNavBar;

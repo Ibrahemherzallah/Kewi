@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 4px;
   padding: 9px 13px;
   border: none;
   background: var(--btn-bg);
@@ -34,15 +34,23 @@
   color: white;
 }
 
-.btn.small {
-  padding: 6px 10px;
+.btn.xs {
+  width: 30%;
 }
 
-.btn.medium {
-  padding: 8px 10px;  
-  width: 5rem;
+.btn.sm {
+  width: 45%;
 }
 
-.btn.large {
-  width: 10rem;
+.btn.md {
+  width: 60%;
+}
+
+.btn.lg {
+  width: 75%;
+}
+
+.btn.xl {
+  width: 90%;
+  padding: 11px 13px;
 }

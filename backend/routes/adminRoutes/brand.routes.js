@@ -1,10 +1,18 @@
 import express from "express";
 import {addBrand, deleteBrand, getBrands, updateBrand} from "../../controllers/brands.controller.js";
+import multer from "multer";
 
+const storage = multer.memoryStorage(); // Stores files in memory
+const upload = multer({ storage });
 
-router.get('/admin/Brands', getBrands);
-router.post("/admin/Brands", addBrand);
-router.put("/admin/Brands/:id", updateBrand);
-router.delete("admin/Brands/:id", deleteBrand);
-
+// Apply middleware to routes
 const router = express.Router();
+
+router.get('/brands', getBrands);
+router.post("/brands", upload.array("image"), addBrand);
+router.put("/brands/:id", updateBrand);
+router.delete("/brands/:id", deleteBrand);
+
+
+
+export default router;

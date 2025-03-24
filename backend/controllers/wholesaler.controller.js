@@ -3,11 +3,17 @@ import bcrypt from "bcryptjs";
 
 export const addWholesaler = async (req, res) => {
     try {
-        const {userName, password, phone, address, isWholesaler} = await req.body;
-        const user = await User.findOne({userName});
+        const { userName, password, phone, address, isWholesaler } = req.body;
+
+        // Check if the password is at least 8 characters long
+        if (!password || password.length < 8) {
+            return res.status(400).json({ error: "Password must be at least 8 characters long" });
+        }
+
+        const user = await User.findOne({ userName });
         if (user) {
-            console.log("Username exist");
-            return res.status(400).json({error: "Username exist"});
+            console.log("Username exists");
+            return res.status(400).json({ error: "Username exists" });
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -19,33 +25,82 @@ export const addWholesaler = async (req, res) => {
             phone,
             address,
             isWholesaler
-        })
+        });
+
         await newUser.save();
-        if (newUser) {
-            // generateTokenWithCookie(newUser._id,res);
-            res.status(201).json({
-                _id: newUser._id,
-                userName: newUser.userName,
-                password: newUser.password,
-                phone: newUser.phone,
-                address: newUser.address,
-                isWholesaler: newUser.isWholesaler
-            })
-        }
-        console.log("data stored successfully");
+
+        res.status(201).json({
+            _id: newUser._id,
+            userName: newUser.userName,
+            phone: newUser.phone,
+            address: newUser.address,
+            isWholesaler: newUser.isWholesaler
+        });
+
+        console.log("Data stored successfully");
     } catch (e) {
-        console.log("Error : ", e.message);
+        console.error("Error:", e.message);
+        res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
 
 export const deleteWholesaler = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedWholesaler = await User.findByIdAndDelete(id);
 
-}
+        if (!deletedWholesaler) {
+            return res.status(404).json({ error: "Wholesaler not found" });
+        }
+
+        res.status(200).json({ message: "Wholesaler deleted successfully" });
+    } catch (error) {
+        console.error("Error:", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
 
 export const updateWholesaler = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { userName, password, phone, address, isWholesaler } = req.body;
 
-}
+        let updateData = { userName, phone, address, isWholesaler };
+
+        // If a password is provided, hash it before updating
+        if (password) {
+            if (password.length < 8) {
+                return res.status(400).json({ error: "Password must be at least 8 characters long" });
+            }
+            const salt = await bcrypt.genSalt(10);
+            updateData.password = await bcrypt.hash(password, salt);
+        }
+
+        const updatedWholesaler = await User.findByIdAndUpdate(id, updateData, { new: true });
+
+        if (!updatedWholesaler) {
+            return res.status(404).json({ error: "Wholesaler not found" });
+        }
+
+        res.status(200).json(updatedWholesaler);
+    } catch (error) {
+        console.error("Error:", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 
 export const getWholesalers = async (req, res) => {
+    try {
+        const wholesalers = await User.find({ isWholesaler: true });
 
-}
+        if (wholesalers.length === 0) {
+            return res.status(404).json({ message: "No wholesalers found" });
+        }
+
+        res.status(200).json(wholesalers);
+    } catch (error) {
+        console.error("Error:", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
