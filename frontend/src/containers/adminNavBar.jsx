@@ -16,7 +16,7 @@ const AdminNav = () => {
                <NavBrand>
                    <div className='d-flex gap-3 w-100'>
                        <img className={style.logoImg} src={logo} alt="" />
-                       <img className={` mt-4 ${style.logoTextImg}`} src={logoText} alt="" />
+                       <img className={`mt-4 ${style.logoTextImg}`} src={logoText} alt="" />
                    </div>
                </NavBrand>
                <NavIcons>

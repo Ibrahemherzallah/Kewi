@@ -1,0 +1,32 @@
+.container {
+    padding: 5rem;
+    padding-inline: 5.5rem;
+}
+
+.tabs {
+    width: fit-content !important;
+    display: flex;
+    border-radius: 5px;
+    background-color: rgba(243, 243, 243, 0.85);
+}
+
+.navItem button {
+    width: 8rem!important;
+}
+
+.nav-link {
+    color: black !important;
+}
+
+h6{
+    color: #b3b3b3;
+}
+
+.productsTab {
+   margin-top: 5rem;
+   font-weight: 600;
+}
+
+.contents {
+    border-bottom: 4px solid #ededed;;
+}

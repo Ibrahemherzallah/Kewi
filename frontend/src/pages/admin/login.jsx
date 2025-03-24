@@ -1,5 +1,5 @@
 import {Input} from "../../components/input/input.jsx";
-import style from "./logIn.module.css";
+import style from "./style/logIn.module.css";
 import Button from '../../components/button/button.jsx';
 import logo from '../../assets/adminlogo.jpeg';
 import {useState} from "react";
