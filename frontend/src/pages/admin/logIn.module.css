@@ -1,0 +1,21 @@
+.icon {
+    width: 70%;
+    height: 45rem;
+}
+
+.hr {
+    display: block;
+    border-bottom: 10px solid var(--secondary);
+    border-radius: 1rem;
+    width: 80%;
+    bottom: 100px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    border: 3px solid rgba(var(--secondary-rgb), 0.2) ;
+}

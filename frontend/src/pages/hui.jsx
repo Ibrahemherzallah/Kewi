@@ -4,7 +4,7 @@ import Button from "../components/button/button.jsx";
 import Typography from '../components/typography/typography.jsx';
 // import { CardNormal, CardSoldOut, CardSale } from '../containers/card.jsx';
 import img from "../assets/img.jpg"
-import NavBar from '../containers/navbar.jsx';
+import NavBar from '../containers/userNavBar.jsx';
 import { IconBtn } from '../components/icons/icons.jsx';
 import { faStore } from "@fortawesome/free-solid-svg-icons";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";

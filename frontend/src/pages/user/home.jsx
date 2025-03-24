@@ -1,4 +1,4 @@
-import NavBar from "../../containers/navbar";
+import NavBar from "../../containers/userNavBar.jsx";
 import saleImg from "../../assets/sale.jpg";
 import style from './style/home.module.css';
 import { IconBtn } from "../../components/icons/icons";
