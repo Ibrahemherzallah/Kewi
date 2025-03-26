@@ -4,10 +4,12 @@ import {uploadProductImages} from '../utils/firebaseService.js';
 
 export const getProducts = async (req, res) => {
     try {
-        const products = await Product.find();
-        res.status(200).json(products);
+        const products = await Product.find()
+            .populate('categoryId') // This will return the full category object
+            .populate('brandId'); // This will return the full brand object
+
+        res.json(products);
     } catch (error) {
-        console.error("Error fetching products:", error);
         res.status(500).json({ error: error.message });
     }
 };
@@ -26,7 +28,8 @@ export const addProduct = async (req, res) => {
             wholesalerPrice,
             isSoldOut,
             isOnSale,
-            salePrice
+            salePrice,
+            numOfClicks
         } = req.body;
 
         const newProduct = new Product({
@@ -42,6 +45,7 @@ export const addProduct = async (req, res) => {
             salePrice,
             isSoldOut,
             isOnSale,
+            numOfClicks,
             image: [],
         });
 

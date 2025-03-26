@@ -32,9 +32,7 @@ const LogIn = () => {
                 <form className="bg-white gap-4 p-4 py-5" onSubmit={handleSubmitForm}>
                     <Typography component={'h1'} variant={'primary'} size={'xl'}>Kewi Admin</Typography>
                     <Input placeholder={"Enter you username"} usage={'form'} label={'Username'} size={'xl'} variant={'primary'} onChange={(e) =>setUsername(e.target.value)} />
-                    {/*<br/>*/}
                     <Input placeholder={"Enter your email"} usage={'form'} label={'Password'} size={'xl'} variant={'primary'} onChange={(e) => setPassword(e.target.value)} />
-                    {/*<br/><br/>*/}
                     <Button variant={'primary'} type={'submit'} size={'xl'}>Login</Button>
                 </form>
             </div>

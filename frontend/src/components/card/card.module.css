@@ -88,23 +88,44 @@
   filter: brightness(0.7);
 }
 
-/*@media (max-width: 1024px) {*/
-/*  .imageCardWrapper {*/
-/*    flex: 0 0 33.33%; !* Show 3 items *!*/
-/*    max-width: 33.33%;*/
-/*  }*/
-/*}*/
+.productCard {
+  border : 0.1rem solid #efefef;
+}
 
-/*@media (max-width: 768px) {*/
-/*  .imageCardWrapper {*/
-/*    flex: 0 0 50%; !* Show 2 items *!*/
-/*    max-width: 50%;*/
-/*  }*/
-/*}*/
+.productImage {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 3px;
+}
 
-/*@media (max-width: 480px) {*/
-/*  .imageCardWrapper {*/
-/*    flex: 0 0 100%; !* Show 1 item *!*/
-/*    max-width: 100%;*/
-/*  }*/
-/*}*/
+.productCard div h6 {
+  /*background-color:red;*/
+  width: 15%;
+  margin-left: 1rem;
+  direction: rtl;
+  padding-right: 1rem;
+
+}
+
+.productCard div div {
+  /*background-color:red;*/
+  width: 15%;
+  margin-left: 1rem;
+  direction: rtl;
+}
+
+.productCard div div button {
+  border: none;
+  background-color: rgba(238, 238, 238, 0.85);
+  border-radius: 50%;
+  padding: 0.3rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.productCard div div button:hover {
+  background-color: rgba(235, 235, 235, 1);
+}
