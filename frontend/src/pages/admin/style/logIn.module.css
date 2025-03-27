@@ -1,21 +1,17 @@
 .icon {
-    width: 70%;
-    height: 45rem;
+    width: 65%;
+    height: 30rem;
 }
 
-.hr {
-    display: block;
-    border-bottom: 10px solid var(--secondary);
-    border-radius: 1rem;
-    width: 80%;
-    bottom: 100px;
-}
-
-form {
+.loginForm {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 60%;
-    border: 3px solid rgba(var(--secondary-rgb), 0.2) ;
+    width: 50%;
+    border: 5px solid rgba(var(--secondary-rgb), 0.2) ;
+}
+
+.loginPage {
+    height: 90vh;
 }

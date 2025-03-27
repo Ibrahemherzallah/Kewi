@@ -9,7 +9,6 @@ import {Input, SearchInput} from "../../components/input/input.jsx";
 import {AddProductModal} from "./modals/addProducts.jsx";
 import {AddCategoryModal} from "./modals/addCategory.jsx";
 import {AddBrandsModal} from "./modals/addBrands.jsx";
-import {AddOrderModal} from "./modals/addOrders.jsx";
 import {AddWholesalers} from "./modals/addWholesalers.jsx";
 // import {response} from "express";
 
@@ -80,7 +79,7 @@ const AdminDash = () => {
         try {
             const response = await fetch("http://localhost:5001/admin/categories"); // Replace with actual API
             const data = await response.json();
-            data.map(item => category.push({name:item.name}))
+            data.map(item => category.push({ id: item._id, name: item.name }))
             console.log("The category is : " , category);
         } catch (error) {
             console.error("Error fetching categories:", error);
@@ -92,7 +91,7 @@ const AdminDash = () => {
         try {
             const response = await fetch("http://localhost:5001/admin/brands"); // Replace with actual API
             const data = await response.json();
-            data.map( item => brand.push({name :item.name ,image : item.image }))
+            data.map( item => brand.push({ id: item._id, name :item.name ,image : item.image }))
             console.log("The setBrand is : " , brand);
         } catch (error) {
             console.error("Error fetching categories:", error);
@@ -180,8 +179,7 @@ const AdminDash = () => {
                                     <FontAwesomeIcon icon={faPlus} size="md"/>
                                     Add Brands
                             </Button> : activeTab === 'orders' ?
-                            <Button variant={'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal4">
-                                        <FontAwesomeIcon icon={faPlus} size="md"/>Add Orders</Button> : activeTab === 'wholesalers'?
+                            '' : activeTab === 'wholesalers'?
                                         <Button variant={'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal5">
                                             <FontAwesomeIcon icon={faPlus} size="md"/>Add Wholesalers</Button>: 'null'}
                 </div>
@@ -249,7 +247,7 @@ const AdminDash = () => {
                     {activeTab === "orders" && (
                         <div className={`tab-pane fade show active ${style.productsTab}`}>
                             <div className={`d-flex justify-content-between pb-2 ${style.contents}`}>
-                                <h6>Image</h6><h6>Name</h6><h6>Actions</h6>
+                                <h6>Product Name</h6><h6>Product size</h6><h6>Product brand</h6><h6># of items</h6><h6>Category</h6><h6>Order Date</h6><h6>Price</h6><h6>C Name</h6><h6>C Phone</h6><h6>C Address</h6>
                             </div>
                             {Array.isArray(result) && result.map(res => (
                                 <BrandCard key={res.id} src={res.image} alt={res.name} name={res.name}/>
@@ -259,29 +257,13 @@ const AdminDash = () => {
                     {activeTab === "wholesalers" && (
                         <div className={`tab-pane fade show active ${style.productsTab}`}>
                             <div className={`d-flex justify-content-between pb-2 ${style.contents}`}>
-                                <h6>Image</h6><h6>Name</h6><h6>Actions</h6>
+                                <h6>Full Name</h6><h6>Phone Number</h6><h6>Address</h6>
                             </div>
                             {Array.isArray(result) && result.map(res => (
                                 <BrandCard key={res.id} src={res.image} alt={res.name} name={res.name}/>
                             ))}
                         </div>
                     )}
-                    {/*{activeTab === "orders" && (*/}
-                    {/*    <div className={`tab-pane fade show active ${style.productsTab}`}>*/}
-                    {/*        <div className={`d-flex justify-content-between pb-2 ${style.contents}`}>*/}
-                    {/*            <h6>Order ID</h6><h6>Customer</h6><h6>Status</h6><h6>Total Price</h6><h6>Actions</h6>*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*)}*/}
-
-                    {/*{activeTab === "wholesalers" && (*/}
-                    {/*    <div className={`tab-pane fade show active ${style.productsTab}`}>*/}
-                    {/*        <div className={`d-flex justify-content-between pb-2 ${style.contents}`}>*/}
-                    {/*            <h6>Wholesaler Name</h6><h6>Contact</h6><h6>Location</h6><h6>Actions</h6>*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*)}*/}
-
                 </div>
             </div>
         </>

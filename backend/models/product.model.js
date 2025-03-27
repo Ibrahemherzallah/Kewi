@@ -51,8 +51,8 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   salePrice: {
-    type: Number,
-    required: true,
+    type: Number || NaN,
+    required: false,
   },
   isSoldOut: {
     type: Boolean,

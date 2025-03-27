@@ -5,8 +5,8 @@ import {uploadProductImages} from '../utils/firebaseService.js';
 export const getProducts = async (req, res) => {
     try {
         const products = await Product.find()
-            .populate('categoryId') // This will return the full category object
-            .populate('brandId'); // This will return the full brand object
+            .populate('categoryId')
+            .populate('brandId');
 
         res.json(products);
     } catch (error) {

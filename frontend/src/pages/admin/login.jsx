@@ -1,7 +1,7 @@
 import {Input} from "../../components/input/input.jsx";
 import style from "./style/logIn.module.css";
 import Button from '../../components/button/button.jsx';
-import logo from '../../assets/adminlogo.jpeg';
+import logo from '../../assets/adminlogo.jpg';
 import {useState} from "react";
 import Typography from "../../components/typography/typography.jsx";
 import {Link} from "react-router";
@@ -27,18 +27,18 @@ const LogIn = () => {
             }).catch(error => console.error("Error:", error));
     }
     return (
-        <div className="d-flex">
-            <div className={`d-flex bg-info justify-content-center align-items-center w-50 ${style.form}`}>
-                <form className="bg-white gap-4 p-4 py-5" onSubmit={handleSubmitForm}>
+        <div className={`d-flex ${style.loginPage}`}>
+            <div className={`d-flex justify-content-center align-items-center w-50 ${style.form}`}>
+                <form className={`bg-white gap-4 p-4 py-5 ${style.loginForm}`} onSubmit={handleSubmitForm}>
                     <Typography component={'h1'} variant={'primary'} size={'xl'}>Kewi Admin</Typography>
                     <Input placeholder={"Enter you username"} usage={'form'} label={'Username'} size={'xl'} variant={'primary'} onChange={(e) =>setUsername(e.target.value)} />
                     <Input placeholder={"Enter your email"} usage={'form'} label={'Password'} size={'xl'} variant={'primary'} onChange={(e) => setPassword(e.target.value)} />
                     <Button variant={'primary'} type={'submit'} size={'xl'}>Login</Button>
                 </form>
             </div>
-            <div className={`d-flex justify-content-center align-items-center w-50 position-relative bg-dark ${style.logo}`}>
+            <div className={`d-flex justify-content-center align-items-center w-50 position-relative ${style.logo}`}>
                 <img className={`${style.icon}`} src={logo} alt={'logo'}/>
-                <div className={`position-absolute ${style.hr} `}></div>
+                {/*<div className={`position-absolute ${style.hr} `}></div>*/}
             </div>
         </div>
     )
