@@ -26,33 +26,34 @@ export const addProduct = async (req, res) => {
             color,
             customerPrice,
             wholesalerPrice,
-            isSoldOut,
-            isOnSale,
+            isSoldOut = false,
+            isOnSale = false,
             salePrice,
-            numOfClicks
+            numOfClicks = 0
         } = req.body;
 
-        const newProduct = new Product({
-            name,
-            description,
-            categoryId,
-            brandId,
-            gender,
-            size,
-            color,
-            customerPrice,
-            wholesalerPrice,
-            salePrice,
-            isSoldOut,
-            isOnSale,
-            numOfClicks,
+        // Convert empty fields to null or default values to prevent validation errors
+        const productData = {
+            name: name || "",
+            description: description || "",
+            categoryId: categoryId || null,  // Ensure categoryId exists
+            brandId: brandId || null,  // Allow brandId to be null
+            gender: gender || null,  // Allow gender to be optional
+            size: size || null,
+            color: color || "",
+            customerPrice: customerPrice ? Number(customerPrice) : 0,
+            wholesalerPrice: wholesalerPrice ? Number(wholesalerPrice) : 0,
+            salePrice: salePrice ? Number(salePrice) : null,
+            isSoldOut: isSoldOut === "true",
+            isOnSale: isOnSale === "true",
+            numOfClicks: Number(numOfClicks),
             image: [],
-        });
+        };
 
+        const newProduct = new Product(productData);
         await newProduct.save();
 
         const imageUrls = await uploadProductImages(req.files, newProduct._id.toString());
-
         newProduct.image = imageUrls;
         await newProduct.save();
 
@@ -60,7 +61,7 @@ export const addProduct = async (req, res) => {
         console.log("Product and images stored successfully");
     } catch (e) {
         console.error("Error:", e.message);
-        res.status(500).json({error: e.message});
+        res.status(500).json({ error: e.message });
     }
 };
 

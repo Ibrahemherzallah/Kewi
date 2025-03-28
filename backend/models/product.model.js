@@ -22,7 +22,9 @@ const productSchema = new mongoose.Schema({
   brandId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Brand",
-    required: true
+    required: false,
+    default: null  // Allow null values for optional fields
+
   },
   gender: {
     type: String,
@@ -51,16 +53,18 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   salePrice: {
-    type: Number || NaN,
+    type: Number,
     required: false,
   },
   isSoldOut: {
     type: Boolean,
-    required: true
+    required: false,
+    default: false
   },
   isOnSale: {
     type: Boolean,
-    required: true
+    required: false,
+    default: false
   }
 
 },{timestamps: true})

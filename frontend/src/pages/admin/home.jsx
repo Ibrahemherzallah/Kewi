@@ -1,6 +1,6 @@
 import AdminNav from "../../containers/adminNavBar.jsx";
 import style from "./style/adminDash.module.css";
-import {BrandCard, CategoryCard, ProductCard} from "../../containers/adminCards.jsx";
+import {BrandCard, CategoryCard, OrderCard, ProductCard, WholesalerCard} from "../../containers/adminCards.jsx";
 import {useEffect, useState} from "react";
 import Button from "../../components/button/button.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -29,7 +29,6 @@ const AdminDash = () => {
                     response = await fetch("http://localhost:5001/admin/products").then( response => response.json())
                         .then(data => {
                             setResult(data)
-                            // searchedValue === '' ?  : setResult(data.filter(item => item.includes(searchedValue)))
                             console.log(data);
                         })
                     break;
@@ -195,9 +194,6 @@ const AdminDash = () => {
 
                 <AddCategoryModal></AddCategoryModal>
 
-                {/*Order Modal*/}
-
-                <AddOrderModal></AddOrderModal>
 
                 {/*Wholesaler Modal*/}
 
@@ -225,10 +221,10 @@ const AdminDash = () => {
                     {activeTab === "categories" && (
                         <div className={`tab-pane fade show active ${style.productsTab}`}>
                             <div className={`d-flex justify-content-between pb-2 ${style.contents}`}>
-                                <h6>Image</h6><h6>Name</h6><h6>Actions</h6>
+                                <h6>Image</h6><h6>Name</h6><h6>Description</h6><h6>Actions</h6>
                             </div>
                             {Array.isArray(result) && result.map(res => (
-                                <CategoryCard key={res.id} src={res.image} alt={res.name} name={res.name}/>
+                                <CategoryCard key={res.id} src={res.image} alt={res.name} name={res.name} description={res.description}/>
                             ))}
                         </div>
                     )}
@@ -247,20 +243,25 @@ const AdminDash = () => {
                     {activeTab === "orders" && (
                         <div className={`tab-pane fade show active ${style.productsTab}`}>
                             <div className={`d-flex justify-content-between pb-2 ${style.contents}`}>
-                                <h6>Product Name</h6><h6>Product size</h6><h6>Product brand</h6><h6># of items</h6><h6>Category</h6><h6>Order Date</h6><h6>Price</h6><h6>C Name</h6><h6>C Phone</h6><h6>C Address</h6>
+                                <h6>Product Name</h6><h6>Product size</h6><h6>Product brand</h6><h6>Category</h6><h6>Order Date</h6><h6>Price</h6><h6>C Name</h6><h6>C Phone</h6><h6>C Address</h6>
                             </div>
                             {Array.isArray(result) && result.map(res => (
-                                <BrandCard key={res.id} src={res.image} alt={res.name} name={res.name}/>
+                                <OrderCard key={res.id} productName={res?.productId?.name} productSize={res?.productId?.size}
+                                           productBrand={res?.productId?.brandId?.name} productCategory={res?.productId?.categoryId?.name}
+                                           date={res?.createdAt} price={res.buyerId?.isWholesaler ? res.productId.wholesalerPrice :  res.productId?.isOnSale ? res.productId?.salePrice : res.productId?.price}
+                                           customerName={res.buyerId?.isWholesaler ? res.buyerId?.userName : res.purchaseId?.fullName} customerPhone={res.buyerId?.isWholesaler ? res.buyerId?.phone : res.purchaseId?.phoneNumber}
+                                           address={res.buyerId?.isWholesaler ? res.buyerId?.address : res.purchaseId?.city}
+                                />
                             ))}
                         </div>
                     )}
                     {activeTab === "wholesalers" && (
                         <div className={`tab-pane fade show active ${style.productsTab}`}>
                             <div className={`d-flex justify-content-between pb-2 ${style.contents}`}>
-                                <h6>Full Name</h6><h6>Phone Number</h6><h6>Address</h6>
+                                <h6>Full Name</h6><h6>Phone Number</h6><h6>Address</h6><h6>Actions</h6>
                             </div>
-                            {Array.isArray(result) && result.map(res => (
-                                <BrandCard key={res.id} src={res.image} alt={res.name} name={res.name}/>
+                            {Array.isArray(result) && result.map(res => ( res.isWholesaler &&
+                                <WholesalerCard key={res.id} name={res.userName} number={res.phone} address={res.address}/>
                             ))}
                         </div>
                     )}

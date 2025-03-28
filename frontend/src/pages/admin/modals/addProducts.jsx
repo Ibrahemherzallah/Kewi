@@ -2,7 +2,7 @@
     import {Input, InputTextarea} from "../../../components/input/input.jsx";
     import style from './modals.module.css';
     import { FaUpload } from "react-icons/fa"; // Import the upload icon
-    import { useState } from "react";
+    import {useEffect, useState} from "react";
     import Button from "../../../components/button/button.jsx";
 
 
@@ -12,19 +12,52 @@
         const genders = [{name:'رجالي'},{name:'نسائي'}];
         const sizes = [{name:'كبير'},{name: 'صغير'},{name: 'وسط'}];
         const colors = [{name:'برتقالي'},{name:'أسود'},{name:'رمادي'},{name:'أزرق'},{name:'وردي'},{name:'أحمر'},{name:'أصفر'},{name:'أبيض'}];
-        const [gender,setSelectedGender] = useState();
-        const [size,setSelectedSize] = useState();
-        const [color,setSelectedColor] = useState();
-        const [categoryId,setSelectedCategory] = useState();
-        const [brandId,setSelectedBrand] = useState();
-        const [name, setProductName] = useState();
-        const [description, setDescription] = useState();
-        const [customerPrice, setCustomerPrice] = useState();
-        const [wholesalerPrice, setWholesalerPrice] = useState();
-        const [salePrice, setSalePrice] = useState();
+        const [gender,setSelectedGender] = useState('');
+        const [size,setSelectedSize] = useState('');
+        const [color,setSelectedColor] = useState('');
+        const [categoryId,setSelectedCategory] = useState('');
+        const [brandId,setSelectedBrand] = useState('');
+        const [name, setProductName] = useState('');
+        const [description, setDescription] = useState('');
+        const [customerPrice, setCustomerPrice] = useState('');
+        const [wholesalerPrice, setWholesalerPrice] = useState('');
+        const [salePrice, setSalePrice] = useState('');
         const [isSoldOut,setIsSoldOut] = useState(false);
+        const [errors, setErrors] = useState('');
 
-        // Handle file selection
+
+
+
+
+
+
+        const resetForm = () => {
+            setProductName("");
+            setDescription("");
+            setSelectedCategory("");
+            setSelectedBrand("");
+            setSelectedGender("");
+            setSelectedSize("");
+            setSelectedColor("");
+            setCustomerPrice("");
+            setWholesalerPrice("");
+            setIsSoldOut(false);
+            setChecked(false);
+            setSalePrice("");
+            setImages([]);
+            setErrors("");
+        };
+        const validateForm = () => {
+                if (!categoryId) {
+                    setErrors("Category is required");
+                    return false;
+                }
+                else if(!(images.length > 0)){
+                    setErrors("Image is required");
+                    return false;
+                }
+                return true;
+        };
 
         const handleFileChange = (event) => {
             const files = Array.from(event.target.files);
@@ -49,9 +82,9 @@
         };
 
         function handleSubmit(e) {
-            // e.preventDefault();
+            e.preventDefault();
+            if (!validateForm()) return;
 
-            // Create a FormData object
             const formData = new FormData();
 
             // Append text data
@@ -70,7 +103,8 @@
 
             // Append image files
             images.forEach((image, index) => {
-                formData.append("images", image.file);  // Ensure "images" matches the field name expected by the backend
+                console.log("image", image);
+                formData.append("images", image.file);
             });
 
             // Send the request using fetch
@@ -80,7 +114,15 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("Product uploaded successfully:", data);
+                    if(data.error){
+                        setErrors(data.error);
+                    }
+                    else {
+                        console.log("Product uploaded successfully:", data);
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal1'));
+                        modal.hide();
+                        resetForm()
+                    }
                 })
                 .catch(error => {
                     console.error("Error uploading product:", error);
@@ -97,10 +139,13 @@
                         </div>
                         <form onSubmit={handleSubmit}>
                         <div className="modal-body">
-                                <DropDown isRequired={true} label={'Category'} size={'xlarge'} options={category} setSelected={setSelectedCategory} />
-                                <div className={`d-flex justify-content-between mt-2`}>
-                                    <Input placeholder={'Enter product name'} isRequired={true} label={'Name'} usage={'modal'} size={'sm'} required onChange={(e=> setProductName(e.target.value))}/>
-                                    <DropDown isRequired={false} size={'small'} label={'Brand'} options={brand} setSelected={setSelectedBrand} />
+                            {errors && <div className="alert alert-danger">{errors}</div>}
+
+                            <DropDown isRequired={true} label={'Category'} size={'xlarge'} options={category} setSelected={setSelectedCategory} />
+
+                            <div className={`d-flex justify-content-between mt-2`}>
+                            <Input placeholder={'Enter product name'} isRequired={true} label={'Name'} usage={'modal'} size={'sm'} required onChange={(e) => setProductName(e.target.value)} />
+                            <DropDown isRequired={false} size={'small'} label={'Brand'} options={brand} setSelected={setSelectedBrand} />
                                 </div>
                                 <div className={`mt-2`}>
                                     <InputTextarea placeholder={'Enter product name'} isRequired={false} label={'Description'} usage={'modal'} size={'xl'} type={'textarea'} style={{ height: '4rem' }} onChange={(e=> setDescription(e.target.value))} />
@@ -110,11 +155,10 @@
                                     <DropDown isRequired={false} size={'small'} label={'Size'}  options={sizes} setSelected={setSelectedSize} />
                                 </div>
                                 <div className={`d-flex justify-content-between mt-2`}>
-                                    <Input placeholder={'Customer Price (per shekel)'} isRequired={true} label={'Price'} usage={'modal'} size={'sm'} required    onChange={(e=> setCustomerPrice(e.target.value))}/>
-                                    <DropDown isRequired={false} size={'small'} label={'Color'} options={colors} setSelected={setSelectedColor} />
+                                    <Input placeholder={'Customer Price'} isRequired={true} label={'Price'} usage={'modal'} size={'sm'} required onChange={(e) => setCustomerPrice(e.target.value)} />
                                 </div>
                                 <div className={`d-flex justify-content-between mt-2`}>
-                                    <Input placeholder={'Wholesale Price (per shekel)'} isRequired={true} label={'Wholesale Price'} usage={'modal'} size={'md'} onChange={(e=> setWholesalerPrice(e.target.value))} />
+                                    <Input placeholder={'Wholesale Price (per shekel)'} isRequired={true} label={'Wholesale Price'} usage={'modal'} size={'md'} required onChange={(e=> setWholesalerPrice(e.target.value))} />
                                     <div className={`form-check form-switch ps-0 justify-content-between align-items-center d-flex pt-4 ${style.soldOutDiv}`}>
                                         <span className={'mt-1'}>Sold out</span>
                                         <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onChange={()=> setIsSoldOut(!isSoldOut)} />
@@ -144,7 +188,7 @@
                                 </div>
                                 {isOnSale && (
                                     <Input placeholder={'New Price (per shekel)'} isRequired={true}
-                                           label={'New Price'} usage={'modal'} size={'md'} onChange={(e=> setSalePrice(e.target.value))}/>
+                                           label={'New Price'} usage={'modal'} size={'md'} required onChange={(e=> setSalePrice(e.target.value))}/>
                                 )}
                                 {/* Preview Uploaded Images */}
                                 <div className="d-flex mt-3">
@@ -158,7 +202,9 @@
                         </div>
 
                         <div className="modal-footer d-flex justify-content-center">
-                            <Button variant={'secondary'} size={'xxs'} type='submit'>Add</Button>
+                            <Button variant={'secondary'} size={'xxs'} type='submit' onClick={()=>{
+                                if(!images) setError("You Should add an image")
+                            }}>Add</Button>
                         </div>
                         </form>
                     </div>

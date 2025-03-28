@@ -6,8 +6,8 @@ import { faTrash, faPen } from "@fortawesome/free-solid-svg-icons";
 
 export const ProductCard = ({src,alt,name,brand,category,price,status,numOfClicks}) => {
     return(
-        <div className={`mt-2 pe-1 ${style.productCard}`}>
-            <div className={`d-flex align-items-center`}>
+        <div className={`mt-2 pe-1 ${style.AdminCardDiv}`}>
+            <div className={`d-flex align-items-center ${style.ProductCardDiv}`}>
                 <img className={style.productImage} src={src} alt={alt} />
                 <h6>{name}</h6>
                 <h6>{brand?.name}</h6>
@@ -25,12 +25,13 @@ export const ProductCard = ({src,alt,name,brand,category,price,status,numOfClick
 }
 
 
-export const CategoryCard = ({src,alt,name}) => {
+export const CategoryCard = ({src,alt,name,description}) => {
     return(
-        <div className={`mt-2 pe-1 ${style.productCard}`}>
-            <div className={`d-flex align-items-center justify-content-between`}>
+        <div className={`mt-2 pe-1 ${style.AdminCardDiv}`}>
+            <div className={`d-flex align-items-center justify-content-between ${style.ProductCardDiv}`}>
                 <img className={style.productImage} src={src} alt={`${name} image`} />
                 <h6>{name}</h6>
+                <h6>{description}</h6>
                 <div className={'gap-2 d-flex align-items-center'}>
                     <button><FontAwesomeIcon className={`text-danger`} style={{fontSize:'0.8rem'}} icon={faTrash} /></button>
                     <button><FontAwesomeIcon style={{color:'var(--primary)',fontSize:'0.8rem'}} icon={faPen} /></button>
@@ -42,8 +43,8 @@ export const CategoryCard = ({src,alt,name}) => {
 
 export const BrandCard = ({src,alt,name}) => {
     return(
-        <div className={`mt-2 pe-1 ${style.productCard}`}>
-            <div className={`d-flex align-items-center justify-content-between`}>
+        <div className={`mt-2 pe-1 ${style.AdminCardDiv}`}>
+            <div className={`d-flex align-items-center justify-content-between ${style.ProductCardDiv}`}>
                 <img className={style.productImage} src={src} alt={`${name} image`} />
                 <h6>{name}</h6>
                 <div className={'gap-2 d-flex align-items-center'}>
@@ -55,3 +56,37 @@ export const BrandCard = ({src,alt,name}) => {
     )
 }
 
+export const OrderCard = ({productName,productSize,productBrand,productCategory,date,price,customerPhone,customerName,address}) => {
+    return(
+        <div className={`mt-2 pe-1 ${style.AdminCardDiv}`}>
+            <div className={`d-flex align-items-center justify-content-between ${style.orderCardDiv}`}>
+                <h6>{productName}</h6>
+                <h6>{productSize}</h6>
+                <h6>{productBrand}</h6>
+                <h6>{productCategory}</h6>
+                <h6 className={`ps-3`}>{date.toString().split('T')[0]}</h6>
+                <h6>{price}</h6>
+                <h6>{customerName}</h6>
+                <h6>{customerPhone}</h6>
+                <h6>{address}</h6>
+
+            </div>
+        </div>
+    )
+}
+
+export const WholesalerCard = ({name, number,address}) => {
+    return(
+        <div className={`mt-2 pe-1 ${style.AdminCardDiv}`}>
+            <div className={`d-flex align-items-center justify-content-between ${style.WholCardDiv}`}>
+                <h6>{name}</h6>
+                <h6>{number}</h6>
+                <h6 className={`ps-5`}>{address}</h6>
+                <div className={'gap-2 d-flex align-items-center'}>
+                    <button><FontAwesomeIcon className={`text-danger`} style={{fontSize:'0.8rem'}} icon={faTrash} /></button>
+                    <button><FontAwesomeIcon style={{color:'var(--primary)',fontSize:'0.8rem'}} icon={faPen} /></button>
+                </div>
+            </div>
+        </div>
+    )
+}

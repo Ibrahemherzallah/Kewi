@@ -1,24 +1,85 @@
+import {Input} from "../../../components/input/input.jsx";
+import Button from "../../../components/button/button.jsx";
+import {useState} from "react";
+
 export const AddWholesalers = () => {
+
+    const [username,setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+    const [error, setError] = useState("");
+    function handleOnSubmit(e){
+        e.preventDefault();
+        const data = { userName: username, password, phone, address };
+
+        fetch('http://localhost:5001/admin/wholesalers', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    setError(data.error);
+                } else {
+                    console.log("Wholesaler registered successfully:", data);
+                    setError(""); // optional: reset error
+                    // ✅ Close thmodal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal5'));
+                    modal.hide();
+                    // ✅ Optional: Reset form
+                    setUsername("");
+                    setPassword("");
+                    setPhone("");
+                    setAddress("");
+                }
+            })
+            .catch(error => {
+                console.error("Error uploading wholesaler:", error);
+                setError("Something went wrong, please try again");
+            });
+    }
+
     return (
-        <div className="modal fade" id="exampleModal5" tabIndex="-1" aria-labelledby="exampleModal5Label"
-             aria-hidden="true">
+        <div className="modal fade" id="exampleModal5" tabIndex="-1" aria-labelledby="exampleModal5Label" aria-hidden="true">
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h1 className="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                        <h1 className="modal-title fs-5" id="exampleModalLabel">Add Wholesaler</h1>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div className="modal-body">
-                        ...
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close
-                        </button>
-                        <button type="button" className="btn btn-primary">Save changes</button>
-                    </div>
+                    <form onSubmit={handleOnSubmit}>
+                        <div className="modal-body">
+
+                            {/* ✅ Error Message */}
+                            {error && <div className="alert alert-danger">{error}</div>}
+
+                            <Input placeholder={'Enter username'} isRequired={true}
+                                   label={'Username'} usage={'modal'} value={username} onChange={(e) => setUsername(e.target.value)} required />
+
+                            <div className="mt-3">
+                                <Input placeholder={'Enter password'} isRequired={true}
+                                       label={'Password'} usage={'modal'} type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                            </div>
+
+                            <div className="mt-3">
+                                <Input placeholder={'Enter phone'} isRequired={true}
+                                       label={'Phone'} usage={'modal'} value={phone} onChange={(e) => setPhone(e.target.value)} required />
+                            </div>
+
+                            <div className="mt-3">
+                                <Input placeholder={'Enter address'} isRequired={true}
+                                       label={'Address'} usage={'modal'} value={address} onChange={(e) => setAddress(e.target.value)} required />
+                            </div>
+
+                        </div>
+                        <div className="modal-footer d-flex justify-content-center">
+                            <Button variant={'secondary'} size={'lg'} type='submit'>Register</Button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    )
+    );
 }
