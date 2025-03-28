@@ -2,7 +2,6 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   width: 100%;
-  /*min-width: 200px;*/
   cursor: pointer;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
@@ -88,23 +87,69 @@
   filter: brightness(0.7);
 }
 
-/*@media (max-width: 1024px) {*/
-/*  .imageCardWrapper {*/
-/*    flex: 0 0 33.33%; !* Show 3 items *!*/
-/*    max-width: 33.33%;*/
-/*  }*/
-/*}*/
+.AdminCardDiv {
+  border : 0.1rem solid #efefef;
+}
 
-/*@media (max-width: 768px) {*/
-/*  .imageCardWrapper {*/
-/*    flex: 0 0 50%; !* Show 2 items *!*/
-/*    max-width: 50%;*/
-/*  }*/
-/*}*/
+.productImage {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 3px;
+}
 
-/*@media (max-width: 480px) {*/
-/*  .imageCardWrapper {*/
-/*    flex: 0 0 100%; !* Show 1 item *!*/
-/*    max-width: 100%;*/
-/*  }*/
-/*}*/
+.ProductCardDiv h6 {
+  /*background-color:red;*/
+  width: 15%;
+  margin-left: 1rem;
+  direction: rtl;
+  padding-right: 1rem;
+
+}
+
+.ProductCardDiv div {
+  /*background-color:red;*/
+  width: 15%;
+  margin-left: 1rem;
+  direction: rtl;
+}
+
+.ProductCardDiv div button {
+  border: none;
+  background-color: rgba(238, 238, 238, 0.85);
+  border-radius: 50%;
+  padding: 0.3rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ProductCardDiv div button:hover {
+  background-color: rgba(235, 235, 235, 1);
+}
+
+.WholCardDiv h6 {
+  width: 25%;
+}
+
+.WholCardDiv div button {
+  border: none;
+  background-color: rgba(238, 238, 238, 0.85);
+  border-radius: 50%;
+  padding: 0.3rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.WholCardDiv div button:hover {
+  background-color: rgba(235, 235, 235, 1);
+}
+
+.orderCardDiv h6{
+  direction: rtl;
+  width: 10%;
+}

@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema({
     required: true
   },
   image: {
-      type: [String],
+    type: [String],
     required: true
   },
   description: {
@@ -15,16 +15,16 @@ const productSchema = new mongoose.Schema({
     default: ""
   },
   categoryId: {
-      // type: Number,
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",
     required: true
   },
   brandId: {
-      // type: Number,
     type: mongoose.Schema.Types.ObjectId,
     ref: "Brand",
-    required: true
+    required: false,
+    default: null  // Allow null values for optional fields
+
   },
   gender: {
     type: String,
@@ -40,25 +40,31 @@ const productSchema = new mongoose.Schema({
     required: false,
     enum: ['صغير','وسط','كبير']
   },
+  numOfClicks: {
+    type: Number,
+    default: 0
+  },
   customerPrice: {
-      type: Number,
+    type: Number,
     required: true,
   },
   wholesalerPrice: {
-      type: Number,
+    type: Number,
     required: true,
   },
   salePrice: {
-      type: Number,
-    required: true,
+    type: Number,
+    required: false,
   },
   isSoldOut: {
     type: Boolean,
-    required: true
+    required: false,
+    default: false
   },
   isOnSale: {
     type: Boolean,
-    required: true
+    required: false,
+    default: false
   }
 
 },{timestamps: true})

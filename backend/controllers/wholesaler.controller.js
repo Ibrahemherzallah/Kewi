@@ -3,8 +3,11 @@ import bcrypt from "bcryptjs";
 
 export const addWholesaler = async (req, res) => {
     try {
-        const { userName, password, phone, address, isWholesaler } = req.body;
-
+        const { userName, password, phone, address } = req.body;
+        console.log(userName,
+            password,
+            phone,
+            address)
         // Check if the password is at least 8 characters long
         if (!password || password.length < 8) {
             return res.status(400).json({ error: "Password must be at least 8 characters long" });
@@ -24,7 +27,7 @@ export const addWholesaler = async (req, res) => {
             password: hashedPass,
             phone,
             address,
-            isWholesaler
+            isWholesaler:true
         });
 
         await newUser.save();
@@ -40,6 +43,11 @@ export const addWholesaler = async (req, res) => {
         console.log("Data stored successfully");
     } catch (e) {
         console.error("Error:", e.message);
+        if (e.name === 'ValidationError') {
+            // extract first validation error
+            const firstError = Object.values(e.errors)[0].message;
+            return res.status(400).json({ error: firstError });
+        }
         res.status(500).json({ error: "Internal Server Error" });
     }
 };

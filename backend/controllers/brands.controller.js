@@ -1,6 +1,7 @@
 import Brand from "../models/brand.model.js";
 import mongoose from "mongoose";
-import {uploadBrandImage, uploadCategoryImage, uploadProductImages} from "../utils/firebaseService.js"; // Assuming same function works for brand images
+import {uploadBrandImage, uploadCategoryImage, uploadProductImages} from "../utils/firebaseService.js";
+import User from "../models/users.model.js"; // Assuming same function works for brand images
 
 export const getBrands = async (req, res) => {
     try {
@@ -21,6 +22,12 @@ export const addBrand = async (req, res) => {
         const isFake = req.body.isFake === "true";
 
         console.log("Adding brand name:", name, "Is Fake:", isFake);
+
+        const brand = await Brand.findOne({ name });
+        if (brand) {
+            console.log("brand exists");
+            return res.status(400).json({ error: "brand exists" });
+        }
 
         const newBrand = new Brand({
             name,

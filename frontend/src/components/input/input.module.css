@@ -3,6 +3,8 @@
     padding: 0.5rem 0.8rem;
     outline: none;
     width: 100%;
+    font-size: 0.8rem;
+    /*color: #4c4c4c;*/
 }
 
 .input::placeholder {
@@ -52,7 +54,7 @@ span {
 }
 
 .xl {
-    width: 90%;
+    width: 100%;
 }
 
 .primary {
@@ -65,4 +67,17 @@ span {
 
 .tertiary {
     color: var(--tertiary);
+}
+
+.inputDiv {
+    padding: 0.4rem 0.8rem;
+    /*background-color: blue;*/
+    border: 1px solid gray;
+    border-radius: 6px;
+}
+
+.inputWithIcon {
+    border: none;
+    margin-left: 0.5rem;
+    outline: none;
 }

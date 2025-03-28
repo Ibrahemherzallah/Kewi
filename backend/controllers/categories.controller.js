@@ -2,6 +2,7 @@ import Category from "../models/category.model.js";
 import {uploadCategoryImage, uploadProductImages} from "../utils/firebaseService.js";
 import Product from "../models/product.model.js";
 import mongoose from "mongoose";
+import Brand from "../models/brand.model.js";
 
 export const addCategory = async (req, res) => {
     try {
@@ -10,6 +11,14 @@ export const addCategory = async (req, res) => {
         let imageUrl = "";
         if (req.file) {
             imageUrl = await uploadCategoryImage(req.file);
+        }
+
+        console.log(imageUrl);
+
+        const category = await Category.findOne({ name });
+        if (category) {
+            console.log("category exists");
+            return res.status(400).json({ error: "category exists" });
         }
 
         const newCategory = new Category({
