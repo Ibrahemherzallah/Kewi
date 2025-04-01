@@ -1,5 +1,5 @@
 import Category from "../models/category.model.js";
-import {uploadCategoryImage, uploadProductImages} from "../utils/firebaseService.js";
+import {uploadBrandImage, uploadCategoryImage, uploadProductImages} from "../utils/firebaseService.js";
 import Product from "../models/product.model.js";
 import mongoose from "mongoose";
 import Brand from "../models/brand.model.js";
@@ -50,6 +50,7 @@ export const getCategories = async (req, res) => {
 
 
 export const updateCategory = async (req, res) => {
+    console.log("The update method " , req.body);
     try {
         const { id } = req.params;
 
@@ -66,9 +67,10 @@ export const updateCategory = async (req, res) => {
 
         // Handle images if provided
         if (req.files) {
-            const imageUrls = await uploadCategoryImage(req.files, id);
-            updatedData.image = imageUrls;
+            const imageUrl = await uploadCategoryImage(req.files[0]); // Fix: Send only the first file
+            updatedData.image = imageUrl;
         }
+        console.log("The update method " , req.body);
 
         const updatedProduct = await Category.findByIdAndUpdate(id, updatedData, { new: true });
 

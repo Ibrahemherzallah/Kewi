@@ -33,7 +33,6 @@ export const uploadProductImages = async (files, productId) => {
     }
 };
 
-
 export const uploadCategoryImage = async (file) => {
     try {
         if (!file) throw new Error("No image provided");

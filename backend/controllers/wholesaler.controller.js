@@ -73,6 +73,19 @@ export const updateWholesaler = async (req, res) => {
         const { id } = req.params;
         const { userName, password, phone, address, isWholesaler } = req.body;
 
+        // Validate phone number length
+        if (phone && phone.length < 10) {
+            return res.status(400).json({ error: "Phone number must be at least 10 digits long" });
+        }
+
+        // Check if the new username already exists (excluding the current user)
+        if (userName) {
+            const existingUser = await User.findOne({ userName });
+            if (existingUser && existingUser._id.toString() !== id) {
+                return res.status(400).json({ error: "Username already exists" });
+            }
+        }
+
         let updateData = { userName, phone, address, isWholesaler };
 
         // If a password is provided, hash it before updating

@@ -36,8 +36,8 @@ export const addProduct = async (req, res) => {
         const productData = {
             name: name || "",
             description: description || "",
-            categoryId: categoryId || null,  // Ensure categoryId exists
-            brandId: brandId || null,  // Allow brandId to be null
+            categoryId: mongoose.Types.ObjectId.isValid(categoryId) ? new mongoose.Types.ObjectId(categoryId) : null,  // Convert categoryId to ObjectId
+            brandId: mongoose.Types.ObjectId.isValid(brandId) ? new mongoose.Types.ObjectId(brandId) : null,  // Convert brandId to ObjectId
             gender: gender || null,  // Allow gender to be optional
             size: size || null,
             color: color || "",
@@ -49,7 +49,7 @@ export const addProduct = async (req, res) => {
             numOfClicks: Number(numOfClicks),
             image: [],
         };
-
+        // console.log("Raw req.body.brandId from request:", productData.brandId);
         const newProduct = new Product(productData);
         await newProduct.save();
 
@@ -73,21 +73,41 @@ export const updateProduct = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ error: "Invalid product ID format" });
         }
+        const existingProduct = await Product.findById(id);
+        if (!existingProduct) {
+            return res.status(404).json({ message: "Product not found" });
+        }
 
+        let categoryId = req.body.categoryId;
+
+        // Debugging log
+        console.log("Raw req.body.brandId from request:", req.body.brandId);
+        console.log("Type existingProduct:", existingProduct.brandId);
+
+        // if (categoryId && typeof categoryId === "object" && categoryId.id) {
+        //     categoryId = categoryId.id; // Extract the actual ID
+        // }
+        // if (categoryId && !mongoose.Types.ObjectId.isValid(categoryId)) {
+        //     return res.status(400).json({ error: "Invalid categoryId format" });
+        // }
+
+
+        // console.log(existingProduct.categoryId);
         // Extract product data
         const updatedData = {
-            name: req.body.name,
-            description: req.body.description,
-            categoryId: req.body.categoryId,
-            brandId: req.body.brandId,
-            gender: req.body.gender,
-            size: req.body.size,
-            color: req.body.color,
-            customerPrice: req.body.customerPrice,
-            wholesalerPrice: req.body.wholesalerPrice,
-            salePrice: req.body.salePrice,
-            isSoldOut: req.body.isSoldOut,
-            isOnSale: req.body.isOnSale,
+            name: req.body.name || existingProduct.name,
+            description: req.body.description || existingProduct.description,
+            categoryId: req.body.categoryId || existingProduct.categoryId || null,
+            brandId: req.body.brandId || existingProduct.brandId || null,
+            gender: req.body.gender || existingProduct.gender,
+            size: req.body.size || existingProduct.size,
+            color: req.body.color || existingProduct.color,
+            customerPrice: req.body.customerPrice || existingProduct.customerPrice,
+            wholesalerPrice: req.body.wholesalerPrice || existingProduct.wholesalerPrice,
+            salePrice: req.body.salePrice || existingProduct.salePrice,
+            isSoldOut: req.body.isSoldOut ?? existingProduct.isSoldOut,
+            isOnSale: req.body.isOnSale ?? existingProduct.isOnSale,
+            image: existingProduct.image,
         };
 
         // Handle images if provided
@@ -109,7 +129,6 @@ export const updateProduct = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
 
 export const deleteProduct = async (req, res) => {
     try {

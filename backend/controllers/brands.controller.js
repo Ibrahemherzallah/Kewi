@@ -65,8 +65,8 @@ export const updateBrand = async (req, res) => {
         };
 
         if (req.files) {
-            const imageUrls = await uploadProductImages(req.files, id);
-            updatedData.image = imageUrls[0] || "";
+            const imageUrl = await uploadBrandImage(req.files[0]); // Fix: Send only the first file
+            updatedData.image = imageUrl;
         }
 
         const updatedBrand = await Brand.findByIdAndUpdate(id, updatedData, { new: true });

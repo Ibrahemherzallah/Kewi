@@ -20,6 +20,11 @@ const AdminDash = () => {
     const [category, setCategory] = useState([]);
     const [brand, setBrand] = useState([]);
     const [openedBtn, setOpenedBtn] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [isUpdated, setIsUpdated] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedBrand,setSelectedBrand] = useState(null);
+    const [selectedWholesaler,setSelectedWholesaler] = useState(null);
 
     const fetchData = async (tab) => {
         try {
@@ -71,9 +76,6 @@ const AdminDash = () => {
     useEffect(() => {
         fetchData(activeTab);
     }, [activeTab]);
-
-
-
     const fetchCategories = async () => {
         try {
             const response = await fetch("http://localhost:5001/admin/categories"); // Replace with actual API
@@ -85,7 +87,6 @@ const AdminDash = () => {
         }
         setOpenedBtn(false);
     };
-
     const fetchBrands = async () => {
         try {
             const response = await fetch("http://localhost:5001/admin/brands"); // Replace with actual API
@@ -96,7 +97,6 @@ const AdminDash = () => {
             console.error("Error fetching categories:", error);
         }
     };
-
     useEffect(() => {
         console.log("the openedBtn in effect is : " , openedBtn);
         if(openedBtn){
@@ -104,8 +104,6 @@ const AdminDash = () => {
             fetchCategories()
         }
     }, [openedBtn]);
-
-
 
 
 
@@ -165,16 +163,16 @@ const AdminDash = () => {
                             }}
                             />
                             <Button variant={'secondary'} type="button" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal1" onClick={()=> setOpenedBtn(true)}>
+                                    data-bs-target="#exampleModal1" onClick={()=>{setIsUpdated(false); setOpenedBtn(true); setSelectedProduct(null)}}>
                                 <FontAwesomeIcon icon={faPlus} size="md"/>
                                 Add Products</Button>
                         </div>
                         : activeTab === 'categories' ?
-                            <Button variant={'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+                            <Button variant={'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal3" onClick={()=>{setIsUpdated(false); setSelectedCategory(null)}}>
                                 <FontAwesomeIcon icon={faPlus} size="md"/>
                                 Add Category
                             </Button> : activeTab === 'brands' ?
-                            <Button variant={'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                            <Button variant={'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2" onClick={()=>{setIsUpdated(false); setSelectedBrand(null)}}>
                                     <FontAwesomeIcon icon={faPlus} size="md"/>
                                     Add Brands
                             </Button> : activeTab === 'orders' ?
@@ -182,22 +180,7 @@ const AdminDash = () => {
                                         <Button variant={'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal5">
                                             <FontAwesomeIcon icon={faPlus} size="md"/>Add Wholesalers</Button>: 'null'}
                 </div>
-                {/*Product Modal*/}
-                <AddProductModal category={category} brand={brand}></AddProductModal>
 
-                {/*Brands Modal*/}
-
-
-                <AddBrandsModal></AddBrandsModal>
-
-                {/*Category Modal*/}
-
-                <AddCategoryModal></AddCategoryModal>
-
-
-                {/*Wholesaler Modal*/}
-
-                <AddWholesalers></AddWholesalers>
 
                 <div className="tab-content">
                     {activeTab === "products" && (
@@ -209,12 +192,9 @@ const AdminDash = () => {
                             {Array.isArray(result) && result
                                 .filter(item => item?.name?.includes(searchedValue))
                                 .map(res => (
-                                    <ProductCard key={res.id} src={res.image[0]} alt={res.name} name={res.name}
-                                                 brand={res?.brandId} category={res?.categoryId?.name}
-                                                 price={res.customerPrice}
-                                                 status={res.isSoldOut ? 'Sold out' : 'In Stock'}
-                                                 numOfClicks={res.numOfClicks}/>
+                                    <ProductCard key={res.id} product={res} setSelectedProduct={setSelectedProduct} setOpenedBtn={setOpenedBtn} setIsUpdated={setIsUpdated}/>
                                 ))}
+                            <AddProductModal category={category} brand={brand} product={selectedProduct} isUpdated={isUpdated}/>
                         </div>
                     )}
 
@@ -224,8 +204,10 @@ const AdminDash = () => {
                                 <h6>Image</h6><h6>Name</h6><h6>Description</h6><h6>Actions</h6>
                             </div>
                             {Array.isArray(result) && result.map(res => (
-                                <CategoryCard key={res.id} src={res.image} alt={res.name} name={res.name} description={res.description}/>
+                                <CategoryCard key={res.id} product={res} setSelectedProduct={setSelectedCategory} setIsUpdated={setIsUpdated} src={res.image} alt={res.name} name={res.name} description={res.description}/>
                             ))}
+                            <AddCategoryModal product={selectedCategory} isUpdated={isUpdated}/>
+
                         </div>
                     )}
 
@@ -235,8 +217,10 @@ const AdminDash = () => {
                                 <h6>Image</h6><h6>Name</h6><h6>Actions</h6>
                             </div>
                             {Array.isArray(result) && result.map(res => (
-                                <BrandCard key={res.id} src={res.image} alt={res.name} name={res.name}/>
+                                <BrandCard key={res.id} product={res} setSelectedProduct={setSelectedBrand} setIsUpdated={setIsUpdated} src={res.image} alt={res.name} name={res.name}/>
                             ))}
+                            <AddBrandsModal product={selectedBrand} isUpdated={isUpdated}></AddBrandsModal>
+
                         </div>
                     )}
 
@@ -261,8 +245,9 @@ const AdminDash = () => {
                                 <h6>Full Name</h6><h6>Phone Number</h6><h6>Address</h6><h6>Actions</h6>
                             </div>
                             {Array.isArray(result) && result.map(res => ( res.isWholesaler &&
-                                <WholesalerCard key={res.id} name={res.userName} number={res.phone} address={res.address}/>
+                                <WholesalerCard key={res.id}     product={res} setSelectedProduct={setSelectedWholesaler} setIsUpdated={setIsUpdated} name={res.userName} number={res.phone} address={res.address}/>
                             ))}
+                            <AddWholesalers product={selectedWholesaler} isUpdated={isUpdated} ></AddWholesalers>
                         </div>
                     )}
                 </div>

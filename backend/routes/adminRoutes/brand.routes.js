@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/brands', getBrands);
 router.post("/brands", upload.array("image"), addBrand);
-router.put("/brands/:id", updateBrand);
+router.put("/brands/:id", upload.array("image"), updateBrand);
 router.delete("/brands/:id", deleteBrand);
 
 
