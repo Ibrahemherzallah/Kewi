@@ -4,6 +4,8 @@
     outline: none;
     width: 100%;
     font-size: 0.8rem;
+    background-color: var(--search-bg);
+    color: var(--search-color);
     /*color: #4c4c4c;*/
 }
 
@@ -80,4 +82,6 @@ span {
     border: none;
     margin-left: 0.5rem;
     outline: none;
+    background-color: var(--search-bg);
+    color: var(--search-color);
 }

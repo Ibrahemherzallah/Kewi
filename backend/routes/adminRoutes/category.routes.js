@@ -6,8 +6,8 @@ const router = express.Router();
 
 
 router.get('/categories', getCategories);
-router.post("/categories", upload.single("image"), addCategory);
-router.put('/categories/:id', upload.single("image"), updateCategory);
+router.post("/categories", upload.array("image"), addCategory);
+router.put('/categories/:id', upload.array("image"), updateCategory);
 router.delete("/categories/:id", deleteCategory);
 
 export default router;

@@ -16,9 +16,12 @@ import bag1 from "../../assets/bag1.jpg";
 import bag2 from "../../assets/bag2.jpg";
 // import test from 'https://firebasestorage.googleapis.com/v0/b/fitrack-efd01.appspot.com/o/Screenshot%202024-12-21%20213256.png?alt=media&token=299e0af3-78e9-4de9-af85-c8e3bfddc1e9'
 import CardItem from "../../containers/card.jsx";
+import {useContext} from "react";
+import {UserContext} from "../../context/userContext.jsx";
 
 const Home = () => {
 
+  const {user} = useContext(UserContext);
   const items = [
     {
       name:"حقيبة جلدية كلاسيكية",
@@ -102,7 +105,6 @@ const Home = () => {
     <>
       <NavBar></NavBar>
       <div className={style.homePageMainContentDiv}>
-
 
         <div id="carouselExampleIndicators" className="carousel slide">
           <div className="carousel-indicators">

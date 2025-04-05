@@ -1,15 +1,17 @@
 import {Input, InputTextarea} from "../../../components/input/input.jsx";
 import style from "./modals.module.css";
 import {FaUpload} from "react-icons/fa";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Button from "../../../components/button/button.jsx";
+import {ThemeContext} from "../../../context/themeContext.jsx";
 
 export const AddCategoryModal = ({product,isUpdated}) => {
 
-    const [images, setImages] = useState('');
+    const [images, setImages] = useState();
     const [categoryName, setCategoryName] = useState();
     const [description,setDescription] = useState();
     const [error, setError] = useState('');
+    const {isDark,setISDark} = useContext(ThemeContext);
 
     useEffect(() => {
         setCategoryName(product?.name || '');
@@ -17,7 +19,6 @@ export const AddCategoryModal = ({product,isUpdated}) => {
         setImages(product?.images || '');
     },[product])
 
-    console.log("The product is : " , product)
     const handleFileChange = (event) => {
         const file = event.target.files[0]; // Get only the first selected file
 
@@ -41,14 +42,13 @@ export const AddCategoryModal = ({product,isUpdated}) => {
 
     const method = isUpdated ? 'PUT' : 'POST';
     function handleOnSubmit (e){
-
         e.preventDefault();
+        console.log("Update : cat" , images[0].file)
         const formData = new FormData();
         formData.append("name", categoryName);
         formData.append("description", description);
         formData.append("image", images[0].file);
 
-        console.log("imageeeeeeeeeeeee", images[0].file);
 
         fetch(url, {
             method: method,
@@ -69,12 +69,11 @@ export const AddCategoryModal = ({product,isUpdated}) => {
                 console.error("Error uploading product:", error);
             });
     }
-    console.log("The image is  : " , images);
     return (
         <div className="modal fade" id="exampleModal3" tabIndex="-1" aria-labelledby="exampleModal3Label"
              aria-hidden="true">
             <div className="modal-dialog">
-                <div className="modal-content">
+                <div className={`modal-content ${isDark ? "bg-dark text-white" : "" }`}>
                     <div className="modal-header">
                         <h1 className="modal-title fs-5" id="exampleModalLabel">{isUpdated ? 'Update Category' : 'Add Category'}</h1>
                         <button type="button" className="btn-close" data-bs-dismiss="modal"
@@ -103,7 +102,7 @@ export const AddCategoryModal = ({product,isUpdated}) => {
 
                             {/* Preview Uploaded Image */}
                             <div className="d-flex mt-3">
-                                {images.length > 0 && (
+                                {images && (
                                     <div className={`${style.imagePreview}`}>
                                         <img src={images[0].url} alt="Preview" className="img-thumbnail me-2" style={{ width: 50, height: 50 }} />
                                         <button type="button" className="btn btn-danger btn-sm"

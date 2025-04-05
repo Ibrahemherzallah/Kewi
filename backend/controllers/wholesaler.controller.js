@@ -4,10 +4,7 @@ import bcrypt from "bcryptjs";
 export const addWholesaler = async (req, res) => {
     try {
         const { userName, password, phone, address } = req.body;
-        console.log(userName,
-            password,
-            phone,
-            address)
+
         // Check if the password is at least 8 characters long
         if (!password || password.length < 8) {
             return res.status(400).json({ error: "Password must be at least 8 characters long" });

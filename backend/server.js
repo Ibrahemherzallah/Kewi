@@ -24,7 +24,7 @@ app.use(cors({
 
 // Initialize session middleware (place this in your main server file: app.js or server.js)
 app.use(session({
-    secret: "your_secret_key", // Change this to a strong secret
+    secret: process.env.SESSION_SECRET, // Change this to a strong secret
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS

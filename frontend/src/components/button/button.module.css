@@ -29,6 +29,27 @@
   --btn-color: #ffffff;
 }
 
+
+.btn.primary-outline {
+  --btn-bg: var(--bg-color);
+  --btn-bg-hover: rgba(var(--bg-color), 0.13);
+  border: 1px solid var(--primary);
+  --btn-color: #ffffff;
+}
+
+.btn.secondary-outline {
+  --btn-bg: var(--bg-color);
+  --btn-bg-hover: rgba(var(--bg-color), 0.13);
+  border: 1px solid #d9d9d9;
+  --btn-color: #ffffff;
+}
+
+.btn.tertiary-outline {
+  --btn-bg: var(--secondary);
+  --btn-bg-hover: var(--primary);
+  --btn-color: #ffffff;
+}
+
 .btn:hover {
   background: var(--btn-bg-hover);
   color: white;

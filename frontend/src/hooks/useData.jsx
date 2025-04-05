@@ -10,33 +10,15 @@ const useData = ({activeTab}) => {
             switch (tab) {
                 case "products":
                     response = await fetch("http://localhost:5001/admin/products").then( response => response.json())
-                        .then(data => {
-                            console.log(data);
-                        })
                     break;
                 case "categories":
                     response = await fetch("http://localhost:5001/admin/categories").then( response => response.json())
-                        .then(data => {
-                            console.log(data);
-                        })
                     break;
                 case "brands":
                     response = await fetch("http://localhost:5001/admin/brands").then( response => response.json())
-                        .then(data => {
-                            console.log(data);
-                        })
                     break;
-                // case "orders":
-                //     response = await fetch("http://localhost:5001/admin/brands").then( response => response.json())
-                //         .then(data => {
-                //             console.log(data);
-                //         })
-                //     break;
                 case "wholesalers":
                     response = await fetch("http://localhost:5001/admin/wholesalers").then( response => response.json())
-                        .then(data => {
-                            console.log(data);
-                        })
                     break;
                 default:
                     return;

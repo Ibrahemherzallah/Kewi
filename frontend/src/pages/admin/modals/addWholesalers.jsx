@@ -1,15 +1,17 @@
 import {Input} from "../../../components/input/input.jsx";
 import Button from "../../../components/button/button.jsx";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {ThemeContext} from "../../../context/themeContext.jsx";
+import {data} from "react-router";
 
 export const AddWholesalers = ({product,isUpdated}) => {
 
-    console.log("product,isUpdated" , product,isUpdated);
     const [username,setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [error, setError] = useState("");
+    const {isDark,setISDark} = useContext(ThemeContext);
 
     const url = isUpdated ?
         `http://localhost:5001/admin/wholesalers/${product?._id}` :
@@ -58,11 +60,11 @@ export const AddWholesalers = ({product,isUpdated}) => {
                 setError("Something went wrong, please try again");
             });
     }
-
     return (
         <div className="modal fade" id="exampleModal5" tabIndex="-1" aria-labelledby="exampleModal5Label" aria-hidden="true">
+            <h1>isDark ? {isDark.toString()}</h1>
             <div className="modal-dialog">
-                <div className="modal-content">
+                <div className={`modal-content ${isDark ? "bg-dark text-white" : "" }`}>
                     <div className="modal-header">
                         <h1 className="modal-title fs-5" id="exampleModalLabel">{isUpdated ? 'Update Wholesaler' : 'Add Wholesaler'}</h1>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

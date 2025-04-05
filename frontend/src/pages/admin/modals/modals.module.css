@@ -27,7 +27,7 @@
 }
 
 .fileUpload label:hover {
-    background: #f5f5f5;
+    background: rgba(var(--bg-color), 0.2);
 }
 
 .fileUpload label i {

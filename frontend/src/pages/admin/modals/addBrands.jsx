@@ -1,8 +1,9 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {Input, InputTextarea} from "../../../components/input/input.jsx";
 import style from "./modals.module.css";
 import {FaUpload} from "react-icons/fa";
 import Button from "../../../components/button/button.jsx";
+import {ThemeContext} from "../../../context/themeContext.jsx";
 
 export const AddBrandsModal = ({product,isUpdated}) => {
 
@@ -11,7 +12,8 @@ export const AddBrandsModal = ({product,isUpdated}) => {
     const [description, setDescription] = useState("");
     const [isFake, setIsFake] = useState(false);
     const [error, setError] = useState('');
-    console.log("The product sssssssssssssss :  " , product)
+    const {isDark,setISDark} = useContext(ThemeContext);
+
 
     useEffect(() => {
         setBrandName(product?.name || '');
@@ -21,7 +23,6 @@ export const AddBrandsModal = ({product,isUpdated}) => {
     },[product])
 
 
-    console.log("Is fak eis : " , isFake)
     const handleFileChange = (event) => {
         const file = event.target.files[0]; // Get only the first selected file
 
@@ -45,14 +46,15 @@ export const AddBrandsModal = ({product,isUpdated}) => {
     const method = isUpdated ? 'PUT' : 'POST';
 
     function handleOnSubmit (e){
-        // Create a FormData object
         e.preventDefault();
+        // Create a FormData object
+        console.log("Update : brand" , images[0].file)
+        // if (!validateForm()) return;
         const formData = new FormData();
         formData.append("name", brandName);
         formData.append("description", description);
         formData.append("image", images[0].file);
         formData.append("isFake", isFake);
-        console.log("imageeeeeeeeeeeeeeee", images[0].file);
 
         fetch(url, {
             method: method,
@@ -61,6 +63,7 @@ export const AddBrandsModal = ({product,isUpdated}) => {
             .then(response => response.json())
             .then(data => {
                 if(data.error){
+                    console.log("ENTER")
                     setError(data.error);
                 }
                 else{
@@ -72,11 +75,12 @@ export const AddBrandsModal = ({product,isUpdated}) => {
                 console.error("Error uploading product:", error);
             });
     }
+    console.log("images" , images ? 'true'  : 'false');
     return (
         <div className="modal fade" id="exampleModal2" tabIndex="-1" aria-labelledby="exampleModal2Label"
              aria-hidden="true">
             <div className="modal-dialog">
-                <div className="modal-content">
+                <div className={`modal-content ${isDark ? "bg-dark text-white" : "" }`}>
                     <div className="modal-header">
                         <h1 className="modal-title fs-5" id="exampleModalLabel">{isUpdated ? 'Update Brand' : 'Add Brand' }</h1>
                         <button type="button" className="btn-close" data-bs-dismiss="modal"
@@ -130,7 +134,7 @@ export const AddBrandsModal = ({product,isUpdated}) => {
 
                         </div>
                         <div className="modal-footer d-flex justify-content-center">
-                            <Button variant={'secondary'} size={'xxs'} onClick={()=>{
+                            <Button variant={'secondary'} size={'xxs'} type='submit' onClick={()=>{
                                 if(!images) setError("You Should add an image")
                             }}>{isUpdated ?  'Update' : 'Add' }</Button>
                         </div>

@@ -1,6 +1,7 @@
 import Product from "../models/product.model.js";
 import mongoose from "mongoose";
 import {uploadProductImages} from '../utils/firebaseService.js';
+import { bucket } from "../utils/firebaseConfig.js";
 
 export const getProducts = async (req, res) => {
     try {
@@ -31,7 +32,7 @@ export const addProduct = async (req, res) => {
             salePrice,
             numOfClicks = 0
         } = req.body;
-
+        console.log("The files is : " , req.files)
         // Convert empty fields to null or default values to prevent validation errors
         const productData = {
             name: name || "",
@@ -49,7 +50,6 @@ export const addProduct = async (req, res) => {
             numOfClicks: Number(numOfClicks),
             image: [],
         };
-        // console.log("Raw req.body.brandId from request:", productData.brandId);
         const newProduct = new Product(productData);
         await newProduct.save();
 
@@ -67,6 +67,7 @@ export const addProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
+
         const { id } = req.params;
 
         // Validate ObjectId
@@ -80,20 +81,7 @@ export const updateProduct = async (req, res) => {
 
         let categoryId = req.body.categoryId;
 
-        // Debugging log
-        console.log("Raw req.body.brandId from request:", req.body.brandId);
-        console.log("Type existingProduct:", existingProduct.brandId);
 
-        // if (categoryId && typeof categoryId === "object" && categoryId.id) {
-        //     categoryId = categoryId.id; // Extract the actual ID
-        // }
-        // if (categoryId && !mongoose.Types.ObjectId.isValid(categoryId)) {
-        //     return res.status(400).json({ error: "Invalid categoryId format" });
-        // }
-
-
-        // console.log(existingProduct.categoryId);
-        // Extract product data
         const updatedData = {
             name: req.body.name || existingProduct.name,
             description: req.body.description || existingProduct.description,
@@ -130,19 +118,43 @@ export const updateProduct = async (req, res) => {
     }
 };
 
+
+
+
+
+export const extractPathFromUrl = (url) => {
+    try {
+        const decodedUrl = decodeURIComponent(url);
+        const matches = decodedUrl.match(/\/o\/(.*?)\?alt=media/);
+        if (matches && matches[1]) {
+            return matches[1]; // This is the path inside the bucket
+        }
+    } catch (err) {
+        console.error("Failed to extract path:", err.message);
+    }
+    return null;
+};
+
+
+
 export const deleteProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedProduct = await Product.findByIdAndDelete(id);
 
-        if (!deletedProduct) {
-            return res.status(404).json({ message: "Product not found" });
-        }
+        const product = await Product.findById(id);
+        if (!product) return res.status(404).json({ message: "Product not found" });
 
-        res.status(200).json({ message: "Product deleted successfully" });
-        console.log("Product deleted successfully");
+        // Delete all images in product_images/{productId}/
+        const [files] = await bucket.getFiles({ prefix: `product_images/${id}/` });
+        const deletePromises = files.map(file => file.delete());
+        await Promise.all(deletePromises);
+
+        // Delete product from DB
+        await Product.findByIdAndDelete(id);
+
+        res.status(200).json({ message: "Product and images deleted successfully" });
     } catch (error) {
-        console.error("Error deleting product:", error);
+        console.error("Error deleting product:", error.message);
         res.status(500).json({ error: error.message });
     }
 };

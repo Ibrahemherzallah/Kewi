@@ -1,21 +1,19 @@
 import bcrypt from "bcryptjs";
 import User from "../models/users.model.js";
+import session from "express-session";
 
 
 export const logIn = async (req, res) => {
-    console.log(req.body);
     try {
         const { userName, password } = req.body;
 
         const user = await User.findOne({ userName });
-        console.log("The user is  : ", user)
 
         if (!user) {
             return res.status(404).json({ error: "Invalid username or password" });
         }
 
         const correctPass = await bcrypt.compare(password, user.password);
-        console.log("The correctPass is  : ", correctPass)
 
         if (!correctPass) {
             return res.status(400).json({ error: "Invalid username or password" });
@@ -27,8 +25,8 @@ export const logIn = async (req, res) => {
             userName: user.userName,
             isWholesaler: user.isWholesaler
         };
-
-        const redirectUrl = user.isWholesaler ? "/home" : "/admin/dashboard";
+        console.log("the session is : " , session);
+        const redirectUrl = user.isWholesaler ? "/" : "/admin/dashboard";
 
         return res.status(200).json({
             message: "Login successful",

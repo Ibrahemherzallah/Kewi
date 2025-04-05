@@ -2,11 +2,12 @@
     import {Input, InputTextarea} from "../../../components/input/input.jsx";
     import style from './modals.module.css';
     import { FaUpload } from "react-icons/fa"; // Import the upload icon
-    import {useEffect, useRef, useState} from "react";
+    import {useContext, useEffect, useRef, useState} from "react";
     import Button from "../../../components/button/button.jsx";
+    import {ThemeContext} from "../../../context/themeContext.jsx";
 
 
-    export const AddProductModal = ({category,brand,product,isUpdated }) => {
+    export const AddProductModal = ({category,brand,product,isUpdated}) => {
         const [images, setImages] = useState([]);
         const [isOnSale, setChecked] = useState(false);
         const genders = [{name:'رجالي'},{name:'نسائي'}];
@@ -24,13 +25,13 @@
         const [salePrice, setSalePrice] = useState('');
         const [isSoldOut,setIsSoldOut] = useState(false);
         const [errors, setErrors] = useState('');
+        const {isDark,setISDark} = useContext(ThemeContext);
 
-        useEffect(()=>{
+        useEffect(()=> {
             setProductName('');
         },[])
 
         useEffect(() => {
-            console.log("Thissssss product : " , product);
                     setProductName(product?.name || '');
                     setDescription(product?.description || '');
                     setSelectedCategory(product?.categoryId || '');
@@ -45,7 +46,6 @@
                     setSelectedColor(product?.color || '');
                     setSelectedSize(product?.size || '')
         }, [product]); // Trigger when product changes
-        console.log('name is : ' ,name);
         useEffect(() => {
             if (isUpdated && product) {
                 // Convert existing image URLs into an array format like new images
@@ -103,20 +103,10 @@
             'http://localhost:5001/admin/products' ;
 
         const method = isUpdated ? 'PUT' : 'POST';
-        console.log("Thissssss setProductName is  :" , name)
-        console.log("The description is  :" , description)
-        console.log("The categoryId is  :" , categoryId)
-        console.log("The brandId is  :" , brandId)
-        console.log("The customerPrice is  :" , customerPrice)
-        console.log("The gender is  :" , gender)
 
-        console.log("The wholesalerPrice is  :" , wholesalerPrice)
-        console.log("The isSoldOut is  :" , isSoldOut)
-        console.log("The isOnSale is  :" , isOnSale)
-        console.log("The salePrice is  :" , salePrice)
-        console.log("The images is  :" , images)
         function handleSubmit(e) {
             e.preventDefault();
+            console.log("The image is :  " , images)
             if (!validateForm()) return;
 
             const formData = new FormData();
@@ -134,11 +124,9 @@
             formData.append("isSoldOut", isSoldOut);
             formData.append("isOnSale", isOnSale);
             formData.append("salePrice", salePrice);
-            console.log("///////////////////////////////////////////////////////////////////")
 
             // Append image files
             images.forEach((image, index) => {
-                console.log("image", image);
                 formData.append("images", image.file);
             });
 
@@ -154,20 +142,6 @@
                             setErrors(data.error);
                         }
                         else {
-                            console.log("Submitting product:", {
-                                name,
-                                description,
-                                categoryId,
-                                brandId,
-                                gender,
-                                size,
-                                color,
-                                customerPrice,
-                                wholesalerPrice,
-                                salePrice,
-                                isSoldOut,
-                                isOnSale
-                            });
                             console.log(isUpdated ? "Product updated successfully:" : "Product uploaded successfully:", data);
                             const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal1'));
                             modal.hide();
@@ -176,13 +150,12 @@
                     .catch(error => {
                         console.error("Error uploading product:", error);
                     })
-
         }
 
         return (
             <div className="modal fade" id="exampleModal1" tabIndex="-1" aria-labelledby="exampleModal1Label" aria-hidden="true">
                 <div className="modal-dialog">
-                    <div className="modal-content">
+                    <div className={`modal-content ${isDark ? "bg-dark text-white" : "" }`}>
                         <div className="modal-header">
                             <h1 className="modal-title fs-5" id="exampleModalLabel">{isUpdated ? 'Update Product' : 'Add Product'}</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
