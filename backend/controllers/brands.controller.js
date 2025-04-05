@@ -2,6 +2,8 @@ import Brand from "../models/brand.model.js";
 import mongoose from "mongoose";
 import {uploadBrandImage, uploadCategoryImage, uploadProductImages} from "../utils/firebaseService.js";
 import User from "../models/users.model.js"; // Assuming same function works for brand images
+import { bucket } from "../utils/firebaseConfig.js";
+import Category from "../models/category.model.js";
 
 export const getBrands = async (req, res) => {
     try {
@@ -15,13 +17,8 @@ export const getBrands = async (req, res) => {
 
 export const addBrand = async (req, res) => {
     try {
-        console.log("Request Body:", req.body);
-        console.log("Request Files:", req.files);
-
         const { name } = req.body;
         const isFake = req.body.isFake === "true";
-
-        console.log("Adding brand name:", name, "Is Fake:", isFake);
 
         const brand = await Brand.findOne({ name });
         if (brand) {
@@ -41,6 +38,9 @@ export const addBrand = async (req, res) => {
             const imageUrl = await uploadBrandImage(req.files[0]); // Upload the first image
             newBrand.image = imageUrl;
             await newBrand.save();
+        }
+        else {
+            return res.status(400).json({ error: "image is required" })
         }
 
         res.status(201).json(newBrand);
@@ -63,10 +63,10 @@ export const updateBrand = async (req, res) => {
             name: req.body.name,
             isFake: req.body.isFake
         };
-
+        console.log("The req is : " , req.files);
         if (req.files) {
-            const imageUrls = await uploadProductImages(req.files, id);
-            updatedData.image = imageUrls[0] || "";
+            const imageUrl = await uploadBrandImage(req.files[0]); // Fix: Send only the first file
+            updatedData.image = imageUrl;
         }
 
         const updatedBrand = await Brand.findByIdAndUpdate(id, updatedData, { new: true });
@@ -76,26 +76,46 @@ export const updateBrand = async (req, res) => {
         }
 
         res.status(200).json(updatedBrand);
-        console.log("Brand updated successfully:", updatedBrand);
     } catch (error) {
         console.error("Error updating brand:", error);
         res.status(500).json({ error: error.message });
     }
 };
 
+const extractPathFromUrl = (url) => {
+    const baseUrl = "https://storage.googleapis.com/fitrack-efd01.appspot.com/";
+    if (url.startsWith(baseUrl)) {
+        return url.replace(baseUrl, "").split("?")[0];
+    }
+    return null;
+};
+
 export const deleteBrand = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedBrand = await Brand.findByIdAndDelete(id);
 
-        if (!deletedBrand) {
-            return res.status(404).json({ message: "Brand not found" });
+        const brand = await Brand.findById(id);
+        if (!brand) {
+            return res.status(404).json({ message: "Category not found" });
         }
 
-        res.status(200).json({ message: "Brand deleted successfully" });
-        console.log("Brand deleted successfully");
+        // Delete image from Firebase Storage
+        const filePath = extractPathFromUrl(brand.image);
+        if (filePath) {
+            try {
+                await bucket.file(filePath).delete();
+                console.log(`Category image deleted from Firebase: ${filePath}`);
+            } catch (err) {
+                console.error(`Failed to delete category image from Firebase:`, err.message);
+            }
+        }
+
+        // Now delete the category document from MongoDB
+        await Brand.findByIdAndDelete(id);
+
+        res.status(200).json({ message: "Category and image deleted successfully" });
     } catch (error) {
-        console.error("Error deleting brand:", error);
+        console.error("Error deleting Category:", error.message);
         res.status(500).json({ error: error.message });
     }
 };

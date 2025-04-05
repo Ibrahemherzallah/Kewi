@@ -5,8 +5,15 @@
     font-weight: bold;
 }
 
+option {
+    background-color: var(--search-bg);
+    color: var(--search-color);
+}
+
 .dropdown {
     border: 0.01rem solid #cdcdcd;
+    background-color: var(--search-bg);
+    color: var(--search-color);
 }
 
 
@@ -20,6 +27,7 @@ select {
     width: 100%;
     font-size: 0.75rem;
     outline: none;
+
 }
 
 .xlarge {

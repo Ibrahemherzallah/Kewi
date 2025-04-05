@@ -1,20 +1,40 @@
 import {Input} from "../../../components/input/input.jsx";
 import Button from "../../../components/button/button.jsx";
-import {useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {ThemeContext} from "../../../context/themeContext.jsx";
+import {data} from "react-router";
 
-export const AddWholesalers = () => {
+export const AddWholesalers = ({product,isUpdated}) => {
 
     const [username,setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [error, setError] = useState("");
+    const {isDark,setISDark} = useContext(ThemeContext);
+
+    const url = isUpdated ?
+        `http://localhost:5001/admin/wholesalers/${product?._id}` :
+        'http://localhost:5001/admin/wholesalers'
+
+    const method = isUpdated ? 'PUT' : 'POST';
+
+
+
+    useEffect(() => {
+        setUsername(product?.userName || '');
+        setPhone(product?.phone || '');
+        setAddress(product?.address || '');
+    },[product])
+
+
+
     function handleOnSubmit(e){
         e.preventDefault();
         const data = { userName: username, password, phone, address };
 
-        fetch('http://localhost:5001/admin/wholesalers', {
-            method: 'POST',
+        fetch(url, {
+            method: method,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         })
@@ -40,13 +60,13 @@ export const AddWholesalers = () => {
                 setError("Something went wrong, please try again");
             });
     }
-
     return (
         <div className="modal fade" id="exampleModal5" tabIndex="-1" aria-labelledby="exampleModal5Label" aria-hidden="true">
+            <h1>isDark ? {isDark.toString()}</h1>
             <div className="modal-dialog">
-                <div className="modal-content">
+                <div className={`modal-content ${isDark ? "bg-dark text-white" : "" }`}>
                     <div className="modal-header">
-                        <h1 className="modal-title fs-5" id="exampleModalLabel">Add Wholesaler</h1>
+                        <h1 className="modal-title fs-5" id="exampleModalLabel">{isUpdated ? 'Update Wholesaler' : 'Add Wholesaler'}</h1>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form onSubmit={handleOnSubmit}>
@@ -75,7 +95,7 @@ export const AddWholesalers = () => {
 
                         </div>
                         <div className="modal-footer d-flex justify-content-center">
-                            <Button variant={'secondary'} size={'lg'} type='submit'>Register</Button>
+                            <Button variant={'secondary'} size={'lg'} type='submit'>{isUpdated ? 'Update' : 'Register'}</Button>
                         </div>
                     </form>
                 </div>

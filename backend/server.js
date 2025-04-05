@@ -8,6 +8,7 @@ import categoryRoutes from './routes/adminRoutes/category.routes.js';
 import brandRoutes from './routes/adminRoutes/brand.routes.js';
 import orderRoutes from './routes/adminRoutes/order.routes.js';
 import cors from 'cors';
+// import multer from 'multer';
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
@@ -23,13 +24,17 @@ app.use(cors({
 
 // Initialize session middleware (place this in your main server file: app.js or server.js)
 app.use(session({
-    secret: "your_secret_key", // Change this to a strong secret
+    secret: process.env.SESSION_SECRET, // Change this to a strong secret
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
 }));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+//
+// const upload = multer();
+// app.use(upload.any()); // Accept any file uploads
 
 app.get('/', (req, res) => {
     res.status(200).send('Hello World');

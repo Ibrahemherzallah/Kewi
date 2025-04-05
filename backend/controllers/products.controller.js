@@ -1,6 +1,7 @@
 import Product from "../models/product.model.js";
 import mongoose from "mongoose";
 import {uploadProductImages} from '../utils/firebaseService.js';
+import { bucket } from "../utils/firebaseConfig.js";
 
 export const getProducts = async (req, res) => {
     try {
@@ -31,13 +32,13 @@ export const addProduct = async (req, res) => {
             salePrice,
             numOfClicks = 0
         } = req.body;
-
+        console.log("The files is : " , req.files)
         // Convert empty fields to null or default values to prevent validation errors
         const productData = {
             name: name || "",
             description: description || "",
-            categoryId: categoryId || null,  // Ensure categoryId exists
-            brandId: brandId || null,  // Allow brandId to be null
+            categoryId: mongoose.Types.ObjectId.isValid(categoryId) ? new mongoose.Types.ObjectId(categoryId) : null,  // Convert categoryId to ObjectId
+            brandId: mongoose.Types.ObjectId.isValid(brandId) ? new mongoose.Types.ObjectId(brandId) : null,  // Convert brandId to ObjectId
             gender: gender || null,  // Allow gender to be optional
             size: size || null,
             color: color || "",
@@ -49,7 +50,6 @@ export const addProduct = async (req, res) => {
             numOfClicks: Number(numOfClicks),
             image: [],
         };
-
         const newProduct = new Product(productData);
         await newProduct.save();
 
@@ -67,27 +67,35 @@ export const addProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
+
         const { id } = req.params;
 
         // Validate ObjectId
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ error: "Invalid product ID format" });
         }
+        const existingProduct = await Product.findById(id);
+        if (!existingProduct) {
+            return res.status(404).json({ message: "Product not found" });
+        }
 
-        // Extract product data
+        let categoryId = req.body.categoryId;
+
+
         const updatedData = {
-            name: req.body.name,
-            description: req.body.description,
-            categoryId: req.body.categoryId,
-            brandId: req.body.brandId,
-            gender: req.body.gender,
-            size: req.body.size,
-            color: req.body.color,
-            customerPrice: req.body.customerPrice,
-            wholesalerPrice: req.body.wholesalerPrice,
-            salePrice: req.body.salePrice,
-            isSoldOut: req.body.isSoldOut,
-            isOnSale: req.body.isOnSale,
+            name: req.body.name || existingProduct.name,
+            description: req.body.description || existingProduct.description,
+            categoryId: req.body.categoryId || existingProduct.categoryId || null,
+            brandId: req.body.brandId || existingProduct.brandId || null,
+            gender: req.body.gender || existingProduct.gender,
+            size: req.body.size || existingProduct.size,
+            color: req.body.color || existingProduct.color,
+            customerPrice: req.body.customerPrice || existingProduct.customerPrice,
+            wholesalerPrice: req.body.wholesalerPrice || existingProduct.wholesalerPrice,
+            salePrice: req.body.salePrice || existingProduct.salePrice,
+            isSoldOut: req.body.isSoldOut ?? existingProduct.isSoldOut,
+            isOnSale: req.body.isOnSale ?? existingProduct.isOnSale,
+            image: existingProduct.image,
         };
 
         // Handle images if provided
@@ -111,19 +119,42 @@ export const updateProduct = async (req, res) => {
 };
 
 
+
+
+
+export const extractPathFromUrl = (url) => {
+    try {
+        const decodedUrl = decodeURIComponent(url);
+        const matches = decodedUrl.match(/\/o\/(.*?)\?alt=media/);
+        if (matches && matches[1]) {
+            return matches[1]; // This is the path inside the bucket
+        }
+    } catch (err) {
+        console.error("Failed to extract path:", err.message);
+    }
+    return null;
+};
+
+
+
 export const deleteProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedProduct = await Product.findByIdAndDelete(id);
 
-        if (!deletedProduct) {
-            return res.status(404).json({ message: "Product not found" });
-        }
+        const product = await Product.findById(id);
+        if (!product) return res.status(404).json({ message: "Product not found" });
 
-        res.status(200).json({ message: "Product deleted successfully" });
-        console.log("Product deleted successfully");
+        // Delete all images in product_images/{productId}/
+        const [files] = await bucket.getFiles({ prefix: `product_images/${id}/` });
+        const deletePromises = files.map(file => file.delete());
+        await Promise.all(deletePromises);
+
+        // Delete product from DB
+        await Product.findByIdAndDelete(id);
+
+        res.status(200).json({ message: "Product and images deleted successfully" });
     } catch (error) {
-        console.error("Error deleting product:", error);
+        console.error("Error deleting product:", error.message);
         res.status(500).json({ error: error.message });
     }
 };

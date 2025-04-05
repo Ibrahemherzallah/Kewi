@@ -4,10 +4,7 @@ import bcrypt from "bcryptjs";
 export const addWholesaler = async (req, res) => {
     try {
         const { userName, password, phone, address } = req.body;
-        console.log(userName,
-            password,
-            phone,
-            address)
+
         // Check if the password is at least 8 characters long
         if (!password || password.length < 8) {
             return res.status(400).json({ error: "Password must be at least 8 characters long" });
@@ -72,6 +69,19 @@ export const updateWholesaler = async (req, res) => {
     try {
         const { id } = req.params;
         const { userName, password, phone, address, isWholesaler } = req.body;
+
+        // Validate phone number length
+        if (phone && phone.length < 10) {
+            return res.status(400).json({ error: "Phone number must be at least 10 digits long" });
+        }
+
+        // Check if the new username already exists (excluding the current user)
+        if (userName) {
+            const existingUser = await User.findOne({ userName });
+            if (existingUser && existingUser._id.toString() !== id) {
+                return res.status(400).json({ error: "Username already exists" });
+            }
+        }
 
         let updateData = { userName, phone, address, isWholesaler };
 

@@ -1,19 +1,13 @@
 import Category from "../models/category.model.js";
-import {uploadCategoryImage, uploadProductImages} from "../utils/firebaseService.js";
+import {uploadBrandImage, uploadCategoryImage, uploadProductImages} from "../utils/firebaseService.js";
 import Product from "../models/product.model.js";
 import mongoose from "mongoose";
 import Brand from "../models/brand.model.js";
+import { bucket } from "../utils/firebaseConfig.js";
 
 export const addCategory = async (req, res) => {
     try {
         const { name, description } = req.body;
-
-        let imageUrl = "";
-        if (req.file) {
-            imageUrl = await uploadCategoryImage(req.file);
-        }
-
-        console.log(imageUrl);
 
         const category = await Category.findOne({ name });
         if (category) {
@@ -23,11 +17,17 @@ export const addCategory = async (req, res) => {
 
         const newCategory = new Category({
             name,
-            image: imageUrl,
+            image: "",
             description,
         });
 
         await newCategory.save();
+
+        if (req.files && req.files.length > 0) {
+            const imageUrl = await uploadCategoryImage(req.files[0]); // Upload the first image
+            newCategory.image = imageUrl;
+            await newCategory.save();
+        }
 
         res.status(201).json(newCategory);
         console.log("Category and image stored successfully");
@@ -63,12 +63,15 @@ export const updateCategory = async (req, res) => {
             name: req.body.name,
             description: req.body.description,
         };
+        console.log("The req is : " , req.files);
 
         // Handle images if provided
-        if (req.files) {
-            const imageUrls = await uploadCategoryImage(req.files, id);
-            updatedData.image = imageUrls;
+        if (req.files && req.files[0]) {
+            console.log("Enter")
+            const imageUrl = await uploadCategoryImage(req.files[0]); // Ensure we send only the first file
+            updatedData.image = imageUrl;
         }
+        console.log("Out")
 
         const updatedProduct = await Category.findByIdAndUpdate(id, updatedData, { new: true });
 
@@ -85,21 +88,41 @@ export const updateCategory = async (req, res) => {
 }
 
 
-export const deleteCategory = async (req, res) => {
+const extractPathFromUrl = (url) => {
+    const baseUrl = "https://storage.googleapis.com/fitrack-efd01.appspot.com/";
+    if (url.startsWith(baseUrl)) {
+        return url.replace(baseUrl, "").split("?")[0];
+    }
+    return null;
+};
 
+
+export const deleteCategory = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedCategory = await Category.findByIdAndDelete(id);
 
-        if (!deletedCategory) {
+        const category = await Category.findById(id);
+        if (!category) {
             return res.status(404).json({ message: "Category not found" });
         }
 
-        res.status(200).json({ message: "Category deleted successfully" });
-        console.log("Category deleted successfully");
+        // Delete image from Firebase Storage
+        const filePath = extractPathFromUrl(category.image);
+        if (filePath) {
+            try {
+                await bucket.file(filePath).delete();
+                console.log(`Category image deleted from Firebase: ${filePath}`);
+            } catch (err) {
+                console.error(`Failed to delete category image from Firebase:`, err.message);
+            }
+        }
+
+        // Now delete the category document from MongoDB
+        await Category.findByIdAndDelete(id);
+
+        res.status(200).json({ message: "Category and image deleted successfully" });
     } catch (error) {
-        console.error("Error deleting Category:", error);
+        console.error("Error deleting Category:", error.message);
         res.status(500).json({ error: error.message });
     }
-
-}
+};

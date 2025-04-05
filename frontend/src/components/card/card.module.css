@@ -91,10 +91,16 @@
   border : 0.1rem solid #efefef;
 }
 
+.AdminCardDivDark {
+  padding-bottom: 0.2rem;
+  border-bottom : 0.09rem solid #efefef;
+}
+
 .productImage {
   width: 5rem;
   height: 5rem;
   border-radius: 3px;
+  object-fit: cover;
 }
 
 .ProductCardDiv h6 {
@@ -106,7 +112,7 @@
 
 }
 
-.ProductCardDiv div {
+.ProductCardDiv .actionsDiv {
   /*background-color:red;*/
   width: 15%;
   margin-left: 1rem;

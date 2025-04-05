@@ -1,17 +1,28 @@
-import {useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {Input, InputTextarea} from "../../../components/input/input.jsx";
 import style from "./modals.module.css";
 import {FaUpload} from "react-icons/fa";
 import Button from "../../../components/button/button.jsx";
+import {ThemeContext} from "../../../context/themeContext.jsx";
 
-export const AddBrandsModal = () => {
+export const AddBrandsModal = ({product,isUpdated}) => {
 
     const [images, setImages] = useState();
     const [brandName,setBrandName] = useState("");
     const [description, setDescription] = useState("");
     const [isFake, setIsFake] = useState(false);
     const [error, setError] = useState('');
-    console.log("Is fak eis : " , isFake)
+    const {isDark,setISDark} = useContext(ThemeContext);
+
+
+    useEffect(() => {
+        setBrandName(product?.name || '');
+        setDescription(product?.description || '');
+        setIsFake(product?.isFake || false);
+        setImages(product?.images || '');
+    },[product])
+
+
     const handleFileChange = (event) => {
         const file = event.target.files[0]; // Get only the first selected file
 
@@ -29,24 +40,30 @@ export const AddBrandsModal = () => {
         const updatedImages = images.filter((_, i) => i !== index);
         setImages(updatedImages);
     };
+    const url = isUpdated ?
+        `http://localhost:5001/admin/brands/${product?._id}` :
+        'http://localhost:5001/admin/brands';
+    const method = isUpdated ? 'PUT' : 'POST';
 
     function handleOnSubmit (e){
-        // Create a FormData object
         e.preventDefault();
+        // Create a FormData object
+        console.log("Update : brand" , images[0].file)
+        // if (!validateForm()) return;
         const formData = new FormData();
         formData.append("name", brandName);
         formData.append("description", description);
         formData.append("image", images[0].file);
         formData.append("isFake", isFake);
-        console.log("image", images[0].file);
 
-        fetch('http://localhost:5001/admin/brands', {
-            method: 'POST',
+        fetch(url, {
+            method: method,
             body: formData,
         })
             .then(response => response.json())
             .then(data => {
                 if(data.error){
+                    console.log("ENTER")
                     setError(data.error);
                 }
                 else{
@@ -58,13 +75,14 @@ export const AddBrandsModal = () => {
                 console.error("Error uploading product:", error);
             });
     }
+    console.log("images" , images ? 'true'  : 'false');
     return (
         <div className="modal fade" id="exampleModal2" tabIndex="-1" aria-labelledby="exampleModal2Label"
              aria-hidden="true">
             <div className="modal-dialog">
-                <div className="modal-content">
+                <div className={`modal-content ${isDark ? "bg-dark text-white" : "" }`}>
                     <div className="modal-header">
-                        <h1 className="modal-title fs-5" id="exampleModalLabel">Add Brand</h1>
+                        <h1 className="modal-title fs-5" id="exampleModalLabel">{isUpdated ? 'Update Brand' : 'Add Brand' }</h1>
                         <button type="button" className="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                     </div>
@@ -73,9 +91,9 @@ export const AddBrandsModal = () => {
                             {error && <div className="alert alert-danger">{error}</div>}
 
                             <Input placeholder={'Enter brand name'} isRequired={true}
-                                   label={'Brand Name'} usage={'modal'} required onChange={(e)=>{setBrandName(e.target.value)}} />
+                                   label={'Brand Name'} usage={'modal'} required value={brandName} onChange={(e)=>{setBrandName(e.target.value)}} />
                             <div className={`mt-2`}>
-                                <InputTextarea placeholder={'Plz enter brand description'} isRequired={false} label={'Description'} usage={'modal'} size={'xl'}  style={{ height: '4rem' }} onChange={(e)=>{setDescription(e.target.value)}} />
+                                <InputTextarea placeholder={'Plz enter brand description'} isRequired={false} label={'Description'} usage={'modal'} size={'xl'}  style={{ height: '4rem' }} value={description} onChange={(e)=>{setDescription(e.target.value)}} />
                             </div>
                             <div className={`d-flex justify-content-between mt-3`}>
 
@@ -96,7 +114,7 @@ export const AddBrandsModal = () => {
 
                                 <div className={`form-check form-switch ps-0 justify-content-between align-items-center d-flex pt-4 ${style.soldOutDiv}`}>
                                     <span className={`mt-1 ms-1`}>Is Fake </span>
-                                    <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onChange={()=> setIsFake(!isFake)} />
+                                    <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked={isFake} onChange={()=> setIsFake(!isFake)} />
                                 </div>
                             </div>
                             {/* Preview Uploaded Image */}
@@ -116,9 +134,9 @@ export const AddBrandsModal = () => {
 
                         </div>
                         <div className="modal-footer d-flex justify-content-center">
-                            <Button variant={'secondary'} size={'xxs'} onClick={()=>{
+                            <Button variant={'secondary'} size={'xxs'} type='submit' onClick={()=>{
                                 if(!images) setError("You Should add an image")
-                            }}>Add</Button>
+                            }}>{isUpdated ?  'Update' : 'Add' }</Button>
                         </div>
                     </form>
                 </div>
