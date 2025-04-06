@@ -1,0 +1,56 @@
+.required {
+    color: red;
+    margin-left: 2px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+option {
+    background-color: var(--search-bg);
+    color: var(--search-color);
+}
+
+.dropdown {
+    border: 0.01rem solid #cdcdcd;
+    background-color: var(--search-bg);
+    color: var(--search-color);
+}
+
+
+.dropdown:focus {
+    border-color: #221111;
+}
+
+select {
+    padding: 0.6rem 0.7rem;
+    border-radius: 6px;
+    width: 100%;
+    font-size: 0.75rem;
+    outline: none;
+
+}
+
+.xlarge {
+    width: 100%;
+}
+
+.large {
+    width: 75%;
+}
+
+.medium {
+    width: 50%;
+}
+
+.small {
+    /*padding: 0.5rem 0.8rem;*/
+    width: 45%;
+}
+
+.small > select{
+    height: 2.1rem;
+}
+
+span {
+    font-size: 0.8rem;
+}

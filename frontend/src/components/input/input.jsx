@@ -1,0 +1,31 @@
+import style from './input.module.css';
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
+export const Input = ({placeholder,label,isRequired=false,size,variant,usage,type,...props}) => {
+    return (
+        <div className={`${style[variant]} ${style[size]}`}>
+            <span className={'fw-medium'}>{label} {isRequired && <span className={style.required}>*</span> } </span><br/>
+            <input className={ `mt-1 ${style.input} ${style[usage]}`} placeholder={placeholder} type={type} {...props}/>
+        </div>
+    )
+}
+
+export const SearchInput = ({placeholder,...props}) => {
+    return(
+        <div className={ `d-flex align-items-center ${style.inputDiv}`}>
+            <FontAwesomeIcon style={{marginBottom:'2px'}} icon={faMagnifyingGlass} size="md" color="gray" />
+            <input className={style.inputWithIcon} type="text" placeholder={placeholder} {...props}/>
+        </div>
+    );
+}
+
+
+export const InputTextarea = ({placeholder,label,isRequired=false,size,variant,usage,...props}) => {
+    return (
+        <div className={`${style[variant]} ${style[size]}`}>
+            <span className={'fw-medium'}>{label} {isRequired && <span className={style.required}>*</span> } </span><br/>
+            <textarea className={ `mt-1 ${style.input} ${style[usage]}`} placeholder={placeholder}  {...props}/>
+        </div>
+    )
+}

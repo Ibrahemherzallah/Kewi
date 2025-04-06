@@ -1,0 +1,161 @@
+.card {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 100%;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  background-color: rgba(141, 141, 141, 0.05);
+}
+
+.img {
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+  height: 20rem;
+  object-fit: cover;
+}
+
+.cardBody {
+  padding: 1rem;
+}
+
+.soldOutImg {
+  width: 30%;
+  height: 30%;
+  position: absolute;
+  right:-10px;
+  top:-15px;
+}
+
+.saleImg {
+  width: 30%;
+  position: absolute;
+  right:-10px;
+  top:-10px;
+}
+
+.imageCardBtn {
+  border: none;
+  background-color: white;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.imageCardContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.imageCard {
+  border-radius: 10px;
+  width: 22rem;
+  height: 220px;
+  transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  transition: background 0.3s ease-in-out;
+}
+
+.overlayText {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  opacity: 1;
+}
+
+.imageCardContainer:hover .imageCard {
+  transform: scale(1.05);
+  filter: brightness(0.7);
+}
+
+.AdminCardDiv {
+  border : 0.1rem solid #efefef;
+}
+
+.AdminCardDivDark {
+  padding-bottom: 0.2rem;
+  border-bottom : 0.09rem solid #efefef;
+}
+
+.productImage {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+.ProductCardDiv h6 {
+  /*background-color:red;*/
+  width: 15%;
+  margin-left: 1rem;
+  direction: rtl;
+  padding-right: 1rem;
+
+}
+
+.ProductCardDiv .actionsDiv {
+  /*background-color:red;*/
+  width: 15%;
+  margin-left: 1rem;
+  direction: rtl;
+}
+
+.ProductCardDiv div button {
+  border: none;
+  background-color: rgba(238, 238, 238, 0.85);
+  border-radius: 50%;
+  padding: 0.3rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ProductCardDiv div button:hover {
+  background-color: rgba(235, 235, 235, 1);
+}
+
+.WholCardDiv h6 {
+  width: 25%;
+}
+
+.WholCardDiv div button {
+  border: none;
+  background-color: rgba(238, 238, 238, 0.85);
+  border-radius: 50%;
+  padding: 0.3rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.WholCardDiv div button:hover {
+  background-color: rgba(235, 235, 235, 1);
+}
+
+.orderCardDiv h6{
+  direction: rtl;
+  width: 10%;
+}

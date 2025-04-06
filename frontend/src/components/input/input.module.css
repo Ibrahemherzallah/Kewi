@@ -1,0 +1,87 @@
+.input {
+    border: 0.01rem solid #cdcdcd;
+    padding: 0.5rem 0.8rem;
+    outline: none;
+    width: 100%;
+    font-size: 0.8rem;
+    background-color: var(--search-bg);
+    color: var(--search-color);
+    /*color: #4c4c4c;*/
+}
+
+.input::placeholder {
+    color: #cdcdcd;
+    font-size: 0.8rem;
+}
+
+.input:focus {
+    border-color: #221111;
+}
+
+.input.form {
+    border-radius: 0.2rem;
+    height: 2.5rem;
+}
+
+.input.modal {
+    border-radius: 0.4rem;
+    height: 2.1rem;
+}
+
+span {
+    font-size: 0.8rem;
+}
+
+.required {
+     color: red;
+     margin-left: 2px;
+     font-size: 0.8rem;
+     font-weight: bold;
+ }
+
+.xs {
+    width: 30%;
+}
+
+.sm {
+    width: 45%;
+}
+
+.md {
+    width: 60%;
+}
+
+.lg {
+    width: 75%;
+}
+
+.xl {
+    width: 100%;
+}
+
+.primary {
+    color: var(--primary);
+}
+
+.secondary {
+    color: var(--secondary);
+}
+
+.tertiary {
+    color: var(--tertiary);
+}
+
+.inputDiv {
+    padding: 0.4rem 0.8rem;
+    /*background-color: blue;*/
+    border: 1px solid gray;
+    border-radius: 6px;
+}
+
+.inputWithIcon {
+    border: none;
+    margin-left: 0.5rem;
+    outline: none;
+    background-color: var(--search-bg);
+    color: var(--search-color);
+}
