@@ -17,7 +17,7 @@ const app = express();
 
 
 app.use(cors({
-    origin: ['http://localhost:5173','https://kewi.ps'],
+    origin: ['http://localhost:5173','https://kewi.ps','http://kewi.ps'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
