@@ -8,28 +8,29 @@ import categoryRoutes from './routes/adminRoutes/category.routes.js';
 import brandRoutes from './routes/adminRoutes/brand.routes.js';
 import orderRoutes from './routes/adminRoutes/order.routes.js';
 import cors from 'cors';
-// import multer from 'multer';
-
+import session from "express-session";
+import helmet from 'helmet';
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 const app = express();
-import session from "express-session";
+
 
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173','https://kewi.ps'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
 }));
 
-// Initialize session middleware (place this in your main server file: app.js or server.js)
 app.use(session({
     secret: process.env.SESSION_SECRET, // Change this to a strong secret
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
+    cookie: { secure: process.env.NODE_ENV === 'production' }
 }));
 
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //
