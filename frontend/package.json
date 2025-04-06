@@ -1,6 +1,5 @@
 {
   "name": "frontend",
-  "homepage": "https://kewi.ps",
   "private": true,
   "version": "0.0.0",
   "type": "module",
