@@ -15,6 +15,20 @@ export const getProducts = async (req, res) => {
     }
 };
 
+export const getNewestProducts = async (req, res) => {
+    try {
+        const products = await Product.find()
+            .sort({ createdAt: -1 }) // Newest first
+            .limit(8)
+            .populate('categoryId')
+            .populate('brandId');
+
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 export const addProduct = async (req, res) => {
     try {
         const {

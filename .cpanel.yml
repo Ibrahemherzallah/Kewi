@@ -1,8 +1,0 @@
----
-deployment:
-  tasks:
-    - cd frontend
-    - npm install
-    - npm run build
-    - export DEPLOYPATH=/home2/kewi/public_html/
-    - /bin/cp -R dist/* $DEPLOYPATH

@@ -16,6 +16,7 @@ export const uploadProductImages = async (files, productId) => {
 
             await fileUpload.save(file.buffer, {
                 metadata: {contentType: file.mimetype},
+                public: true
             });
 
             const [url] = await fileUpload.getSignedUrl({
