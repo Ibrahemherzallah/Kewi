@@ -21,14 +21,12 @@ const ConfirmationModal = ({deletedItem, id,itemId}) => {
             if (modal) modal.hide();
             setShowToast(true);
 
-            // Hide toast after 3 seconds
             setTimeout(() => setShowToast(false), 3000);
         } catch (error) {
             console.error(`Error deleting ${deletedItem}:`, error.message);
             alert(error.message);
         }
     };
-    // console.log("the name is ", name)
     return(
         <>
             <div className="modal fade" id={id} tabIndex="-1" aria-labelledby={`modalTitle-${id}`} aria-hidden="true">

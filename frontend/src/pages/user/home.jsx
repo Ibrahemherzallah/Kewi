@@ -101,6 +101,7 @@ const Home = () => {
   ]
 
 
+  console.log("The user is : " , user)
   return(
     <>
       <NavBar></NavBar>
@@ -141,12 +142,12 @@ const Home = () => {
 
 
         <div className={`mt-5 ${style.homePageCategoryDiv}`}>
-          <Typography component={'h1'}>تسوق <span style={{color: 'var(--secondary)'}}>حسب</span> الفئة</Typography>
+          <Typography component={'h1'}>تسوق <span style={{color: 'var(--secondary)',fontSize:'1.8rem'}}>حسب</span> الفئة</Typography>
           <CategoryCards></CategoryCards>
         </div>
 
         <div className={`mt-5 ${style.homePageFeaturedProductDiv}`}>
-          <Typography component={'h1'}>أحدث المنتجات</Typography>
+          <Typography component={'h1'}>أخر ما وصلنا</Typography>
           <div className={`mt-5 ${style.featuredProduct}`}>
 
             <CardItem item={items[0]}></CardItem>

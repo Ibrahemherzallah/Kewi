@@ -1,35 +1,28 @@
 import style from "../components/card/card.module.css";
-import bagImg from "../assets/handbag.jpg";
-import accessory from "../assets/accessory.jpg";
-import bagImg2 from "../assets/bagimage.jpg";
-import perfume from "../assets/perfume.webp";
-import backpack from "../assets/backpack.webp";
-import childimage from "../assets/childimage.avif";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { IconBtn } from "../components/icons/icons.jsx";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { motion } from "framer-motion";
 
-const categories = [
-    { name: "حقائب الظهر", image: bagImg, description: "this is the test description" },
-    { name: "الاكسسوارات", image: accessory, description: "this is the test description" },
-    { name: "حقائب يد", image: bagImg2, description: "this is the test description" },
-    { name: "العطور", image: perfume, description: "this is the test description" },
-    { name: "حقائب الظهر", image: backpack, description: "this is the test description" },
-    { name: "أطفال", image: childimage, description: "this is the test description" },
-    { name: "الاكسسوارات", image: accessory, description: "this is the test description" },
-    { name: "أطفال", image: childimage, description: "this is the test description" },
-    { name: "العطور", image: perfume, description: "this is the test description" },
-    { name: "حقائب الظهر", image: backpack, description: "this is the test description" },
-];
 
 const ITEMS_PER_PAGE = 4;
-const CARD_WIDTH = 220; // Adjust this value based on your card's width including margin
+const CARD_WIDTH = 220;
 
 export function CategoryCards() {
     const [startIndex, setStartIndex] = useState(0);
+    const [categories, setCategory] = useState([]);
 
+    useEffect(() => {
+        fetch("http://localhost:5001/user/categories")
+            .then(response => response.json())
+            .then(data =>
+            {
+                console.log("data is : " , data);
+                setCategory(data);
+                console.log("Cat is : " , categories);
+            })
+    },[])
     // Next function
     const handleNext = () => {
         setStartIndex((prevIndex) =>
