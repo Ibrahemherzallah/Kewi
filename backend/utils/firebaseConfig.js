@@ -1,6 +1,6 @@
 import admin from "firebase-admin";
 import {getStorage} from "firebase-admin/storage";
-import serviceAccount from "../fitrack-efd01-firebase-adminsdk-4xg0u-3d4116ac1a.json" assert {type: "json"};
+import serviceAccount from "../fitrack-efd01-d008a835db52.json" assert {type: "json"};
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),

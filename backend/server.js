@@ -11,6 +11,11 @@ import category from './routes/userRoutes/home.routes.js';
 import cors from 'cors';
 import session from "express-session";
 import helmet from 'helmet';
+import path from 'path'
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -32,9 +37,7 @@ app.use(session({
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.get('/', (req, res) => {
-    res.status(200).send('Hello World');
-})
+
 
 app.use('/admin', orderRoutes);
 app.use('/admin', brandRoutes);
@@ -44,6 +47,10 @@ app.use('/admin', wholesalerRoutes);
 app.use('/auth', authRoutes);
 
 app.use('/user', category);
+
+app.get('*',(req,res) => {
+    res.sendFile(path.join(__dirname,'static/index.html'));
+})
 
 app.listen(PORT , ()=> {
     connectDB();

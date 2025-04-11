@@ -15,6 +15,21 @@ export const getProducts = async (req, res) => {
     }
 };
 
+export const getProductsByCategory = async (req, res) => {
+    const { categoryId } = req.params;
+
+    try {
+        const products = await Product.find({ categoryId })
+            .populate('categoryId')
+            .populate('brandId');
+
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
 export const getNewestProducts = async (req, res) => {
     try {
         const products = await Product.find()
@@ -132,10 +147,6 @@ export const updateProduct = async (req, res) => {
     }
 };
 
-
-
-
-
 export const extractPathFromUrl = (url) => {
     try {
         const decodedUrl = decodeURIComponent(url);
@@ -148,8 +159,6 @@ export const extractPathFromUrl = (url) => {
     }
     return null;
 };
-
-
 
 export const deleteProduct = async (req, res) => {
     try {

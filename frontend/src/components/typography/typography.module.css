@@ -61,22 +61,22 @@
 
 
 .typo.xs {
-  font-size: 0.75rem;
+  font-size: 0.75rem !important;
 }
 
 .typo.sm {
-  font-size: 1.25rem;
+  font-size: 1.25rem !important;
 }
 
 .typo.md {
-  font-size: 1.5rem;
+  font-size: 1.5rem !important;
 }
 
 .typo.lg {
-  font-size: 1.75rem;
+  font-size: 1.75rem !important;
 }
 
 .typo.xl {
-  font-size: 2.25rem;
+  font-size: 2.25rem !important;
 }
 
