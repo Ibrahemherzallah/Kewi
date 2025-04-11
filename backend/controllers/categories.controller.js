@@ -37,17 +37,16 @@ export const addCategory = async (req, res) => {
     }
 };
 
-
 export const getCategories = async (req, res) => {
     try {
         const category = await Category.find();
         res.status(200).json(category);
+        console.log("Category exists",category);
     } catch (error) {
         console.error("Error fetching categories:", error);
         res.status(500).json({ error: error.message });
     }
 }
-
 
 export const updateCategory = async (req, res) => {
     try {
@@ -87,7 +86,6 @@ export const updateCategory = async (req, res) => {
     }
 }
 
-
 const extractPathFromUrl = (url) => {
     const baseUrl = "https://storage.googleapis.com/fitrack-efd01.appspot.com/";
     if (url.startsWith(baseUrl)) {
@@ -95,7 +93,6 @@ const extractPathFromUrl = (url) => {
     }
     return null;
 };
-
 
 export const deleteCategory = async (req, res) => {
     try {

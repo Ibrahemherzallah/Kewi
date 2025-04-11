@@ -12,7 +12,7 @@
 .navLinks {
   display: flex;
   gap: 4rem;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
   cursor: pointer;
   font-weight: 600;
   font-size: 1.5rem;
@@ -27,7 +27,6 @@
 }
 
 .navBrand {
-  /* background-color: blanchedalmond; */
   width: 75%;
   display: flex;
   align-items: center;
@@ -40,7 +39,7 @@
   display: flex;
   align-items: center;
   justify-content:end;
-  /*gap: 1rem;*/
+  gap: 1.5rem
 }
 
 .logoImg {

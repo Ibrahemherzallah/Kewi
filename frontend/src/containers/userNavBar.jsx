@@ -4,7 +4,7 @@ import logoText from '../assets/LogoText.png'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import style from '../components/navbar/navbar.module.css';
 import { IconBtn } from '../components/icons/icons.jsx';
-import { faStore } from "@fortawesome/free-solid-svg-icons"; // Import the store icon
+import { faStore } from "@fortawesome/free-solid-svg-icons";
 import { faSun } from "@fortawesome/free-solid-svg-icons";
 
 const UserNavBar = () => {

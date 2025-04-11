@@ -10,7 +10,6 @@
   height: 500px;
   object-fit: cover;
   border: 1px solid var(--tertiary);
-
 }
 
 .footer {
@@ -75,3 +74,19 @@
   height: 380px;
 }
 
+.categoryProducts {
+  gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(270px,0.5fr));
+}
+
+.categoryHeader {
+  font-weight: 600;
+  direction: rtl;
+}
+
+.dropdownsDiv {
+  display: flex;
+  gap: 1rem;
+  width: 35%;
+}

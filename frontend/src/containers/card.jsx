@@ -20,7 +20,7 @@ const CardItem = ({item}) => {
                 { item.isOnSale ? (
                     <img className={style.saleImg} src={sale} alt="" />
                 ) : null}
-                <CardImg src={item.image} alt={item.name}/>
+                <CardImg src={item.image.length > 1 ? item.image[0] : item.image} alt={item.name}/>
             </div>
             <CardBody>
                 <div className="d-flex justify-content-between align-items-center">
@@ -35,9 +35,13 @@ const CardItem = ({item}) => {
                   </CardButton>
                   <div className="d-flex gap-2 align-items-center">
                       { item.isOnSale ? (
-                          <Typography component={'p'} variant={'tertiary'} line={'above'}>₪150.99</Typography>
+                          <Typography component={'p'} variant={'tertiary'} line={'above'}>₪{item.customerPrice}</Typography>
                       ) : null}
-                    <Typography component={'h5'}>₪{item.customerPrice}</Typography>
+                      { item.isOnSale ? (
+                          <Typography component={'h5'}>₪{item.salePrice}</Typography>
+                      ):
+                          <Typography component={'h5'}>₪{item.customerPrice}</Typography>
+                      }
                   </div>
                 </div>
             </CardBody>
