@@ -13,6 +13,8 @@ const CategoryProducts = () => {
     console.log("teSTtt")
     const sizes = ['كبير', 'صغير','وسط'];
     const [brands, setBrands] = useState([]);
+    const { id } = useParams();
+    const [products, setProducts] = useState([]);
 
 
     async function fetchBrands() {
@@ -48,8 +50,6 @@ const CategoryProducts = () => {
         fetchBrands();
         fetchProducts();
     }, []); // Empty dependency array ensures this effect runs only once on mount
-        const { id } = useParams();
-        const [products, setProducts] = useState([]);
 
 
     return (

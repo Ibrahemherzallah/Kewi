@@ -15,13 +15,15 @@ import promotionImg3 from "../../assets/promotionImage.webp";
 import bag1 from "../../assets/bag1.jpg";
 import bag2 from "../../assets/bag2.jpg";
 import CardItem from "../../containers/card.jsx";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../context/userContext.jsx";
 import Layout from "./layout.jsx";
 
 const Home = () => {
 
   const {user} = useContext(UserContext);
+  const [products, setProducts] = useState([]);
+
   const items = [
     {
       name:"حقيبة جلدية كلاسيكية",
@@ -174,7 +176,16 @@ const Home = () => {
       isOnSale:false,
     },
   ]
-
+  useEffect(() => {
+    fetch("http://localhost:5001/user/features")
+        .then(response => response.json())
+        .then(data =>
+        {
+          console.log("data is : " , data);
+          setProducts(data);
+          console.log("Cat is : " , products);
+        })
+  },[])
   console.log("The user is : " , user)
   return(
       <Layout>
@@ -221,7 +232,7 @@ const Home = () => {
           <Typography component={'h1'}>أخر ما وصلنا</Typography>
           <div className={`mt-5 ${style.featuredProduct}`}>
             {
-              items.map(item => (
+              products.map(item => (
                   <CardItem item={item}></CardItem>
               ))
             }
