@@ -7,7 +7,7 @@ import productRoutes from './routes/adminRoutes/product.routes.js';
 import categoryRoutes from './routes/adminRoutes/category.routes.js';
 import brandRoutes from './routes/adminRoutes/brand.routes.js';
 import orderRoutes from './routes/adminRoutes/order.routes.js';
-import category from './routes/userRoutes/home.routes.js';
+import homeRoutes from './routes/userRoutes/home.routes.js';
 import cors from 'cors';
 import session from "express-session";
 import helmet from 'helmet';
@@ -46,7 +46,7 @@ app.use('/admin', productRoutes);
 app.use('/admin', wholesalerRoutes);
 app.use('/auth', authRoutes);
 
-app.use('/user', category);
+app.use('/user', homeRoutes);
 
 app.get('*',(req,res) => {
     res.sendFile(path.join(__dirname,'static/index.html'));
