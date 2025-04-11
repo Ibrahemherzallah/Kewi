@@ -38,7 +38,8 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+const staticPath = path.join(__dirname, 'static');
+app.use(express.static(staticPath));
 app.use('/admin', orderRoutes);
 app.use('/admin', brandRoutes);
 app.use('/admin', categoryRoutes);
@@ -49,7 +50,7 @@ app.use('/auth', authRoutes);
 app.use('/user', homeRoutes);
 
 app.get('*',(req,res) => {
-    res.sendFile(path.join(__dirname,'static/index.html'));
+    res.sendFile(path.join(staticPath,'index.html'));
 })
 
 app.listen(PORT , ()=> {
