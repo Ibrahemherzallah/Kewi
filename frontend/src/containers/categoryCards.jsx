@@ -4,6 +4,7 @@ import { faChevronRight, faChevronLeft } from "@fortawesome/free-solid-svg-icons
 import { IconBtn } from "../components/icons/icons.jsx";
 import {useEffect, useState} from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from 'react-router-dom';
 
 
 const ITEMS_PER_PAGE = 4;
@@ -12,7 +13,7 @@ const CARD_WIDTH = 220;
 export function CategoryCards() {
     const [startIndex, setStartIndex] = useState(0);
     const [categories, setCategory] = useState([]);
-
+    const navigate = useNavigate();
     useEffect(() => {
         fetch("http://localhost:5001/user/categories")
             .then(response => response.json())
@@ -57,7 +58,11 @@ export function CategoryCards() {
                 style={{ display: "flex", gap: "10px" }}
             >
                 {categories.map((category, index) => (
-                    <button key={index} className={style.imageCardBtn} style={{ minWidth: `${CARD_WIDTH}px` }}>
+                    <button key={index} className={style.imageCardBtn} style={{ minWidth: `${CARD_WIDTH}px` }}
+                            onClick={()=> {
+                                navigate(`/category/${category._id}`)
+                            }}
+                    >
                         <div className={style.imageCardContainer}>
                             <img className={style.imageCard} src={category.image} alt={category.name} />
                             <div className={style.overlay}>

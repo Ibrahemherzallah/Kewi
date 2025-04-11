@@ -54,3 +54,55 @@ select {
 span {
     font-size: 0.8rem;
 }
+
+.dropdownBtnDiv {
+    cursor: pointer;
+}
+
+.dropdownBtn {
+    border: 1px solid gray;
+    background-color: var(--bg-color);
+    border-radius: 5px;
+}
+
+
+.dropdownOptions {
+    border: 1px solid var(--tertiary);
+    border-radius: 0.5rem;
+    list-style: none;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    position: absolute;        /* Make it float above other elements */
+    left: 0;
+    width: 100%;
+    background-color: white;   /* Ensure it's visible */
+    z-index: 9999;             /* Ensure it’s above other elements */
+}
+
+/* When visible */
+.dropdownShow {
+    max-height: 500px;
+    opacity: 1;
+}
+
+/* Your existing icon styles */
+.icon {
+    transition: transform 0.3s ease;
+    transform: rotate(180deg);
+}
+
+.iconR {
+    transition: transform 0.3s ease;
+    transform: rotate(0deg);
+}
+
+.dropdownOptions li {
+    cursor: pointer;
+}
+
+.dropdownOptions li:hover {
+    background-color: #e6e6e6;
+}

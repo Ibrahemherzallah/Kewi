@@ -8,6 +8,8 @@ import AdminDash from "./pages/admin/home.jsx";
 import {UserContext} from "./context/userContext.jsx";
 import {useEffect, useState} from "react";
 import {ThemeContext} from "./context/themeContext.jsx";
+import CategoryProducts from "./pages/user/categoryProducts.jsx";
+import Product from "./pages/user/product.jsx";
 function App() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
     const [isDark, setIsDark] = useState(() => {
@@ -27,6 +29,8 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/login" element={user ? user.isWholesaler ? <Navigate to={'/'}/> : <Navigate to={'/admin/dashboard'}/>  : <Login />} />
                         <Route path="/admin/dashboard" element={user && !user.isWholesaler  ?  <AdminDash /> : <Navigate to={'/login'}/>} />
+                        <Route path="/category/:id" element={<CategoryProducts />} />
+                        <Route path="/product" element={<Product />}></Route>
                     </Routes>
                 </BrowserRouter>
             </ThemeContext.Provider>
