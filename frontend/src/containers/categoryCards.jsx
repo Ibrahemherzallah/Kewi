@@ -19,9 +19,7 @@ export function CategoryCards() {
             .then(response => response.json())
             .then(data =>
             {
-                console.log("data is : " , data);
                 setCategory(data);
-                console.log("Cat is : " , categories);
             })
     },[])
     // Next function
@@ -57,7 +55,7 @@ export function CategoryCards() {
                 transition={{ type: "spring", stiffness: 50 }}
                 style={{ display: "flex", gap: "10px" }}
             >
-                {categories.map((category, index) => (
+                {categories?.map((category, index) => (
                     <button key={index} className={style.imageCardBtn} style={{ minWidth: `${CARD_WIDTH}px` }}
                             onClick={()=> {
                                 navigate(`/category/${category._id}`)

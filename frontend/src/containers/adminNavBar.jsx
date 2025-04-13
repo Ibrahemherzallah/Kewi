@@ -27,7 +27,6 @@ const AdminNav = () => {
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data.message); // Logged out successfully
                     localStorage.removeItem("user");
                     setUser(null);
                     window.location.href = "/login"; // Redirect to login page

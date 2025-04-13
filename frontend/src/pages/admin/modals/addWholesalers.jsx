@@ -43,7 +43,6 @@ export const AddWholesalers = ({product,isUpdated}) => {
                 if (data.error) {
                     setError(data.error);
                 } else {
-                    console.log("Wholesaler registered successfully:", data);
                     setError(""); // optional: reset error
                     // ✅ Close thmodal
                     const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal5'));
@@ -62,7 +61,6 @@ export const AddWholesalers = ({product,isUpdated}) => {
     }
     return (
         <div className="modal fade" id="exampleModal5" tabIndex="-1" aria-labelledby="exampleModal5Label" aria-hidden="true">
-            <h1>isDark ? {isDark.toString()}</h1>
             <div className="modal-dialog">
                 <div className={`modal-content ${isDark ? "bg-dark text-white" : "" }`}>
                     <div className="modal-header">

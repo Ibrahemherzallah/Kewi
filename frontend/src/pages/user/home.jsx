@@ -181,12 +181,9 @@ const Home = () => {
         .then(response => response.json())
         .then(data =>
         {
-          console.log("data is : " , data);
           setProducts(data);
-          console.log("Cat is : " , products);
         })
   },[])
-  console.log("The user is : " , user)
   return(
       <Layout>
         <div id="carouselExampleIndicators" className="carousel slide">

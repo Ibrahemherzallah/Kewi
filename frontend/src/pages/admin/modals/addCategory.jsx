@@ -16,7 +16,14 @@ export const AddCategoryModal = ({product,isUpdated}) => {
     useEffect(() => {
         setCategoryName(product?.name || '');
         setDescription(product?.description || '');
-        setImages(product?.images || '');
+        if (product?.image) {
+            setImages([{
+                file: null,
+                url: product.image
+            }]);
+        } else {
+            setImages([]);
+        }
     },[product])
 
     const handleFileChange = (event) => {
@@ -43,8 +50,10 @@ export const AddCategoryModal = ({product,isUpdated}) => {
     const method = isUpdated ? 'PUT' : 'POST';
     function handleOnSubmit (e){
         e.preventDefault();
-        console.log("Update : cat" , images[0].file)
         const formData = new FormData();
+        if (images && images[0]?.file) {
+            formData.append("image", images[0].file);
+        }
         formData.append("name", categoryName);
         formData.append("description", description);
         formData.append("image", images[0].file);
@@ -63,6 +72,8 @@ export const AddCategoryModal = ({product,isUpdated}) => {
                     console.log("Category uploaded successfully:", data);
                     const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal3'));
                     modal.hide();
+                    window.location.reload();
+
                 }
             })
             .catch(error => {
@@ -101,24 +112,25 @@ export const AddCategoryModal = ({product,isUpdated}) => {
                             </div>
 
                             {/* Preview Uploaded Image */}
-                            <div className="d-flex mt-3">
-                                {images && (
-                                    <div className={`${style.imagePreview}`}>
-                                        <img src={images[0].url} alt="Preview" className="img-thumbnail me-2" style={{ width: 50, height: 50 }} />
-                                        <button type="button" className="btn btn-danger btn-sm"
-                                                style={{ fontSize: '0.5rem', padding: '0.2rem 0.3rem' }}
-                                                onClick={() => setImages('')}>
+                            <div className="d-flex flex-column mt-3 gap-2">
+                                {images && images.map((img, index) => (
+                                    <div key={index} className={`d-flex align-items-center ${style.imagePreview}`}>
+                                        <span className="me-2">Img {index + 1}</span>
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger btn-sm"
+                                            style={{ fontSize: '0.5rem', padding: '0.2rem 0.3rem' }}
+                                            onClick={() => removeImage(index)}
+                                        >
                                             X
                                         </button>
                                     </div>
-                                )}
+                                ))}
                             </div>
-
-
                         </div>
                         <div className="modal-footer d-flex justify-content-center">
                             <Button variant={'secondary'} size={'xxs'} type='submit' onClick={()=>{
-                                if(!images) setError("Image is required")
+                                if (!images || images.length === 0) setError("Image is required")
                             }}>{isUpdated ? 'Update' : 'Add'}</Button>
                         </div>
                     </form>
