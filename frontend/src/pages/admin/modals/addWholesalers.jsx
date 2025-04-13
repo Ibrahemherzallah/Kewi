@@ -43,15 +43,9 @@ export const AddWholesalers = ({product,isUpdated}) => {
                 if (data.error) {
                     setError(data.error);
                 } else {
-                    setError(""); // optional: reset error
-                    // ✅ Close thmodal
                     const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal5'));
                     modal.hide();
-                    // ✅ Optional: Reset form
-                    setUsername("");
-                    setPassword("");
-                    setPhone("");
-                    setAddress("");
+                    window.location.reload();
                 }
             })
             .catch(error => {

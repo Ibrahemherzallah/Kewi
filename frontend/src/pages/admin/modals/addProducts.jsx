@@ -142,6 +142,7 @@
                             console.log(isUpdated ? "Product updated successfully:" : "Product uploaded successfully:", data);
                             const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal1'));
                             modal.hide();
+                            window.location.reload();
                         }
                     })
                     .catch(error => {
@@ -237,7 +238,7 @@
 
                         <div className="modal-footer d-flex justify-content-center">
                             <Button variant={'secondary'} size={'xxs'} type='submit' onClick={()=>{
-                                if (!images || images.length === 0) setErrors("You Should add an image");
+                                if (!images || images.length === 0) setErrors("Image is required");
                             }}>{isUpdated ? 'Update' : 'Add'}</Button>
                         </div>
                         </form>

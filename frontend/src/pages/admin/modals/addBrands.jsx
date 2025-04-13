@@ -59,9 +59,8 @@ export const AddBrandsModal = ({product,isUpdated}) => {
         const formData = new FormData();
         formData.append("name", brandName);
         formData.append("description", description);
-        if (images && images[0]?.file) {
-            formData.append("image", images[0].file);
-        }
+        formData.append("image", images[0].file);
+
         formData.append("isFake", isFake);
 
         fetch(url, {
@@ -144,7 +143,7 @@ export const AddBrandsModal = ({product,isUpdated}) => {
                         </div>
                         <div className="modal-footer d-flex justify-content-center">
                             <Button variant={'secondary'} size={'xxs'} type='submit' onClick={()=>{
-                                if (!images || images.length === 0) setError("You Should add an image")
+                                if (!images || images.length === 0) setError("Image is required")
                             }}>{isUpdated ?  'Update' : 'Add' }</Button>
                         </div>
                     </form>

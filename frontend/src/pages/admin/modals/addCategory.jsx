@@ -51,9 +51,6 @@ export const AddCategoryModal = ({product,isUpdated}) => {
     function handleOnSubmit (e){
         e.preventDefault();
         const formData = new FormData();
-        if (images && images[0]?.file) {
-            formData.append("image", images[0].file);
-        }
         formData.append("name", categoryName);
         formData.append("description", description);
         formData.append("image", images[0].file);

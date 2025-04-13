@@ -105,7 +105,7 @@ const AdminDash = () => {
         <>
             <AdminNav></AdminNav>
             <div className={`${style.container}`}>
-                <div className={`d-flex justify-content-between flex-md-wrap align-items-center ${style.tabsDiv}`}>
+                <div className={`d-flex justify-content-between flex-md-wrap align-items-center`}>
                     <ul className={`nav nav-pills ${style.navPills} ${style.tabs}`} id="pills-tab" role="tablist">
                         <li className={`nav-item ${style.navItem}`} role="presentation">
                             <button className={`nav-link active ${isDark ? style.navLinkDark : style.navLink}`} id="pills-home-tab" data-bs-toggle="pill"
@@ -151,7 +151,7 @@ const AdminDash = () => {
                     </ul>
 
                     {activeTab === 'products' ?
-                        <div className={`d-flex justify-content-between ${style.addDiv}`}>
+                        <div className={`d-flex justify-content-end gap-3 ${style.addDiv}`}>
                             <SearchInput placeholder={"Search by name"} onChange={(e) => {
                                 setSearchedValue(e.target.value);
                             }}
@@ -171,7 +171,7 @@ const AdminDash = () => {
                                     Add Brands
                             </Button> : activeTab === 'orders' ?
                             '' : activeTab === 'wholesalers'?
-                                        <Button variant={isDark ? 'secondary-outline' : 'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal5" onClick={()=>{setIsUpdated(false); setSelectedProduct(null)}}>
+                                        <Button variant={isDark ? 'secondary-outline' : 'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal5" onClick={()=>{setIsUpdated(false); setSelectedWholesaler(null)}}>
                                             <FontAwesomeIcon icon={faPlus} size="md"/>Add Wholesalers</Button>: 'null'}
                 </div>
 
