@@ -19,7 +19,14 @@ export const AddBrandsModal = ({product,isUpdated}) => {
         setBrandName(product?.name || '');
         setDescription(product?.description || '');
         setIsFake(product?.isFake || false);
-        setImages(product?.images || '');
+        if (product?.image) {
+            setImages([{
+                file: null,
+                url: product.image
+            }]);
+        } else {
+            setImages([]);
+        }
     },[product])
 
 
@@ -47,13 +54,14 @@ export const AddBrandsModal = ({product,isUpdated}) => {
 
     function handleOnSubmit (e){
         e.preventDefault();
+
         // Create a FormData object
-        console.log("Update : brand" , images[0].file)
-        // if (!validateForm()) return;
         const formData = new FormData();
         formData.append("name", brandName);
         formData.append("description", description);
-        formData.append("image", images[0].file);
+        if (images && images[0]?.file) {
+            formData.append("image", images[0].file);
+        }
         formData.append("isFake", isFake);
 
         fetch(url, {
@@ -63,19 +71,18 @@ export const AddBrandsModal = ({product,isUpdated}) => {
             .then(response => response.json())
             .then(data => {
                 if(data.error){
-                    console.log("ENTER")
                     setError(data.error);
                 }
                 else{
                     const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal2'));
                     modal.hide();
+                    window.location.reload();
                 }
             })
             .catch(error => {
                 console.error("Error uploading product:", error);
             });
     }
-    console.log("images" , images ? 'true'  : 'false');
     return (
         <div className="modal fade" id="exampleModal2" tabIndex="-1" aria-labelledby="exampleModal2Label"
              aria-hidden="true">
@@ -118,24 +125,26 @@ export const AddBrandsModal = ({product,isUpdated}) => {
                                 </div>
                             </div>
                             {/* Preview Uploaded Image */}
-                            <div className="d-flex mt-3">
-                                {images && (
-                                    <div className={`${style.imagePreview}`}>
-                                        <img src={images[0].url} alt="Preview" className="img-thumbnail me-2" style={{ width: 50, height: 50 }} />
-                                        <button type="button" className="btn btn-danger btn-sm"
-                                                style={{ fontSize: '0.5rem', padding: '0.2rem 0.3rem' }}
-                                                onClick={() => setImages("")}>
+                            <div className="d-flex flex-column mt-3 gap-2">
+                                {images && images.map((img, index) => (
+                                    <div key={index} className={`d-flex align-items-center ${style.imagePreview}`}>
+                                        <span className="me-2">Img {index + 1}</span>
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger btn-sm"
+                                            style={{ fontSize: '0.5rem', padding: '0.2rem 0.3rem' }}
+                                            onClick={() => removeImage(index)}
+                                        >
                                             X
                                         </button>
                                     </div>
-                                )}
+                                ))}
                             </div>
-
 
                         </div>
                         <div className="modal-footer d-flex justify-content-center">
                             <Button variant={'secondary'} size={'xxs'} type='submit' onClick={()=>{
-                                if(!images) setError("You Should add an image")
+                                if (!images || images.length === 0) setError("You Should add an image")
                             }}>{isUpdated ?  'Update' : 'Add' }</Button>
                         </div>
                     </form>

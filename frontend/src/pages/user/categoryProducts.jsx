@@ -10,7 +10,6 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router";
 
 const CategoryProducts = () => {
-    console.log("teSTtt")
     const sizes = ['كبير', 'صغير','وسط'];
     const [brands, setBrands] = useState([]);
     const { id } = useParams();
@@ -18,13 +17,10 @@ const CategoryProducts = () => {
 
 
     async function fetchBrands() {
-        console.log("Enter function");
         if (brands.length === 0) { // This is a safeguard, but we will rely on state instead.
-            console.log("Enter if");
             try {
                 const response = await fetch("http://localhost:5001/admin/brands");
                 const data = await response.json();
-                console.log("data", data);
 
                 // Set the brands using setBrands instead of pushing directly into the array
                 const brandNames = data.map(item => item.name);
@@ -39,14 +35,12 @@ const CategoryProducts = () => {
             const res = await fetch(`http://localhost:5001/admin/products/category/${id}`);
             const data = await res.json();
             setProducts(data);
-            console.log("Fetched category products:", data);
         } catch (err) {
             console.error("Error fetching products by category:", err);
         }
     }
 
     useEffect(() => {
-        console.log("Enter useEffect");
         fetchBrands();
         fetchProducts();
     }, []); // Empty dependency array ensures this effect runs only once on mount

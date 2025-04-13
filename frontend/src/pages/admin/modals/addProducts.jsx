@@ -30,7 +30,6 @@
         useEffect(()=> {
             setProductName('');
         },[])
-
         useEffect(() => {
                     setProductName(product?.name || '');
                     setDescription(product?.description || '');
@@ -53,7 +52,6 @@
                     file: null, // Existing images don't have a file object
                     url, // Existing image URL
                 }));
-
                 setImages(existingImages);
             }
         }, [isUpdated, product]);
@@ -106,7 +104,6 @@
 
         function handleSubmit(e) {
             e.preventDefault();
-            console.log("The image is :  " , images)
             if (!validateForm()) return;
 
             const formData = new FormData();
@@ -214,16 +211,10 @@
                                     <Input placeholder={'New Price (per shekel)'} isRequired={true}
                                            label={'New Price'} usage={'modal'} size={'md'} required value={salePrice} onChange={(e=> setSalePrice(e.target.value))}/>
                                 )}
-                            {/* Preview Uploaded Images */}
                             <div className="d-flex mt-3">
                                 {images.map((image, index) => (
                                     <div key={index} className={`${style.imagePreview}`}>
-                                        <img
-                                            src={image.url}
-                                            alt="Preview"
-                                            className="img-thumbnail me-2"
-                                            style={{ width: 50, height: 50 }}
-                                        />
+                                        <span className="mx-2">Img {index + 1}</span>
                                         <input
                                             type="file"
                                             accept="image/*"
@@ -231,14 +222,6 @@
                                             style={{ display: "none" }}
                                             id={`imageInput-${index}`}
                                         />
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary btn-sm me-1"
-                                            style={{ fontSize: "0.5rem", padding: "0.2rem 0.3rem" }}
-                                            onClick={() => document.getElementById(`imageInput-${index}`).click()}
-                                        >
-                                            Replace
-                                        </button>
                                         <button
                                             type="button"
                                             className="btn btn-danger btn-sm"
@@ -254,7 +237,7 @@
 
                         <div className="modal-footer d-flex justify-content-center">
                             <Button variant={'secondary'} size={'xxs'} type='submit' onClick={()=>{
-                                if(!images) setError("You Should add an image")
+                                if (!images || images.length === 0) setErrors("You Should add an image");
                             }}>{isUpdated ? 'Update' : 'Add'}</Button>
                         </div>
                         </form>

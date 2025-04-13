@@ -19,7 +19,6 @@ export const addBrand = async (req, res) => {
     try {
         const { name } = req.body;
         const isFake = req.body.isFake === "true";
-
         const brand = await Brand.findOne({ name });
         if (brand) {
             console.log("brand exists");
@@ -59,13 +58,22 @@ export const updateBrand = async (req, res) => {
             return res.status(400).json({ error: "Invalid brand ID format" });
         }
 
+
+        const { name, isFake } = req.body;
+
+        // Check if another brand already uses the same name
+        const existingBrand = await Brand.findOne({ name });
+        if (existingBrand && existingBrand._id.toString() !== id) {
+            return res.status(400).json({ error: "Brand name already exists" });
+        }
+
+
         const updatedData = {
             name: req.body.name,
             isFake: req.body.isFake
         };
-        console.log("The req is : " , req.files);
-        if (req.files) {
-            const imageUrl = await uploadBrandImage(req.files[0]); // Fix: Send only the first file
+        if (req.files && req.files[0]) {
+            const imageUrl = await uploadBrandImage(req.files[0]); // Ensure we send only the first file
             updatedData.image = imageUrl;
         }
 

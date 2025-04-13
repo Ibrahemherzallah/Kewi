@@ -57,31 +57,37 @@ export const updateCategory = async (req, res) => {
             return res.status(400).json({ error: "Invalid category ID format" });
         }
 
+
+        const { name, description } = req.body;
+
+        // Check if the new name is already used by another category
+        const existingCategory = await Category.findOne({ name });
+        if (existingCategory && existingCategory._id.toString() !== id) {
+            return res.status(400).json({ error: "Category name already exists" });
+        }
+
         // Extract product data
         const updatedData = {
             name: req.body.name,
             description: req.body.description,
         };
-        console.log("The req is : " , req.files);
 
         // Handle images if provided
         if (req.files && req.files[0]) {
-            console.log("Enter")
             const imageUrl = await uploadCategoryImage(req.files[0]); // Ensure we send only the first file
             updatedData.image = imageUrl;
         }
-        console.log("Out")
 
         const updatedProduct = await Category.findByIdAndUpdate(id, updatedData, { new: true });
 
         if (!updatedProduct) {
-            return res.status(404).json({ message: "Product not found" });
+            return res.status(404).json({ message: "Category not found" });
         }
 
         res.status(200).json(updatedProduct);
-        console.log("Product updated successfully:", updatedProduct);
+        console.log("Category updated successfully:", updatedProduct);
     } catch (error) {
-        console.error("Error updating product:", error);
+        console.error("Error updating Category:", error);
         res.status(500).json({ error: error.message });
     }
 }

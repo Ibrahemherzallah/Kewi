@@ -1,6 +1,6 @@
 import Product from "../models/product.model.js";
 import mongoose from "mongoose";
-import {uploadProductImages} from '../utils/firebaseService.js';
+import {uploadBrandImage, uploadProductImages} from '../utils/firebaseService.js';
 import { bucket } from "../utils/firebaseConfig.js";
 
 export const getProducts = async (req, res) => {
@@ -61,7 +61,6 @@ export const addProduct = async (req, res) => {
             salePrice,
             numOfClicks = 0
         } = req.body;
-        console.log("The files is : " , req.files)
         // Convert empty fields to null or default values to prevent validation errors
         const productData = {
             name: name || "",
@@ -128,9 +127,9 @@ export const updateProduct = async (req, res) => {
         };
 
         // Handle images if provided
-        if (req.files) {
-            const imageUrls = await uploadProductImages(req.files, id);
-            updatedData.image = imageUrls;
+        if (req.files && req.files[0]) {
+            const imageUrl = await uploadProductImages(req.files, id); // Ensure we send only the first file
+            updatedData.image = imageUrl;
         }
 
         const updatedProduct = await Product.findByIdAndUpdate(id, updatedData, { new: true });
