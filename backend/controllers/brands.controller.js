@@ -38,9 +38,6 @@ export const addBrand = async (req, res) => {
             newBrand.image = imageUrl;
             await newBrand.save();
         }
-        else {
-            return res.status(400).json({ error: "image is required" })
-        }
 
         res.status(201).json(newBrand);
         console.log("Brand stored successfully");

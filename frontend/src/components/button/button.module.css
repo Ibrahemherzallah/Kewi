@@ -9,6 +9,7 @@
   background: var(--btn-bg);
   color: var(--btn-color);
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  text-wrap: nowrap;
 }
 
 .btn.primary {
