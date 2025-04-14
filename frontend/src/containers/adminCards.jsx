@@ -19,6 +19,7 @@ export const ProductCard = ({product, setSelectedProduct,setOpenedBtn,setIsUpdat
                     <img className={style.productImage} src={product.image[0]} alt={product.name} />
                 </div>
                 <h6>{product.name}</h6>
+                <h6>{product.id}</h6>
                 <h6>{product?.brandId?.name}</h6>
                 <h6>{product?.categoryId?.name}</h6>
                 <h6>₪ {product.customerPrice}</h6>
@@ -44,7 +45,7 @@ export const CategoryCard = ({src,name,description,product,setSelectedProduct,se
         <div className={`mt-2 pe-1 ${isDark? style.AdminCardDivDark : style.AdminCardDiv}`}>
             <div className={`d-flex align-items-center justify-content-between ${style.ProductCardDiv}`}>
                 <img className={style.productImage} src={src} alt={`${name} image`} />
-                <h6>{name}</h6>
+                <h6 className={`d-flex justify-content-center`}>{name}</h6>
                 <h6>{description}</h6>
                 <div className={'gap-2 d-flex align-items-center'}>
                     <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#${modalId}`}><FontAwesomeIcon className={`text-danger`} style={{fontSize:'0.8rem'}} icon={faTrash} /></button>
@@ -64,7 +65,7 @@ export const BrandCard = ({src,name,product,setIsUpdated,setSelectedProduct}) =>
         <div className={`mt-2 pe-1 ${isDark? style.AdminCardDivDark : style.AdminCardDiv}`}>
             <div className={`d-flex align-items-center justify-content-between ${style.ProductCardDiv}`}>
                 <img className={style.productImage} src={src} alt={`${name} image`} />
-                <h6>{name}</h6>
+                <h6 className={`d-flex justify-content-center`}>{name}</h6>
                 <div className={'gap-2 d-flex align-items-center'}>
                     <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#${modalId}`}><FontAwesomeIcon className={`text-danger`} style={{fontSize:'0.8rem'}} icon={faTrash} /></button>
                     <button data-bs-toggle="modal" data-bs-target="#exampleModal2" onClick={() =>{setIsUpdated(true);setSelectedProduct(product)}}><FontAwesomeIcon style={{color:'var(--primary)',fontSize:'0.8rem'}} icon={faPen} /></button>

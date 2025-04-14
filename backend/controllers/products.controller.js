@@ -49,6 +49,7 @@ export const addProduct = async (req, res) => {
         const {
             name,
             description,
+            id,
             categoryId,
             brandId,
             gender,
@@ -65,6 +66,7 @@ export const addProduct = async (req, res) => {
         const productData = {
             name: name || "",
             description: description || "",
+            id: id || "",
             categoryId: mongoose.Types.ObjectId.isValid(categoryId) ? new mongoose.Types.ObjectId(categoryId) : null,  // Convert categoryId to ObjectId
             brandId: mongoose.Types.ObjectId.isValid(brandId) ? new mongoose.Types.ObjectId(brandId) : null,  // Convert brandId to ObjectId
             gender: gender || null,  // Allow gender to be optional
@@ -113,6 +115,7 @@ export const updateProduct = async (req, res) => {
         const updatedData = {
             name: req.body.name || existingProduct.name,
             description: req.body.description || existingProduct.description,
+            id: req.body.id || existingProduct.id,
             categoryId: req.body.categoryId || existingProduct.categoryId || null,
             brandId: req.body.brandId || existingProduct.brandId || null,
             gender: req.body.gender || existingProduct.gender,

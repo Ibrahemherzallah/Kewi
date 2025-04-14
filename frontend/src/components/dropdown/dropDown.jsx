@@ -1,7 +1,6 @@
 import style from "./dropdown.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import dropdown from "bootstrap/js/src/dropdown.js";
 import {useState} from "react";
 
 export const DropDown = ({size,label,isRequired,options,setSelected}) => {

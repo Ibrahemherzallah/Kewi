@@ -18,6 +18,7 @@ const AdminDash = () => {
     const [activeTab, setActiveTab] = useState('products');
     const [result,setResult] = useState();
     const [searchedValue, setSearchedValue] = useState('');
+    const [searchedId,setSearchedId] = useState('');
     const [category, setCategory] = useState([]);
     const [brand, setBrand] = useState([]);
     const [openedBtn, setOpenedBtn] = useState(false);
@@ -88,7 +89,7 @@ const AdminDash = () => {
         try {
             const response = await fetch("http://localhost:5001/admin/brands"); // Replace with actual API
             const data = await response.json();
-            data.map( item => brand.push({ id: item._id, name :item.name ,image : item.image }))
+            data.map( item => brand.push({ id: item._id, name :item.name ,image : item.image,isFake: item.isFake }))
         } catch (error) {
             console.error("Error fetching categories:", error);
         }
@@ -152,6 +153,10 @@ const AdminDash = () => {
 
                     {activeTab === 'products' ?
                         <div className={`d-flex justify-content-end gap-3 ${style.addDiv}`}>
+                            <SearchInput placeholder={"Search by id"} onChange={(e) => {
+                                setSearchedId(e.target.value);
+                            }}
+                            />
                             <SearchInput placeholder={"Search by name"} onChange={(e) => {
                                 setSearchedValue(e.target.value);
                             }}
@@ -180,10 +185,10 @@ const AdminDash = () => {
                     {activeTab === "products" && (
                         <div className={`tab-pane fade show active ${style.productsTab}`}>
                             <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
-                                <h6>Image</h6><h6>Name</h6><h6>Brand</h6><h6>Category</h6><h6>Price</h6><h6>Status</h6><h6># of clicks</h6><h6>Actions</h6>
+                                <h6>Image</h6><h6>Name</h6><h6>id</h6><h6>Brand</h6><h6>Category</h6><h6>Price</h6><h6>Status</h6><h6># of clicks</h6><h6>Actions</h6>
                             </div>
                             {Array.isArray(result) && result
-                                .filter(item => item?.name?.includes(searchedValue))
+                                .filter(item => item?.name?.includes(searchedValue) && item?.id?.includes(searchedId))
                                 .map(res => (
                                     <ProductCard key={res.id} product={res} setSelectedProduct={setSelectedProduct} setOpenedBtn={setOpenedBtn} setIsUpdated={setIsUpdated}/>
                                 ))}
