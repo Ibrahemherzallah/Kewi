@@ -18,6 +18,7 @@
         const [color,setSelectedColor] = useState('');
         const [categoryId,setSelectedCategory] = useState('');
         const [brandId,setSelectedBrand] = useState('');
+        const [id, setSelectedId] = useState('');
         const [name, setProductName] = useState('');
         const [description, setDescription] = useState('');
         const [customerPrice, setCustomerPrice] = useState('');
@@ -26,13 +27,10 @@
         const [isSoldOut,setIsSoldOut] = useState(false);
         const [errors, setErrors] = useState('');
         const {isDark,setISDark} = useContext(ThemeContext);
-
-        useEffect(()=> {
-            setProductName('');
-        },[])
         useEffect(() => {
                     setProductName(product?.name || '');
                     setDescription(product?.description || '');
+                    setSelectedId(product?.id || '');
                     setSelectedCategory(product?.categoryId || '');
                     setSelectedBrand(product?.brandId || '');
                     setCustomerPrice(product?.customerPrice || '');
@@ -55,7 +53,6 @@
                 setImages(existingImages);
             }
         }, [isUpdated, product]);
-
         const validateForm = () => {
                 if (!categoryId) {
                     setErrors("Category is required");
@@ -70,8 +67,8 @@
         const handleFileChange = (event, index = null) => {
             const files = Array.from(event.target.files);
 
-            if (files.length + images.length > 5) {
-                alert("You can only upload up to 5 images.");
+            if (files.length + images.length > 10) {
+                alert("You can only upload up to 10 images.");
                 return;
             }
 
@@ -113,6 +110,7 @@
             formData.append("description", description);
             formData.append("categoryId", categoryId);
             formData.append("brandId", brandId);
+            formData.append("id",id);
             formData.append("gender", gender);
             formData.append("size", size);
             formData.append("color", color);
@@ -149,7 +147,12 @@
                         console.error("Error uploading product:", error);
                     })
         }
-
+        useEffect(() => {
+            const selectedBrand = brand?.find(item => item.id === brandId);
+            if(selectedBrand?.isFake){
+                setIsSoldOut(true)
+            }
+        }, [brandId]);
         return (
             <div className="modal fade" id="exampleModal1" tabIndex="-1" aria-labelledby="exampleModal1Label" aria-hidden="true">
                 <div className="modal-dialog">
@@ -159,88 +162,89 @@
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form onSubmit={handleSubmit} >
-                        <div className="modal-body">
-                            {errors && <div className="alert alert-danger">{errors}</div>}
+                            <div className="modal-body">
+                                {errors && <div className="alert alert-danger">{errors}</div>}
 
-                            <DropDown isRequired={true} label={'Category'} size={'xlarge'} options={category} selected={categoryId} setSelected={setSelectedCategory} />
+                                <DropDown isRequired={true} label={'Category'} size={'xlarge'} options={category} selected={categoryId} setSelected={setSelectedCategory} />
 
-                            <div className={`d-flex justify-content-between mt-2`}>
-                            <Input placeholder={'Enter product name'} isRequired={true} label={'Name'} usage={'modal'} size={'sm'} required value={name}  onChange={(e) => setProductName(e.target.value)} />
-                            <DropDown isRequired={false} size={'small'} label={'Brand'} options={brand} selected={brandId} setSelected={setSelectedBrand} />
-                                </div>
-                                <div className={`mt-2`}>
-                                    <InputTextarea placeholder={'Enter product name'} isRequired={false} label={'Description'} usage={'modal'} size={'xl'} type={'textarea'} style={{ height: '4rem' }} value={description} onChange={(e=> setDescription(e.target.value))} />
-                                </div>
                                 <div className={`d-flex justify-content-between mt-2`}>
-                                    <DropDown product={product} isRequired={false} size={'small'} label={'Gender'} options={genders} selected={gender} setSelected={setSelectedGender} />
-                                    <DropDown product={product} isRequired={false} size={'small'} label={'Size'}  options={sizes} selected={size} setSelected={setSelectedSize} />
-                                </div>
-                                <div className={`d-flex justify-content-between mt-2`}>
-                                    <Input placeholder={'Customer Price'} isRequired={true} label={'Price'} usage={'modal'} size={'sm'} required value={customerPrice} onChange={(e) => setCustomerPrice(e.target.value)} />
-                                    <DropDown isRequired={false} size={'small'} label={'Color'} options={colors} selected={color} setSelected={setSelectedColor}/>
-                                </div>
-                                <div className={`d-flex justify-content-between mt-2`}>
-                                    <Input placeholder={'Wholesale Price (per shekel)'} isRequired={true} label={'Wholesale Price'} usage={'modal'} size={'md'} required value={wholesalerPrice} onChange={(e=> setWholesalerPrice(e.target.value))} />
-                                    <div className={`form-check form-switch ps-0 justify-content-between align-items-center d-flex pt-4 ${style.soldOutDiv}`}>
-                                        <span className={'mt-1'}>Sold out</span>
-                                        <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked={isSoldOut} onChange={()=> setIsSoldOut(!isSoldOut)} />
+                                <Input placeholder={'Enter product name'} isRequired={true} label={'Name'} usage={'modal'} size={'sm'} required value={name}  onChange={(e) => setProductName(e.target.value)} />
+                                <DropDown isRequired={false} size={'small'} label={'Brand'} options={brand} selected={brandId} setSelected={setSelectedBrand} />
                                     </div>
-                                </div>
-                            <div className={`d-flex justify-content-between mt-3`}>
+                                    <div className={`mt-2 d-flex justify-content-between align-items-center`}>
+                                        <InputTextarea placeholder={'Enter product name'} isRequired={false} label={'Description'} usage={'modal'} size={'md'} type={'textarea'} style={{ height: '4rem' }} value={description} onChange={(e=> setDescription(e.target.value))} />
+                                        <Input placeholder={'Enter product id'} isRequired={false} label={'ID'} usage={'modal'} size={'xs'} required value={id} onChange={(e) => setSelectedId(e.target.value)} />
+                                    </div>
+                                    <div className={`d-flex justify-content-between mt-2`}>
+                                        <DropDown product={product} isRequired={false} size={'small'} label={'Gender'} options={genders} selected={gender} setSelected={setSelectedGender} />
+                                        <DropDown product={product} isRequired={false} size={'small'} label={'Size'}  options={sizes} selected={size} setSelected={setSelectedSize} />
+                                    </div>
+                                    <div className={`d-flex justify-content-between mt-2`}>
+                                        <Input placeholder={'Customer Price'} isRequired={true} label={'Price'} usage={'modal'} size={'sm'} required value={customerPrice} onChange={(e) => setCustomerPrice(e.target.value)} />
+                                        <DropDown isRequired={false} size={'small'} label={'Color'} options={colors} selected={color} setSelected={setSelectedColor}/>
+                                    </div>
+                                    <div className={`d-flex justify-content-between mt-2`}>
+                                        <Input placeholder={'Wholesale Price (per shekel)'} isRequired={true} label={'Wholesale Price'} usage={'modal'} size={'md'} required value={wholesalerPrice} onChange={(e=> setWholesalerPrice(e.target.value))} />
+                                        <div className={`form-check form-switch ps-0 justify-content-between align-items-center d-flex pt-4 ${style.soldOutDiv}`}>
+                                            <span className={'mt-1'}>Sold out</span>
+                                            <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked={isSoldOut} onChange={()=> setIsSoldOut(!isSoldOut)} />
+                                        </div>
+                                    </div>
+                                <div className={`d-flex justify-content-between mt-3`}>
 
-                                    <div className="form-check">
-                                        <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked={isOnSale}
-                                               onChange={e => {setChecked(e.target.checked)}}/>
-                                        <label className={`form-check-label ${style.onSale}`} htmlFor="flexCheckDefault">
-                                            On Sale
-                                        </label>
-                                    </div>
+                                        <div className="form-check">
+                                            <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked={isOnSale}
+                                                   onChange={e => {setChecked(e.target.checked)}}/>
+                                            <label className={`form-check-label ${style.onSale}`} htmlFor="flexCheckDefault">
+                                                On Sale
+                                            </label>
+                                        </div>
 
-                                    <div className={`mt-2 ${style.fileUpload}`}>
-                                        <input type='file' id="fileInputProduct"
-                                               accept="image/*"
-                                               multiple
-                                               onChange={handleFileChange}
-                                               hidden/>
-                                        <label htmlFor="fileInputProduct">
-                                            <FaUpload className="upload-icon" />
-                                            Upload images
-                                        </label>
+                                        <div className={`mt-2 ${style.fileUpload}`}>
+                                            <input type='file' id="fileInputProduct"
+                                                   accept="image/*"
+                                                   multiple
+                                                   onChange={handleFileChange}
+                                                   hidden/>
+                                            <label htmlFor="fileInputProduct">
+                                                <FaUpload className="upload-icon" />
+                                                Upload images
+                                            </label>
+                                        </div>
                                     </div>
+                                    {isOnSale && (
+                                        <Input placeholder={'New Price (per shekel)'} isRequired={true}
+                                               label={'New Price'} usage={'modal'} size={'md'} required value={salePrice} onChange={(e=> setSalePrice(e.target.value))}/>
+                                    )}
+                                <div className="d-flex mt-3">
+                                    {images.map((image, index) => (
+                                        <div key={index} className={`${style.imagePreview}`}>
+                                            <span className="mx-2">Img {index + 1}</span>
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={(e) => handleFileChange(e, index)} // Replace image
+                                                style={{ display: "none" }}
+                                                id={`imageInput-${index}`}
+                                            />
+                                            <button
+                                                type="button"
+                                                className="btn btn-danger btn-sm"
+                                                style={{ fontSize: "0.5rem", padding: "0.2rem 0.3rem" }}
+                                                onClick={() => removeImage(index)}
+                                            >
+                                                X
+                                            </button>
+                                        </div>
+                                    ))}
                                 </div>
-                                {isOnSale && (
-                                    <Input placeholder={'New Price (per shekel)'} isRequired={true}
-                                           label={'New Price'} usage={'modal'} size={'md'} required value={salePrice} onChange={(e=> setSalePrice(e.target.value))}/>
-                                )}
-                            <div className="d-flex mt-3">
-                                {images.map((image, index) => (
-                                    <div key={index} className={`${style.imagePreview}`}>
-                                        <span className="mx-2">Img {index + 1}</span>
-                                        <input
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => handleFileChange(e, index)} // Replace image
-                                            style={{ display: "none" }}
-                                            id={`imageInput-${index}`}
-                                        />
-                                        <button
-                                            type="button"
-                                            className="btn btn-danger btn-sm"
-                                            style={{ fontSize: "0.5rem", padding: "0.2rem 0.3rem" }}
-                                            onClick={() => removeImage(index)}
-                                        >
-                                            X
-                                        </button>
-                                    </div>
-                                ))}
                             </div>
-                        </div>
 
-                        <div className="modal-footer d-flex justify-content-center">
-                            <Button variant={'secondary'} size={'xxs'} type='submit' onClick={()=>{
-                                if (!images || images.length === 0) setErrors("Image is required");
-                            }}>{isUpdated ? 'Update' : 'Add'}</Button>
-                        </div>
+                            <div className="modal-footer d-flex justify-content-center">
+                                <Button variant={'secondary'} size={'xxs'} type='submit' onClick={()=>{
+                                    if (!images || images.length === 0) setErrors("Image is required");
+                                }}>{isUpdated ? 'Update' : 'Add'}</Button>
+                            </div>
                         </form>
                     </div>
                 </div>
