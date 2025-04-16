@@ -5,24 +5,30 @@
   /* background-color: rgb(0, 0, 0); */
 }
 
+.userNavBar {
+  padding-block: 0.75rem;
+  padding-inline: 5rem;
+  border-bottom: 3px solid var(--hr-color) ;
+}
+
 .nav {
   /* background-color: rgb(2, 91, 91); */
 }
 
 .navLinks {
-  display: flex;
-  gap: 4rem;
-  padding-top: 0.5rem;
-  cursor: pointer;
   font-weight: 600;
-  font-size: 1.5rem;
-  /* background-color: rgb(169, 176, 174); */
-  list-style: none;
   direction: rtl;
 }
 
-.navLinks li a {
+
+.navItem {
   text-decoration: none;
+  font-size: 1.2rem !important;
+  color: var(--primary);
+}
+
+.navItem a{
+  font-size: 1.2rem !important;
   color: var(--primary);
 }
 
@@ -61,4 +67,31 @@
 
 .logoutBtn {
   color: var(--nav-text);
+}
+
+.navDropDown {
+  width: 10rem;
+  background-color: white;
+  border: 1.5px solid var(--hr-color) ;
+  border-radius: 0.5rem;
+  list-style: unset;
+  z-index: 999;
+}
+
+.dropDownItemLi {
+  padding-inline: 1rem;
+
+}
+
+.dropDownItem {
+  font-weight: 500;
+  direction: rtl;
+  text-decoration: none;
+}
+
+.dropDownItemLi:hover {
+  width: 100%;
+  cursor: pointer;
+  background-color: #e8e8e8;
+  border-radius: 0.2rem;
 }

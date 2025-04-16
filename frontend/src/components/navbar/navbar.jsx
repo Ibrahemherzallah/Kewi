@@ -1,8 +1,8 @@
 import style from './navbar.module.css';
 
-export function Navbar ({children}) {
+export function Navbar ({children, user}) {
   return(
-    <header className={`${style.navBar}`}>{children}</header>
+    <header className={`${user ? style.userNavBar : style.navBar}`}>{children}</header>
   )
 }
 
@@ -14,7 +14,7 @@ export function Nav ({children}) {
 
 export function NavLinks ({children}) {
   return(
-    <ul className={`px-0 ${style.navLinks}`}>{children}</ul>
+    <div className={`${style.navLinks}`}>{children}</div>
   )
 }
 

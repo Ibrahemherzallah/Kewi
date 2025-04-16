@@ -5,12 +5,29 @@ import style from '../components/card/card.module.css';
 import Typography from "../components/typography/typography";
 import soldout from "../assets/soldout.png";
 import sale from "../assets/sale1.png";
+import {useContext, useEffect} from "react";
+import {CartContext} from "../context/cartContext.jsx";
 
 
 
 
 
-const CardItem = ({item}) => {
+const CardItem = ({isSidebarOpen,setSidebarOpen,item}) => {
+
+    const {products,setProducts} = useContext(CartContext);
+
+    function setLocalStorage(){
+
+        let isExist = products.find(product => product.id === item.id);
+        if(!isExist){
+            setProducts([...products,item])
+        }
+        if(!isSidebarOpen){
+            setSidebarOpen(true);
+        }
+    }
+
+
     return(
         <Card>
             <div className="position-relative">
@@ -30,7 +47,7 @@ const CardItem = ({item}) => {
                 <Typography component={'h6'} variant={'tertiary'}>بنفسجي</Typography>
                 <CardDescription>{item.description}</CardDescription>
                 <div className="mt-3 d-flex justify-content-between">
-                  <CardButton variant={item.isSoldOut? 'tertiary' :'secondary'}>
+                  <CardButton variant={item.isSoldOut? 'tertiary' :'secondary'} onClick={()=>{setLocalStorage()}}>
                       <FontAwesomeIcon icon={faCartPlus}  />
                   </CardButton>
                   <div className="d-flex gap-2 align-items-center">

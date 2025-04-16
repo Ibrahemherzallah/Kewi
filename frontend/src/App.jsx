@@ -10,8 +10,10 @@ import {useEffect, useState} from "react";
 import {ThemeContext} from "./context/themeContext.jsx";
 import CategoryProducts from "./pages/user/categoryProducts.jsx";
 import Product from "./pages/user/product.jsx";
+import {CartContext} from "./context/cartContext.jsx";
 function App() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
+    const [products, setProducts] = useState(JSON.parse(localStorage.getItem("products")) || []);
     const [isDark, setIsDark] = useState(() => {
         return localStorage.getItem("isDark") === "true";
     });
@@ -19,20 +21,25 @@ function App() {
     useEffect(() => {
         localStorage.setItem("isDark", isDark.toString());
     }, [isDark]);
-
+    useEffect(()=>{
+        localStorage.setItem("isDark", isDark.toString());
+        localStorage.setItem("products", JSON.stringify(products));
+    })
   return (
     <div id={isDark? 'dark' : 'light'} style={{minHeight:'100vh'}}>
         <UserContext.Provider value={{user,setUser}}>
             <ThemeContext.Provider value={{isDark, setIsDark}}>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/login" element={user ? user.isWholesaler ? <Navigate to={'/'}/> : <Navigate to={'/admin/dashboard'}/>  : <Login />} />
-                        <Route path="/admin/dashboard" element={user && !user.isWholesaler  ?  <AdminDash /> : <Navigate to={'/login'}/>} />
-                        <Route path="/category/:id" element={<CategoryProducts />} />
-                        <Route path="/product" element={<Product />}></Route>
-                    </Routes>
-                </BrowserRouter>
+                <CartContext.Provider value={{products,setProducts}}>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/login" element={user ? user.isWholesaler ? <Navigate to={'/'}/> : <Navigate to={'/admin/dashboard'}/>  : <Login />} />
+                            <Route path="/admin/dashboard" element={user && !user.isWholesaler  ?  <AdminDash /> : <Navigate to={'/login'}/>} />
+                            <Route path="/category/:id" element={<CategoryProducts />} />
+                            <Route path="/product" element={<Product />}></Route>
+                        </Routes>
+                    </BrowserRouter>
+                </CartContext.Provider>
             </ThemeContext.Provider>
         </UserContext.Provider>
     </div>

@@ -179,8 +179,6 @@ const AdminDash = () => {
                                         <Button variant={isDark ? 'secondary-outline' : 'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal5" onClick={()=>{setIsUpdated(false); setSelectedWholesaler(null)}}>
                                             <FontAwesomeIcon icon={faPlus} size="md"/>Add Wholesalers</Button>: 'null'}
                 </div>
-
-
                 <div className="tab-content">
                     {activeTab === "products" && (
                         <div className={`tab-pane fade show active ${style.productsTab}`}>

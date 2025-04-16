@@ -37,7 +37,7 @@ export function CategoryCards() {
     };
 
     return (
-        <div className={`mt-5 ${style.categories}`} style={{ position: "relative", display: "flex", alignItems: "center", overflow: "hidden" }}>
+        <div className={`${style.categories}`} style={{ position: "relative", display: "flex", alignItems: "center", overflow: "hidden" }}>
             {/* Left Arrow */}
             <IconBtn
                 onClick={handlePrev}

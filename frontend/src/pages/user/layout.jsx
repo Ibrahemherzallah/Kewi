@@ -2,10 +2,10 @@ import UserNavBar from "../../containers/userNavBar.jsx";
 import style from "./style/home.module.css";
 import Typography from "../../components/typography/typography.jsx";
 
-const Layout = ({children}) => {
+const Layout = ({isSidebarOpen,setSidebarOpen,children}) => {
     return (
         <>
-            <UserNavBar></UserNavBar>
+            <UserNavBar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}></UserNavBar>
             <div className={style.homePageMainContentDiv}>
                 {children}
             </div>
@@ -42,8 +42,6 @@ const Layout = ({children}) => {
                         <Typography component={'p'} size={'l'}>اشترك للحصول على عروض خاصة وتحديثات</Typography>
                     </div>
                 </div>
-
-
             </div>
 
         </>

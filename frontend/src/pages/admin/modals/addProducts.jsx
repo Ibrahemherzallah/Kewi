@@ -149,9 +149,7 @@
         }
         useEffect(() => {
             const selectedBrand = brand?.find(item => item.id === brandId);
-            if(selectedBrand?.isFake){
-                setIsSoldOut(true)
-            }
+                setIsSoldOut(selectedBrand?.isFake)
         }, [brandId]);
         return (
             <div className="modal fade" id="exampleModal1" tabIndex="-1" aria-labelledby="exampleModal1Label" aria-hidden="true">

@@ -23,6 +23,7 @@
   display:grid;
   grid-template-columns: repeat(auto-fit,minmax(270px,0.5fr));
   gap: 2rem;
+  margin-top: 5rem;
 }
 
 .cardWrapper {
@@ -89,4 +90,25 @@
   display: flex;
   gap: 1rem;
   width: 35%;
+}
+
+.whoWe {
+  color: gray;
+}
+
+.whoWeDiv {
+  margin-top: 7rem;
+}
+
+.homePageCategoryDiv {
+  margin-top: 5rem;
+}
+
+.homePageFeaturedProductDiv {
+  margin-block: 5rem;
+}
+
+.navLinks {
+  direction: rtl;
+  display: flex;
 }
