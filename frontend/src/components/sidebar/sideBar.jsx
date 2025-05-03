@@ -1,10 +1,10 @@
 import style from './sidebar.module.css';
-import SideBarCards from "../../containers/sideBarCard.jsx";
+// import SideBarCards from "../../containers/sideBarCard.jsx";
 import SideBarCard from "../../containers/sideBarCard.jsx";
 import {useContext, useEffect, useState} from "react";
 import {CartContext} from "../../context/cartContext.jsx";
 import product from "../../pages/user/product.jsx";
-import Button from "../../components/button/Button.jsx";
+import Button from "../../components/button/button.jsx";
 import emptyCart from "../../assets/empty-cart.png";
 import {UserContext} from "../../context/userContext.jsx";
 
