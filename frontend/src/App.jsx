@@ -1,5 +1,4 @@
 import './App.css'
-import Hui from './pages/hui'
 import Home from './pages/user/home'
 import LogIn from "./pages/admin/login.jsx";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router";
@@ -11,6 +10,7 @@ import {ThemeContext} from "./context/themeContext.jsx";
 import CategoryProducts from "./pages/user/categoryProducts.jsx";
 import Product from "./pages/user/product.jsx";
 import {CartContext} from "./context/cartContext.jsx";
+import ScrollToTop from "./containers/scrrollToTop.jsx";
 function App() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
     const [products, setProducts] = useState(JSON.parse(localStorage.getItem("products")) || []);
@@ -31,12 +31,13 @@ function App() {
             <ThemeContext.Provider value={{isDark, setIsDark}}>
                 <CartContext.Provider value={{products,setProducts}}>
                     <BrowserRouter>
+                        <ScrollToTop />
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/login" element={user ? user.isWholesaler ? <Navigate to={'/'}/> : <Navigate to={'/admin/dashboard'}/>  : <Login />} />
                             <Route path="/admin/dashboard" element={user && !user.isWholesaler  ?  <AdminDash /> : <Navigate to={'/login'}/>} />
                             <Route path="/category/:id" element={<CategoryProducts />} />
-                            <Route path="/product" element={<Product />}></Route>
+                            <Route path="/product/:id" element={<Product />}></Route>
                         </Routes>
                     </BrowserRouter>
                 </CartContext.Provider>

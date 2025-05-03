@@ -44,8 +44,8 @@ export const AddCategoryModal = ({product,isUpdated}) => {
         setImages(updatedImages);
     };
     const url = isUpdated ?
-        `http://localhost:5001/admin/categories/${product?._id}` :
-        'http://localhost:5001/admin/categories'
+        `https://kewi.ps/admin/categories/${product?._id}` :
+        'https://kewi.ps/admin/categories'
 
     const method = isUpdated ? 'PUT' : 'POST';
     function handleOnSubmit (e){

@@ -14,8 +14,8 @@ export const AddWholesalers = ({product,isUpdated}) => {
     const {isDark,setISDark} = useContext(ThemeContext);
 
     const url = isUpdated ?
-        `http://localhost:5001/admin/wholesalers/${product?._id}` :
-        'http://localhost:5001/admin/wholesalers'
+        `https://kewi.ps/admin/wholesalers/${product?._id}` :
+        'https://kewi.ps/admin/wholesalers'
 
     const method = isUpdated ? 'PUT' : 'POST';
 

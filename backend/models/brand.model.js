@@ -12,7 +12,11 @@ const brandSchema = new mongoose.Schema({
   isFake: {
     type: Boolean,
     default: false
-  }
+  },
+  numOfClicks: {
+    type: Number,
+    default: 0
+  },
 },{timestamps: true})
 
 

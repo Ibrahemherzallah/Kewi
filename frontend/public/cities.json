@@ -1,0 +1,67 @@
+[
+
+  { "name": "نابلس", "region": "w" },
+
+
+  { "name": "جنين", "region": "w" },
+  { "name": "قباطية", "region": "w" },
+  { "name": "يعبد", "region": "w" },
+  { "name": "طوباس", "region": "w" },
+
+
+  { "name": "رام الله", "region": "w" },
+  { "name": "بيتونيا", "region": "w" },
+  { "name": "البيرة", "region": "w" },
+
+
+  { "name": "طولكرم", "region": "w" },
+  { "name": "قلقيلية", "region": "w" },
+  { "name": "أريحا", "region": "w" },
+
+
+  { "name": "الخليل", "region": "w" },
+  { "name": "يطّا", "region": "w" },
+  { "name": "دورا", "region": "w" },
+  { "name": "حلحول", "region": "w" },
+  { "name": "سعير", "region": "w" },
+  { "name": "إذنا", "region": "w" },
+  { "name": "السموع", "region": "w" },
+  { "name": "بني نعيم", "region": "w" },
+  { "name": "الظاهرية", "region": "w" },
+  { "name": "صوريف", "region": "w" },
+  { "name": "بيت اُمّر", "region": "w" },
+
+
+  { "name": "بيت جالا", "region": "w" },
+  { "name": "بيت ساحور", "region": "w" },
+  { "name": "بيت لحم", "region": "w" },
+
+
+
+
+  { "name": "القدس", "region": "d" },
+  { "name": "الناصرة", "region": "d" },
+  { "name": "حيفا", "region": "d" },
+  { "name": "يافا", "region": "d" },
+  { "name": "أم الفحم", "region": "d" },
+  { "name": "سخنين", "region": "d" },
+  { "name": "الطيبة", "region": "d" },
+  { "name": "رهط", "region": "d" },
+  { "name": "شفاعمرو", "region": "d" },
+  { "name": "كفر قاسم", "region": "d" },
+  { "name": "الطيرة", "region": "d" },
+  { "name": "عرابة", "region": "d" },
+  { "name": "كفر كنا", "region": "d" },
+  { "name": "طمرة", "region": "d" },
+  { "name": "باقة الغربية", "region": "d" },
+  { "name": "جسر الزرقاء", "region": "d" },
+  { "name": "جلجولية", "region": "d" },
+  { "name": "قلنسوة", "region": "d" },
+  { "name": "دير حنا", "region": "d" },
+  { "name": "عرعرة", "region": "d" },
+  { "name": "كفر مندا", "region": "d" },
+  { "name": "المغار", "region": "d" },
+  { "name": "يافة الناصرة", "region": "d" }
+
+
+]

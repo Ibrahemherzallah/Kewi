@@ -57,7 +57,7 @@ export const CategoryCard = ({src,name,description,product,setSelectedProduct,se
     )
 }
 
-export const BrandCard = ({src,name,product,setIsUpdated,setSelectedProduct}) => {
+export const BrandCard = ({src,name,numOfClicks,product,setIsUpdated,setSelectedProduct}) => {
     const modalId = `deleteModal-${product._id}`;
     const {isDark, setIsDark} = useContext(ThemeContext);
 
@@ -66,6 +66,7 @@ export const BrandCard = ({src,name,product,setIsUpdated,setSelectedProduct}) =>
             <div className={`d-flex align-items-center justify-content-between ${style.ProductCardDiv}`}>
                 <img className={style.productImage} src={src} alt={`${name} image`} />
                 <h6 className={`d-flex justify-content-center`}>{name}</h6>
+                <h6 className={`d-flex justify-content-center`}>{numOfClicks}</h6>
                 <div className={'gap-2 d-flex align-items-center'}>
                     <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#${modalId}`}><FontAwesomeIcon className={`text-danger`} style={{fontSize:'0.8rem'}} icon={faTrash} /></button>
                     <button data-bs-toggle="modal" data-bs-target="#exampleModal2" onClick={() =>{setIsUpdated(true);setSelectedProduct(product)}}><FontAwesomeIcon style={{color:'var(--primary)',fontSize:'0.8rem'}} icon={faPen} /></button>
@@ -77,24 +78,25 @@ export const BrandCard = ({src,name,product,setIsUpdated,setSelectedProduct}) =>
     )
 }
 
-export const OrderCard = ({productName,productSize,productBrand,productCategory,date,price,customerPhone,customerName,address}) => {
+export const OrderCard = ({res}) => {
     const {isDark, setIsDark} = useContext(ThemeContext);
     return(
         <div className={`mt-2 pe-1 ${isDark? style.AdminCardDivDark : style.AdminCardDiv}`}>
             <div className={`d-flex align-items-center justify-content-between ${style.orderCardDiv}`}>
-                <h6>{productName}</h6>
-                <h6>{productSize}</h6>
-                <h6>{productBrand}</h6>
-                <h6>{productCategory}</h6>
-                <h6 className={`ps-3`}>{date.toString().split('T')[0]}</h6>
-                <h6>{price}</h6>
-                <h6>{customerName}</h6>
-                <h6>{customerPhone}</h6>
-                <h6>{address}</h6>
+                <h6 className={`text-center`}>{res.fullName}</h6>
+                <h6 className={`text-center`}>{res.phoneNumber}</h6>
+                <h6 className={`text-center`}>{res.city} - {res.streetAddress}</h6>
+                <h6 className={`text-center`}>{res.productId}</h6>
+                <h6 className={`text-center`}>{res.price}</h6>
+                <h6 className={`text-center`}>{res.numOfItems}</h6>
+                <h6 className={`text-center`}>{res.deliveryType}</h6>
+                <h6 className={`text-center`}>{res.createdAt.toString().split('T')[0]}</h6>
+                <h6 className={`text-center`}>{res.notes}</h6>
             </div>
         </div>
     )
 }
+
 
 export const WholesalerCard = ({name, number,address,product,setIsUpdated,setSelectedProduct}) => {
     const modalId = `deleteModal-${product._id}`;

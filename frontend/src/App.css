@@ -8,18 +8,24 @@
     --text-color:#d9d9d9;
     background-color: var(--bg-color);
     color: var(--text-color);
-    --nav-text: d9d9d9;
+    --nav-text: #d9d9d9;
     --tabs-bg: black;
     --tabs-color: #d9d9d9;
     --search-color: #d9d9d9;
     --hr-color: gray;
-    --search-bg: #122929;;
+    --search-bg: #122929;
+    --hint-text: #d9d9d9;
+    --element-bg: #091010;
+    --add-cart-bg: 181,181,181;
+    --footer-bg: #091010;
+    --li-hover: #091010;
+    --sidebar-btns-bg: #18372B;
 }
 
 #light {
     --bg-color: white;
     --text-color: black;
-
+    --hint-text: gray;
     background-color: var(--bg-color);
     color: var(--text-color);
     --nav-text: var(--primary);
@@ -27,4 +33,9 @@
     --tabs-bg: rgba(237, 237, 237, 0.85);
     --search-color: black;
     --hr-color: var(--tertiary);
+    --element-bg: white;
+    --add-cart-bg: 104,49,11;
+    --footer-bg: var(--tertiary);
+    --li-hover: #e8e8e8;
+    --sidebar-btns-bg: transparent;
 }

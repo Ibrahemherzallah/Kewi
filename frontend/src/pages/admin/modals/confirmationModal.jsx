@@ -8,7 +8,7 @@ const ConfirmationModal = ({deletedItem, id,itemId}) => {
 
     const handleDelete = async (deletedItem, itemId) => {
         try {
-            const response = await fetch(`http://localhost:5001/admin/${deletedItem}${deletedItem !== 'categories' ? 's' : ''}/${itemId}`, {
+            const response = await fetch(`https://kewi.ps/admin/${deletedItem}${deletedItem !== 'categories' ? 's' : ''}/${itemId}`, {
                 method: "DELETE",
             });
 

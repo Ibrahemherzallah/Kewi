@@ -5,6 +5,7 @@
   padding: 0.5rem;
   border: none;
   background-color: transparent;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .iconBtn.circle {
@@ -14,9 +15,6 @@
   transition: all 0.3s ease-in-out;
 }
 
-.iconBtn.square:hover {
-  background-color: rgb(248, 248, 248);
-}
 
 .iconBtn.circle:hover {
   border: none;
@@ -53,4 +51,77 @@
 
 .iconBtn.empty {
   background-color: white;
+}
+
+.iconBtn.primary {
+  background-color: var(--secondary);
+  --btn-bg-hover: var(--primary);
+  color: #ffffff;
+  border: none;
+  padding: 9px 13px;
+}
+
+
+.iconBtn.tertiary {
+  background-color: rgba(var(--add-cart-bg), 0.13);
+  --btn-bg-hover: rgba(var(--primary-rgb), 0.1);
+  color: #ffffff;
+  border: none;
+  padding: 9px 13px;
+}
+
+
+.iconBtn.primary:hover {
+  background: var(--btn-bg-hover);
+}
+
+.iconBtn.tertiary:hover {
+  background: var(--btn-bg-hover);
+}
+
+@media screen and (max-width: 770px) {
+  .iconBtn.md.cart {
+     width: 1.8rem;
+     height: 1.8rem;
+     border-radius: 6px;
+     padding: 0rem;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .iconBtn.md.cart {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 4px;
+    padding: 0rem;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .iconBtn.md.cart {
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 4px;
+    padding: 0rem;
+  }
+  .iconBtn.md.store {
+    width: 2rem;
+    height: 2rem;
+    padding: 0.3rem;
+  }
+  .iconBtn.sideCard {
+    padding: 0.25rem;
+    border-radius: 6px;
+  }
+
+}
+
+
+@media screen and (max-width: 490px) {
+  .iconBtn.md.cart {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 3px;
+    padding: 0rem;
+  }
 }

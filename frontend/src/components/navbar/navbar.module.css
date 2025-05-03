@@ -1,14 +1,14 @@
 .navBar {
   padding-block: 0.75rem;
   padding-inline: 3rem;
-  border-bottom: 3px solid var(--hr-color) ;
+  border-bottom: 2px solid var(--hr-color) ;
   /* background-color: rgb(0, 0, 0); */
 }
 
 .userNavBar {
   padding-block: 0.75rem;
   padding-inline: 5rem;
-  border-bottom: 3px solid var(--hr-color) ;
+  border-bottom: 2px solid var(--hr-color) ;
 }
 
 .nav {
@@ -24,12 +24,28 @@
 .navItem {
   text-decoration: none;
   font-size: 1.2rem !important;
-  color: var(--primary);
+  color: var(--primary) !important;
 }
+
+.navItemDark {
+  text-decoration: none;
+  font-size: 1.2rem !important;
+  color: #d9d9d9 !important;
+}
+
 
 .navItem a{
   font-size: 1.2rem !important;
-  color: var(--primary);
+  color: var(--primary) !important;
+}
+
+.navbarNav {
+  gap: 1.5rem;
+}
+
+.navItemDark a{
+  font-size: 1.2rem !important;
+  color: #d9d9d9 !important;
 }
 
 .navBrand {
@@ -55,6 +71,7 @@
 .logoTextImg {
   width: 10rem;
   height: 2rem;
+  margin-top: 1.5rem;
 }
 
 .logoTextImg.dark {
@@ -62,25 +79,38 @@
   direction: ltr;
   width: 18rem;
   position: relative;
-  right: 62px;
+  right: 55px;
 }
 
-.logoutBtn {
-  color: var(--nav-text);
+.bootstrapNav {
+  padding-block: 8px;
+}
+
+.logoutBtnAdmin {
+  color: var(--nav-text)!important;
 }
 
 .navDropDown {
   width: 10rem;
-  background-color: white;
+  background-color: var(--bg-color);
   border: 1.5px solid var(--hr-color) ;
   border-radius: 0.5rem;
   list-style: unset;
   z-index: 999;
 }
 
+
+.storeIcon {
+  font-size: 1.5rem;
+}
+
+.modeIcon {
+  font-size: 1.5rem;
+}
+
+
 .dropDownItemLi {
   padding-inline: 1rem;
-
 }
 
 .dropDownItem {
@@ -92,6 +122,117 @@
 .dropDownItemLi:hover {
   width: 100%;
   cursor: pointer;
-  background-color: #e8e8e8;
+  background-color: var(--li-hover);
   border-radius: 0.2rem;
 }
+
+.badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.1rem;
+  font-size: 0.6rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.5rem;
+  top: -6px;
+  right: -6px;
+}
+
+.badgeLight {
+  background-color: var(--primary);
+  color: #d9d9d9;
+}
+
+.badgeDark {
+  background-color: #d9d9d9;
+  color: var(--primary);
+}
+
+.profileBorder {
+  padding: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+.personIconNavBar {
+  color: var(--nav-text);
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 990px) {
+
+  .navbarNav {
+    gap: 0rem;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .userNavBar {
+    padding-inline: 1.5rem;
+  }
+}
+
+
+@media screen and (max-width: 550px) {
+  .userNavBar {
+    padding-inline: 1.5rem;
+  }
+  .logoImg {
+    width: 3rem;
+  }
+  .logoTextImg {
+    width: 8rem;
+    height: 1.5rem;
+  }
+  .logoTextImg {
+    margin-top: 0.5rem;
+  }
+  .navBrand {
+    height: 3rem;
+  }
+  .storeIcon {
+    font-size: 1rem;
+  }
+  .modeIcon {
+    font-size: 1rem;
+  }
+  .bootstrapNav {
+    padding-block: 0px !important;
+  }
+  .navbarToggler {
+    padding: 0.1rem 0.2rem !important;
+    border-color: white !important;
+  }
+  .navbarTogglerIcon {
+    font-size: 0.75rem !important;
+  }
+  .personIconNavBar {
+    font-size: 1.45rem;
+  }
+
+
+  .navItem {
+    font-size: 0.85rem !important;
+  }
+
+  .navItemDark {
+    font-size: 0.85rem !important;
+  }
+
+
+  .navItem a{
+    font-size: 0.85rem !important;
+  }
+
+
+  .navItemDark a{
+    font-size: 0.85rem !important;
+  }
+}
+

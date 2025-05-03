@@ -28,7 +28,10 @@ const productSchema = new mongoose.Schema({
     ref: "Brand",
     required: false,
     default: null  // Allow null values for optional fields
-
+  },
+  stockNumber: {
+    type: Number,
+    required: true
   },
   gender: {
     type: String,

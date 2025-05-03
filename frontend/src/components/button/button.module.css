@@ -4,7 +4,7 @@
   justify-content: center;
   cursor: pointer;
   border-radius: 6px;
-  padding: 9px 13px;
+  padding: 6px 13px;
   border: none;
   background: var(--btn-bg);
   color: var(--btn-color);
@@ -79,4 +79,12 @@
 .btn.xl {
   width: 100%;
   padding: 11px 13px;
+}
+
+@media screen and (max-width: 550px) {
+  .btn.xl {
+    width: 100%;
+    font-size: 0.75rem;
+    padding: 8px 13px;
+  }
 }

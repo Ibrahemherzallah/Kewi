@@ -8,36 +8,38 @@ const purchaseSchema = new mongoose.Schema({
   phoneNumber: {
     type: String,
     required: true,
-    minlength: 10
+    minlength: 10,
   },
   city: {
-    type: mongoose.Schema.Types.ObjectId,
-    refPath: "City",
-    required: true
-  },
-  // city: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   refPath: "cityModel",
-  //   required: true
-  // },
-  // cityModel: {
-  //   type: String,
-  //   required: true,
-  //   enum: ["City", "Product"]
-  // },
-  deliveryType: {
-    type: String,
-    enum: ['مستعجل','عادي']
+    type: String, // Changed from ObjectId to String to match your frontend
+    required: true,
   },
   streetAddress: {
     type: String,
     required: false,
   },
+  deliveryType: {
+    type: String,
+    enum: ['مستعجل', 'عادي'],
+    required: true,
+  },
   notes: {
     type: String,
     required: false,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  numOfItems: {
+    type: Number,
+    required: true,
+  },
+  productId: {
+    type: String, // Product ID you are sending
+    required: true,
   }
-},{timestamps: true})
+}, { timestamps: true });
 
 const Purchase = mongoose.model("Purchase", purchaseSchema);
 

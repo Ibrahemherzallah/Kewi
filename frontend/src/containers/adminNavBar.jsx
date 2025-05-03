@@ -5,7 +5,9 @@ import logoText from "../assets/LogoText.png";
 import logoTextWhite from "../assets/logoTextWhite2.png";
 import {IconBtn} from "../components/icons/icons.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+import { faMoon } from "@fortawesome/free-solid-svg-icons";
+import { faSun } from '@fortawesome/free-regular-svg-icons';
+
 import {Link} from "react-router";
 import Button from "../components/button/button.jsx";
 import {useContext} from "react";
@@ -21,7 +23,7 @@ const AdminNav = () => {
     const {isDark,setIsDark} = useContext(ThemeContext);
 
         const handleLogout = () => {
-            fetch('http://localhost:5001/auth/logout', {
+            fetch('https://kewi.ps/auth/logout', {
                 method: 'POST',
                 credentials: 'include', // Important for sending session cookies
             })
@@ -51,7 +53,7 @@ const AdminNav = () => {
                         </NavBrand>
                         <NavIcons>
                             <IconBtn onClick={()=>{setIsDark(!isDark)}}><FontAwesomeIcon icon={isDark ? faMoon : faSun}  style={{color:'var(--nav-text)',fontSize:'1.5rem'}} /></IconBtn>
-                        <button className={`btn border-0 fw-bold fs-5 ${style.logoutBtn}`} type="button" data-bs-toggle="modal" data-bs-target="#myModal2">Log out</button>
+                            <button className={`btn border-0 fw-semibold fs-5 ${style.logoutBtnAdmin}`} type="button" data-bs-toggle="modal" data-bs-target="#myModal2">Log out</button>
                     </NavIcons>
                 </Nav>
             </Navbar>

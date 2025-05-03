@@ -23,7 +23,26 @@ export const SearchInput = ({placeholder,...props}) => {
 
 export const InputTextarea = ({placeholder,label,isRequired=false,size,variant,usage,...props}) => {
     return (
-        <div className={`${style[variant]} ${style[size]}`}>
+        <div className={`${style[variant]} ${style[size]} `}>
+            <span className={'fw-medium'}>{label} {isRequired && <span className={style.required}>*</span> } </span><br/>
+            <textarea className={ `mt-1 ${style.input} ${style[usage]} ${style.textArea}`} placeholder={placeholder}  {...props}/>
+        </div>
+    )
+}
+
+export const InputArabic = ({placeholder,label,isRequired=false,size,variant,usage,type,...props}) => {
+    return (
+        <div className={`${style[variant]} ${style[size]} ${style.inputArabic}`}>
+            <span className={'fw-medium'}>{label} {isRequired && <span className={style.required}>*</span> } </span><br/>
+            <input className={ `mt-1 ${style.input} ${style[usage]}`} placeholder={placeholder} type={type} {...props}/>
+        </div>
+    )
+}
+
+
+export const InputArabicTextarea = ({placeholder,label,isRequired=false,size,variant,usage,...props}) => {
+    return (
+        <div className={`${style[variant]} ${style[size]} ${style.inputArabic}`}>
             <span className={'fw-medium'}>{label} {isRequired && <span className={style.required}>*</span> } </span><br/>
             <textarea className={ `mt-1 ${style.input} ${style[usage]}`} placeholder={placeholder}  {...props}/>
         </div>
