@@ -1,4 +1,4 @@
-import style from './Sidebar.module.css';
+import style from './sidebar.module.css';
 import SideBarCards from "../../containers/sideBarCard.jsx";
 import SideBarCard from "../../containers/sideBarCard.jsx";
 import {useContext, useEffect, useState} from "react";
