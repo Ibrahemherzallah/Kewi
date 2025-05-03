@@ -12,6 +12,7 @@ import {AddBrandsModal} from "./modals/addBrands.jsx";
 import {AddWholesalers} from "./modals/addWholesalers.jsx";
 import {UserContext} from "../../context/userContext.jsx";
 import {ThemeContext} from "../../context/themeContext.jsx";
+import {data} from "react-router";
 
 const AdminDash = () => {
 
@@ -35,32 +36,32 @@ const AdminDash = () => {
             let response;
             switch (tab) {
                 case "products":
-                    response = await fetch("http://localhost:5001/admin/products").then( response => response.json())
+                    response = await fetch("https://kewi.ps/admin/products").then( response => response.json())
                         .then(data => {
                             setResult(data)
                         })
                     break;
                 case "categories":
-                    response = await fetch("http://localhost:5001/admin/categories").then( response => response.json())
+                    response = await fetch("https://kewi.ps/admin/categories").then( response => response.json())
                         .then(data => {
                             setResult(data);
                         })
                     break;
                 case "brands":
-                    response = await fetch("http://localhost:5001/admin/brands").then( response => response.json())
+                    response = await fetch("https://kewi.ps/admin/brands").then( response => response.json())
                         .then(data => {
                             setResult(data);
                         })
                     break;
                 case "orders":
-                        response = await fetch("http://localhost:5001/admin/orders").then( response => response.json())
+                        response = await fetch('https://kewi.ps/admin/purchase').then( response => response.json())
                             .then(data => {
                                 setResult(data);
                             })
                         break;
 
                 case "wholesalers":
-                    response = await fetch("http://localhost:5001/admin/wholesalers").then( response => response.json())
+                    response = await fetch("https://kewi.ps/admin/wholesalers").then( response => response.json())
                         .then(data => {
                             setResult(data);
                         })
@@ -77,7 +78,7 @@ const AdminDash = () => {
     }, [activeTab]);
     const fetchCategories = async () => {
         try {
-            const response = await fetch("http://localhost:5001/admin/categories"); // Replace with actual API
+            const response = await fetch("https://kewi.ps/admin/categories"); // Replace with actual API
             const data = await response.json();
             data.map(item => category.push({ id: item._id, name: item.name }))
         } catch (error) {
@@ -87,7 +88,7 @@ const AdminDash = () => {
     };
     const fetchBrands = async () => {
         try {
-            const response = await fetch("http://localhost:5001/admin/brands"); // Replace with actual API
+            const response = await fetch("https://kewi.ps/admin/brands"); // Replace with actual API
             const data = await response.json();
             data.map( item => brand.push({ id: item._id, name :item.name ,image : item.image,isFake: item.isFake }))
         } catch (error) {
@@ -101,7 +102,9 @@ const AdminDash = () => {
         }
     }, [openedBtn]);
 
-
+    useEffect(()=>{
+        console.log("The result is  : " , result)
+    },[result])
     return(
         <>
             <AdminNav></AdminNav>
@@ -179,8 +182,6 @@ const AdminDash = () => {
                                         <Button variant={isDark ? 'secondary-outline' : 'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal5" onClick={()=>{setIsUpdated(false); setSelectedWholesaler(null)}}>
                                             <FontAwesomeIcon icon={faPlus} size="md"/>Add Wholesalers</Button>: 'null'}
                 </div>
-
-
                 <div className="tab-content">
                     {activeTab === "products" && (
                         <div className={`tab-pane fade show active ${style.productsTab}`}>
@@ -212,10 +213,10 @@ const AdminDash = () => {
                     {activeTab === "brands" && (
                         <div className={`tab-pane fade show active ${style.productsTab}`}>
                             <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
-                                <h6>Image</h6><h6>Name</h6><h6>Actions</h6>
+                                <h6>Image</h6><h6>Name</h6><h6>#of Clicks</h6><h6>Actions</h6>
                             </div>
                             {Array.isArray(result) && result.map(res => (
-                                <BrandCard key={res.id} product={res} setSelectedProduct={setSelectedBrand} setIsUpdated={setIsUpdated} src={res.image} alt={res.name} name={res.name}/>
+                                <BrandCard key={res.id} product={res} setSelectedProduct={setSelectedBrand} setIsUpdated={setIsUpdated} numOfClicks={res.isFake ? res.numOfClicks : '#'} src={res.image} alt={res.name} name={res.name}/>
                             ))}
                             <AddBrandsModal product={selectedBrand} isUpdated={isUpdated}></AddBrandsModal>
 
@@ -225,15 +226,10 @@ const AdminDash = () => {
                     {activeTab === "orders" && (
                         <div className={`tab-pane fade show active ${style.productsTab}`}>
                             <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
-                                <h6>Product Name</h6><h6>Product size</h6><h6>Product brand</h6><h6>Category</h6><h6>Order Date</h6><h6>Price</h6><h6>C Name</h6><h6>C Phone</h6><h6>C Address</h6>
+                                <h6>CName</h6><h6>C Phone</h6><h6>C Address</h6><h6>productId</h6><h6>Price</h6><h6># Of Item</h6><h6>DeliveryType</h6><h6>Order Date</h6><h6>Notes</h6>
                             </div>
                             {Array.isArray(result) && result.map(res => (
-                                <OrderCard key={res.id} productName={res?.productId?.name} productSize={res?.productId?.size}
-                                           productBrand={res?.productId?.brandId?.name} productCategory={res?.productId?.categoryId?.name}
-                                           date={res?.createdAt} price={res.buyerId?.isWholesaler ? res.productId.wholesalerPrice :  res.productId?.isOnSale ? res.productId?.salePrice : res.productId?.price}
-                                           customerName={res.buyerId?.isWholesaler ? res.buyerId?.userName : res.purchaseId?.fullName} customerPhone={res.buyerId?.isWholesaler ? res.buyerId?.phone : res.purchaseId?.phoneNumber}
-                                           address={res.buyerId?.isWholesaler ? res.buyerId?.address : res.purchaseId?.city}
-                                />
+                                <OrderCard key={res.id} res={res}/>
                             ))}
                         </div>
                     )}

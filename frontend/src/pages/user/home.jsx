@@ -5,179 +5,34 @@ import { IconBtn } from "../../components/icons/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import img from "../../assets/img.jpg"
-// import { CardNormal, CardSoldOut, CardSale } from "../../containers/card";
 import Typography from "../../components/typography/typography";
 import {CategoryCards} from "../../containers/categoryCards.jsx";
-import promotionImg from "../../assets/promotion.jpg";
-import promotionImg2 from "../../assets/promotionImg.webp";
-import promotionImg3 from "../../assets/promotionImage.webp";
-import bag1 from "../../assets/bag1.jpg";
-import bag2 from "../../assets/bag2.jpg";
+import promotionImg from "../../assets/img1.jpg";
+import promotionImg2 from "../../assets/img2.jpg";
+import promotionImg3 from "../../assets/img3.jpg";
+import promotionImg4 from "../../assets/img4.jpg";
+
 import CardItem from "../../containers/card.jsx";
 import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../context/userContext.jsx";
 import Layout from "./layout.jsx";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import {Link} from "react-router";
+
 
 const Home = () => {
 
   const {user} = useContext(UserContext);
   const [products, setProducts] = useState([]);
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-  const items = [
-    {
-      name:"حقيبة جلدية كلاسيكية",
-      image:bag1,
-      description:"الحقيبة الكلاسيكية من نوع شانيل",
-      categoryId:"",
-      brandId:"",
-      gender:"نسائي",
-      color:"أحمر",
-      size:"صغير",
-      customerPrice:"129.99",
-      wholesalerPrice:"105.99",
-      salePrice:"",
-      isSoldOut:false,
-      isOnSale:false,
-    },
-    {
-      name:"حقيبة جلدية كلاسيكية",
-      image:bag2,
-      description:"الحقيبة الكلاسيكية من نوع شانيل",
-      categoryId:"",
-      brandId:"",
-      gender:"نسائي",
-      color:"أحمر",
-      size:"صغير",
-      customerPrice:"129.99",
-      wholesalerPrice:"105.99",
-      salePrice:"",
-      isSoldOut:true,
-      isOnSale:false,
-    },
-    {
-      name:"حقيبة جلدية كلاسيكية",
-      image:bag1,
-      description:"الحقيبة الكلاسيكية من نوع شانيل",
-      categoryId:"",
-      brandId:"",
-      gender:"نسائي",
-      color:"أحمر",
-      size:"صغير",
-      customerPrice:"129.99",
-      wholesalerPrice:"105.99",
-      salePrice:"",
-      isSoldOut:false,
-      isOnSale:true,
-    },
-    {
-      name:"حقيبة جلدية كلاسيكية",
-      image:bag2,
-      description:"الحقيبة الكلاسيكية من نوع شانيل",
-      categoryId:"",
-      brandId:"",
-      gender:"نسائي",
-      color:"أحمر",
-      size:"صغير",
-      customerPrice:"129.99",
-      wholesalerPrice:"105.99",
-      salePrice:"",
-      isSoldOut:false,
-      isOnSale:false,
-    },
-    {
-      name:"حقيبة جلدية كلاسيكية",
-      image:'https://firebasestorage.googleapis.com/v0/b/fitrack-efd01.appspot.com/o/Screenshot%202024-12-21%20213256.png?alt=media&token=299e0af3-78e9-4de9-af85-c8e3bfddc1e9',
-      description:"الحقيبة الكلاسيكية من نوع شانيل",
-      categoryId:"",
-      brandId:"",
-      gender:"نسائي",
-      color:"أحمر",
-      size:"صغير",
-      customerPrice:"129.99",
-      wholesalerPrice:"105.99",
-      salePrice:"",
-      isSoldOut:false,
-      isOnSale:false,
-    },
-    {
-      name:"حقيبة جلدية كلاسيكية",
-      image:bag1,
-      description:"الحقيبة الكلاسيكية من نوع شانيل",
-      categoryId:"",
-      brandId:"",
-      gender:"نسائي",
-      color:"أحمر",
-      size:"صغير",
-      customerPrice:"129.99",
-      wholesalerPrice:"105.99",
-      salePrice:"",
-      isSoldOut:false,
-      isOnSale:false,
-    },
-    {
-      name:"حقيبة جلدية كلاسيكية",
-      image:bag2,
-      description:"الحقيبة الكلاسيكية من نوع شانيل",
-      categoryId:"",
-      brandId:"",
-      gender:"نسائي",
-      color:"أحمر",
-      size:"صغير",
-      customerPrice:"129.99",
-      wholesalerPrice:"105.99",
-      salePrice:"",
-      isSoldOut:true,
-      isOnSale:false,
-    },
-    {
-      name:"حقيبة جلدية كلاسيكية",
-      image:bag1,
-      description:"الحقيبة الكلاسيكية من نوع شانيل",
-      categoryId:"",
-      brandId:"",
-      gender:"نسائي",
-      color:"أحمر",
-      size:"صغير",
-      customerPrice:"129.99",
-      wholesalerPrice:"105.99",
-      salePrice:"",
-      isSoldOut:false,
-      isOnSale:true,
-    },
-    {
-      name:"حقيبة جلدية كلاسيكية",
-      image:bag2,
-      description:"الحقيبة الكلاسيكية من نوع شانيل",
-      categoryId:"",
-      brandId:"",
-      gender:"نسائي",
-      color:"أحمر",
-      size:"صغير",
-      customerPrice:"129.99",
-      wholesalerPrice:"105.99",
-      salePrice:"",
-      isSoldOut:false,
-      isOnSale:false,
-    },
-    {
-      name:"حقيبة جلدية كلاسيكية",
-      image:'https://firebasestorage.googleapis.com/v0/b/fitrack-efd01.appspot.com/o/Screenshot%202024-12-21%20213256.png?alt=media&token=299e0af3-78e9-4de9-af85-c8e3bfddc1e9',
-      description:"الحقيبة الكلاسيكية من نوع شانيل",
-      categoryId:"",
-      brandId:"",
-      gender:"نسائي",
-      color:"أحمر",
-      size:"صغير",
-      customerPrice:"129.99",
-      wholesalerPrice:"105.99",
-      salePrice:"",
-      isSoldOut:false,
-      isOnSale:false,
-    },
-  ]
   useEffect(() => {
-    fetch("http://localhost:5001/user/features")
+    AOS.init({
+      duration: 1000,
+      once: true,
+    });
+    fetch("https://kewi.ps/user/features")
         .then(response => response.json())
         .then(data =>
         {
@@ -185,52 +40,88 @@ const Home = () => {
         })
   },[])
   return(
-      <Layout>
-        <div id="carouselExampleIndicators" className="carousel slide">
+      <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}>
+        <div id="carouselExampleIndicators" className={`carousel slide ${style.carouselSlide}`} data-bs-ride="carousel" data-bs-interval="2000" data-aos="fade-up">
           <div className="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
           </div>
+
           <div className="carousel-inner">
             <div className="carousel-item active">
-              <img src={promotionImg3} className={`d-block w-100 ${style.carouselImage}`} alt="..."/>
+              <Link to={'/category/6803fb1535efe305218f9a10'} state= {{catName: 'العروض'}}>
+                <img src={promotionImg3} className={`d-block w-100 ${style.carouselImage}`} alt="..."/>
+              </Link>
             </div>
             <div className="carousel-item">
-              <img src={promotionImg2} className={`d-block w-100 ${style.carouselImage}`} alt="..."/>
+              <Link to={'/category/6803fb1535efe305218f9a10'} state= {{catName: 'العروض'}}>
+                <img src={promotionImg2} className={`d-block w-100 ${style.carouselImage}`} alt="..."/>
+              </Link>
             </div>
             <div className="carousel-item">
-              <img id="carouselImage" src={promotionImg} className={`d-block w-100 ${style.carouselImage}`} alt="..."/>
+              <Link to={'/category/6803fb1535efe305218f9a10'} state= {{catName: 'العروض'}}>
+                <img id="carouselImage" src={promotionImg} className={`d-block w-100 ${style.carouselImage}`} alt="..."/>
+              </Link>
+            </div>
+            <div className="carousel-item">
+              <Link to={'/category/6803fb1535efe305218f9a10'} state= {{catName: 'العروض'}}>
+                <img src={promotionImg4} className={`d-block w-100 ${style.carouselImage}`} alt="..."/>
+              </Link>
             </div>
           </div>
-          <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide="prev">
+
+          <button
+              className="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="prev"
+          >
             <span className="carousel-control-prev-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Previous</span>
           </button>
-          <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-                  data-bs-slide="next">
+          <button
+              className="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="next"
+          >
             <span className="carousel-control-next-icon" aria-hidden="true"></span>
             <span className="visually-hidden">Next</span>
           </button>
         </div>
 
 
-
-        <div className={`mt-5 ${style.homePageCategoryDiv}`}>
-          <Typography component={'h1'}>تسوق <span style={{color: 'var(--secondary)',fontSize:'1.8rem'}}>حسب</span> الفئة</Typography>
-          <CategoryCards></CategoryCards>
+        <div className={`d-flex flex-column justify-content-center align-items-center ${style.whoWeDiv}`} data-aos="fade-up">
+          <h1 className={`fw-bold`}>من نحن ؟</h1><br />
+          <p className={`text-center ${style.whoWe}`} >
+            “في كل شنطة بنقدمها، وراها سعي وتعب وحُب… إحنا ما بنبيع بس منتج، إحنا بنوصلكم شغفنا وطموحنا خطوة بخطوة.”<br/>
+            “مش بس شنط، هذا تعب وسعي وحلم تحقق عشان يوصل لإيدك.”
+          </p>
         </div>
-
-        <div className={`mt-5 ${style.homePageFeaturedProductDiv}`}>
-          <Typography component={'h1'}>أخر ما وصلنا</Typography>
-          <div className={`mt-5 ${style.featuredProduct}`}>
+        <div className={`${style.homePageCategoryDiv}`} data-aos="fade-up">
+          <div className="d-flex align-items-center my-3 gap-5" data-aos="fade-up">
+            <hr style={{ flex: 1, borderTop: '2px solid #ccc' }} />
+            <Typography component="h1" style={{ whiteSpace: 'nowrap',color:'var(--hint-text)' }}>
+              تسوق  حسب  الفئة
+            </Typography>
+            <hr style={{ flex: 1, borderTop: '2px solid #ccc' }} />
+          </div>
+          <CategoryCards data-aos="fade-up"></CategoryCards>
+        </div>
+        <div className={`${style.homePageFeaturedProductDiv}`} data-aos="fade-up">
+          <div className="d-flex align-items-center my-3 gap-5" data-aos="fade-up">
+            <hr style={{ flex: 1, borderTop: '2px solid #ccc' }} />
+            <Typography component="h1" style={{ whiteSpace: 'nowrap', color: 'var(--hint-text)' }}>
+              أخر ما وصلنا
+            </Typography>
+            <hr style={{ flex: 1, borderTop: '2px solid #ccc' }} />
+          </div>
+          <div className={`${style.featuredProduct}`} data-aos="fade-up">
             {
-              products.map(item => (
-                  <CardItem item={item}></CardItem>
+              products.map((item,index) => (
+                  <CardItem key={index} isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} item={item}></CardItem>
               ))
             }
           </div>

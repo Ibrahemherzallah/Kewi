@@ -2,6 +2,7 @@ import {Input} from "../../components/input/input.jsx";
 import style from "./style/logIn.module.css";
 import Button from '../../components/button/button.jsx';
 import logo from '../../assets/adminlogo.jpg';
+import logo2 from '../../assets/logo.png';
 import {useContext, useEffect, useState} from "react";
 import Typography from "../../components/typography/typography.jsx";
 import {Link} from "react-router";
@@ -17,7 +18,7 @@ const LogIn = () => {
     })
     function handleSubmitForm(e) {
         e.preventDefault();
-        fetch('http://localhost:5001/auth/login',{
+        fetch('https://kewi.ps/auth/login',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,8 +40,9 @@ const LogIn = () => {
     return (
         <>
             <div className={`bg-white d-flex ${style.loginPage}`}>
-                <div className={`d-flex justify-content-center align-items-center w-50 ${style.form}`}>
-                    <form className={`bg-white gap-4 p-4 py-5 ${style.loginForm}`} onSubmit={handleSubmitForm}>
+                <div className={`d-flex justify-content-center align-items-center ${style.form}`}>
+                    <form className={`bg-white gap-4 ${style.loginForm}`} onSubmit={handleSubmitForm}>
+                        <img src={logo2} className={style.formLogo} alt="logo" />
                         <Typography component={'h1'} variant={'primary'} size={'xl'}>Kewi Login</Typography>
                         <Input placeholder={"Enter you username"} usage={'form'} label={'Username'} size={'xl'} variant={'primary'} required onChange={(e) =>setUsername(e.target.value)} />
                         <Input placeholder={"Enter your password"} usage={'form'} label={'Password'} size={'xl'} variant={'primary'} required type={'password'} onChange={(e) => setPassword(e.target.value)} />

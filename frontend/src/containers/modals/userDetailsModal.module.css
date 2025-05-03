@@ -1,0 +1,10 @@
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    direction: rtl;
+}
+
+.note {
+    color:red;
+    font-size: 0.7rem;
+}

@@ -19,6 +19,7 @@
         const [categoryId,setSelectedCategory] = useState('');
         const [brandId,setSelectedBrand] = useState('');
         const [id, setSelectedId] = useState('');
+        const [stockNumber,setStockNumber] = useState('');
         const [name, setProductName] = useState('');
         const [description, setDescription] = useState('');
         const [customerPrice, setCustomerPrice] = useState('');
@@ -28,6 +29,9 @@
         const [errors, setErrors] = useState('');
         const {isDark,setISDark} = useContext(ThemeContext);
         useEffect(() => {
+            setErrors('');
+            console.log("newwwww The product is : " , product);
+            console.log("newwwww The product is : " , product);
                     setProductName(product?.name || '');
                     setDescription(product?.description || '');
                     setSelectedId(product?.id || '');
@@ -35,6 +39,7 @@
                     setSelectedBrand(product?.brandId || '');
                     setCustomerPrice(product?.customerPrice || '');
                     setWholesalerPrice(product?.wholesalerPrice || '');
+                    setStockNumber(product?.stockNumber || '');
                     setIsSoldOut(product?.isSoldOut || false);
                     setChecked(product?.isOnSale || false);
                     setSalePrice(product?.salePrice || '');
@@ -45,7 +50,6 @@
         }, [product]); // Trigger when product changes
         useEffect(() => {
             if (isUpdated && product) {
-                // Convert existing image URLs into an array format like new images
                 const existingImages = product?.image?.map((url) => ({
                     file: null, // Existing images don't have a file object
                     url, // Existing image URL
@@ -94,8 +98,8 @@
             setImages(updatedImages);
         };
         const url = isUpdated ?
-            `http://localhost:5001/admin/products/${product?._id}` :
-            'http://localhost:5001/admin/products' ;
+            `https://kewi.ps/admin/products/${product?._id}` :
+            'https://kewi.ps/admin/products' ;
 
         const method = isUpdated ? 'PUT' : 'POST';
 
@@ -111,6 +115,7 @@
             formData.append("categoryId", categoryId);
             formData.append("brandId", brandId);
             formData.append("id",id);
+            formData.append("stockNumber",stockNumber);
             formData.append("gender", gender);
             formData.append("size", size);
             formData.append("color", color);
@@ -149,9 +154,7 @@
         }
         useEffect(() => {
             const selectedBrand = brand?.find(item => item.id === brandId);
-            if(selectedBrand?.isFake){
-                setIsSoldOut(true)
-            }
+                setIsSoldOut(selectedBrand?.isFake || false)
         }, [brandId]);
         return (
             <div className="modal fade" id="exampleModal1" tabIndex="-1" aria-labelledby="exampleModal1Label" aria-hidden="true">
@@ -173,7 +176,10 @@
                                     </div>
                                     <div className={`mt-2 d-flex justify-content-between align-items-center`}>
                                         <InputTextarea placeholder={'Enter product name'} isRequired={false} label={'Description'} usage={'modal'} size={'md'} type={'textarea'} style={{ height: '4rem' }} value={description} onChange={(e=> setDescription(e.target.value))} />
-                                        <Input placeholder={'Enter product id'} isRequired={false} label={'ID'} usage={'modal'} size={'xs'} required value={id} onChange={(e) => setSelectedId(e.target.value)} />
+                                        <div className={``}>
+                                            <Input placeholder={'Enter product id'} isRequired={true} label={'ID'} usage={'modal'} size={'xl'} required value={id} onChange={(e) => setSelectedId(e.target.value)} />
+                                            <Input placeholder={'Enter item number in stock'} isRequired={true} label={'Number Of Items'} usage={'modal'} size={'xl'} required value={stockNumber} onChange={(e) => setStockNumber(e.target.value)} />
+                                        </div>
                                     </div>
                                     <div className={`d-flex justify-content-between mt-2`}>
                                         <DropDown product={product} isRequired={false} size={'small'} label={'Gender'} options={genders} selected={gender} setSelected={setSelectedGender} />

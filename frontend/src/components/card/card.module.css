@@ -17,20 +17,24 @@
   border-top-left-radius: 10px;
   overflow: hidden;
   width: 100%;
-  height: 18rem;
+  height: 19rem;
   object-fit: cover;
 }
 
 .cardBody {
   padding: 1rem;
+  background-color: var(--element-bg) ;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
 .soldOutImg {
-  width: 30%;
-  height: 30%;
+  width: 40%;
+  height: 40%;
   position: absolute;
-  right:-10px;
-  top:-15px;
+  right:-20px;
+  top:-20px;
+  rotate: 10deg;
 }
 
 .saleImg {
@@ -42,11 +46,12 @@
 
 .imageCardBtn {
   border: none;
-  background-color: white;
+  background-color: var(--bg-color);
   position: relative;
   cursor: pointer;
   overflow: hidden;
   border-radius: 10px;
+  width: 27rem;
 }
 
 .imageCardContainer {
@@ -56,8 +61,8 @@
 
 .imageCard {
   border-radius: 10px;
-  width: 22rem;
-  height: 220px;
+  width: 100%;
+  height: 250px;
   transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
 }
 
@@ -114,7 +119,6 @@
 }
 
 .ProductCardDiv .actionsDiv {
-  /*background-color:red;*/
   width: 15%;
   margin-left: 1rem;
   direction: rtl;
@@ -157,6 +161,171 @@
 }
 
 .orderCardDiv h6{
-  direction: rtl;
   width: 10%;
+}
+
+.categories {
+  margin-top: 5rem;
+  overflow: hidden;
+}
+
+.arrowIcon {
+  font-size: 2rem;
+}
+
+@media screen and (max-width: 1000px) {
+    .imageCardBtn {
+      width: 20rem;
+    }
+  .imageCard {
+      height: 200px
+  }
+}
+
+
+@media screen and (max-width: 770px) {
+  .imageCardBtn {
+    width: 16rem;
+  }
+  .imageCard {
+    height: 140px
+  }
+  .overlayText {
+    font-size: 1.2rem;
+  }
+  .arrowIcon {
+    font-size: 1.5rem;
+  }
+  .categories {
+     overflow: scroll;
+  }
+  .img {
+    height: 14rem
+  }
+  .soldOutImg {
+    width: 35%;
+    height: 35%;
+    right:-10px;
+    top:-12px;
+  }
+  .saleImg {
+    width: 30%;
+    right:-8px;
+    top:-8px;
+  }
+  .cardBody {
+    padding: 0.8rem;
+  }
+  .addToCartIcon {
+    font-size: 0.8rem;
+  }
+}
+
+
+@media screen and (max-width: 680px) {
+  .card {
+    width: 30%;
+  }
+  .imageCardBtn {
+    width: 14rem;
+  }
+  .imageCard {
+    height: 110px
+  }
+  .overlayText {
+    font-size: 1rem;
+  }
+  .img {
+    height: 7rem
+  }
+  .soldOutImg {
+    width: 30%;
+    height: 50%;
+    right:-5px;
+    top:-7px;
+  }
+  .saleImg {
+    width: 20%;
+    right:-5px;
+    top:-5px;
+  }
+  .cardBody {
+    padding: 0.4rem;
+  }
+  .addToCartIcon {
+    font-size: 0.5rem;
+  }
+}
+
+
+@media screen and (max-width: 550px) {
+  .card {
+    width: 22%;
+  }
+  .img {
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+  }
+  .soldOutImg {
+    width: 35%;
+    height: 35%;
+    right:-5px;
+    top:-7px;
+  }
+  .saleImg {
+    width: 35%;
+    right:-5px;
+    top:-5px;
+  }
+  .cardBody {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+  .imageCardBtn {
+    width: 8rem;
+  }
+  .imageCard {
+    height: 70px;
+    border-radius: 5px;
+  }
+  .overlayText {
+    font-size: 0.8rem;
+  }
+  .categories {
+    margin-top: 2rem;
+  }
+  .addToCartIcon {
+    font-size: 0.35rem;
+  }
+}
+
+
+
+@media screen and (max-width: 490px) {
+  .card {
+    width: 23%;
+  }
+  .img {
+    height: 5rem;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+  }
+  .cardBody {
+    padding: 0.2rem;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+  .imageCard {
+    height: 70px;
+    border-radius: 5px;
+  }
+  .overlayText {
+    font-size: 0.8rem;
+  }
+  .categories {
+    margin-top: 2rem;
+  }
+  .addToCartIcon {
+    font-size: 0.35rem;
+  }
 }

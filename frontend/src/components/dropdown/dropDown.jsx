@@ -3,14 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import {useState} from "react";
 
-export const DropDown = ({size,label,isRequired,options,setSelected}) => {
+export const DropDown = ({size,label,isRequired,options,selected,setSelected}) => {
     return(
         <div className={`${style[size]}`}>
             <span className={'fw-medium'}>{label} {isRequired && <span className={style.required}>*</span> } </span><br/>
-            <select name="" id="" className={`mt-1 ${style.dropdown}`} onChange={e => {
+            <select name="" id="" className={`mt-1 ${style.dropdown}`} value={label === "Gender" || label === "Size" || label === "Color" ?  selected : null}  onChange={e => {
+                console.log('e.target.value' , e.target.value);
                 if(label === "Category" || label === "Brand"){
                     const selectedName = e.target.value;
+                    console.log("The selectedName is : ,", selectedName);
                     const selectedCategory = options.find(option => option.name === selectedName);
+                    console.log("The selectedCategory is : ,", selectedCategory);
+
                     setSelected(selectedCategory ? selectedCategory.id : "");
                 }
                 else {
@@ -35,21 +39,15 @@ export const DropDown = ({size,label,isRequired,options,setSelected}) => {
 
 
 
-export const UserDropDown = ({ size, options, dropdownType }) => {
+export const UserDropDown = ({ size, options, dropdownType,selected,setSelected}) => {
     const [show, setShow] = useState(false);
-    const [selected, setSelected] = useState(null);
-
     return (
         <div className={`${style[size]}`} style={{ position: 'relative' }}>
-            <button
-                className={`d-flex justify-content-between align-items-center p-2 w-100 ${style.dropdownBtn}`}
-                onClick={() => setShow(!show)}
-            >
+            <button className={`d-flex justify-content-between align-items-center w-100 fw-semibold ${style.dropdownBtn}`} onClick={() => setShow(!show)}>
                 {selected ? selected : dropdownType}
                 <FontAwesomeIcon
                     icon={faCaretDown}
                     className={show ? style.icon : style.iconR}
-                    style={{ fontSize: '1rem' }}
                 />
             </button>
 
@@ -63,6 +61,36 @@ export const UserDropDown = ({ size, options, dropdownType }) => {
                     </li>
                 ))}
             </ul>
+        </div>
+    );
+};
+
+
+
+
+export const UserModalDropDown = ({ size, label, isRequired, options = [], setSelected }) => {
+    const isDeliveryType = options?.[0]?.duration !== undefined;
+
+    return (
+        <div className={`${style[size]}`}>
+            <span className={'fw-medium d-block'} dir={'rtl'}>
+                {label} {isRequired && <span className={style.required}>*</span>}
+            </span>
+            <select
+                className={`mt-1 ${style.dropdown}`}
+                defaultValue=""
+                onChange={e => setSelected(e.target.value)}
+            >
+                <option value="" disabled>
+                    {isDeliveryType ? '-- اختر نوع التوصيل --' : '-- اختر المدينة --'}
+                </option>
+
+                {options?.map((option, index) => (
+                    <option key={index} value={option.name}>
+                        {option.name} {option.duration ? `- ${option.duration}` : ''}
+                    </option>
+                ))}
+            </select>
         </div>
     );
 };

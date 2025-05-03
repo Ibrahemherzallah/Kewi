@@ -1,16 +1,19 @@
 import Button from "../button/button";
 import Typography from "../typography/typography";
 import style from "./card.module.css";
+import {IconBtn} from "../icons/icons.jsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlus} from "@fortawesome/free-solid-svg-icons";
 
 export function Card ({children,...props}){
   return(
-    <div className={style.card}>{children}</div>
+    <div className={style.card} {...props}>{children}</div>
   )
 }
 
-export function CardImg ({alt,src}) {
+export function CardImg ({alt,src,...props}) {
   return(
-    <img className={style.img} src={src} alt={alt} />
+    <img className={style.img} src={src} alt={alt} {...props}/>
   )
 }
 
@@ -26,14 +29,14 @@ export function CardBody ({children}) {
   )
 }
 
-export function CardDescription ({children}) {
+export function CardDescription ({children,...props}) {
   return(
-    <Typography component={'p'}>{children}</Typography>
+    <Typography component={'p'} {...props}>{children}</Typography>
   )
 }
 
-export function CardButton ({size,variant,children,...props}) {
+export function CardButton ({size,variant,children,job,isSoldOut,...props}) {
   return(
-    <Button variant={variant} size={size} {...props}>{children}</Button>
+      <IconBtn variant={'square'} size={size} job={job} color={isSoldOut ? 'tertiary' : 'primary'} {...props}>{children}</IconBtn>
   )
 }

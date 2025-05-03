@@ -14,7 +14,18 @@ export const getBrands = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
+export const incrementBrandClick = async (req, res) => {
+    try {
+        const brand = await Brand.findByIdAndUpdate(
+            req.params.id,
+            { $inc: { numOfClicks: 1 } },
+            { new: true }
+        );
+        res.json(brand);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 export const addBrand = async (req, res) => {
     try {
         const { name } = req.body;

@@ -13,16 +13,20 @@
 }
 
 .footer {
-  background-color: var(--tertiary);
+  background-color: var(--footer-bg);
   padding-block: 4rem;
   padding-inline: 5rem;
   direction: rtl;
 }
-
+.productPageImages {
+  object-fit: cover;
+  height: 500px;
+}
 .featuredProduct {
   display:grid;
   grid-template-columns: repeat(auto-fit,minmax(270px,0.5fr));
   gap: 2rem;
+  margin-top: 5rem;
 }
 
 .cardWrapper {
@@ -65,6 +69,14 @@
   padding: 10px;
 }
 
+.footerFirstSection {
+  width: 100%;
+}
+
+.footerSecondSection {
+  width: 100%;
+}
+
 .overlayText {
   color: white;
   font-size: 16px;
@@ -73,11 +85,14 @@
 .carouselImage {
   height: 380px;
 }
-
+.carouselSlide {
+  margin-top: 3rem;
+}
 .categoryProducts {
   gap: 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(270px,0.5fr));
+  direction: ltr;
 }
 
 .categoryHeader {
@@ -88,5 +103,375 @@
 .dropdownsDiv {
   display: flex;
   gap: 1rem;
-  width: 35%;
+  /*width: 35%;*/
 }
+
+.whoWe {
+  color: gray;
+}
+
+.whoWeDiv {
+  margin-top: 7rem;
+}
+
+.whoWeDiv h1 {
+  color: var(--text-color);
+}
+
+.homePageCategoryDiv {
+  margin-top: 5rem;
+}
+
+.homePageFeaturedProductDiv {
+  margin-block: 5rem;
+}
+
+.navLinks {
+  direction: rtl;
+  display: flex;
+}
+
+.categoryProductsHeader {
+  direction: rtl;
+}
+
+.quickLinksDivFooter div {
+  margin-top: 1rem;
+}
+
+.whoWeDivFooter div {
+  margin-top: 1rem;
+}
+
+/*//////////\\\\\\\\\\\\\\\*/
+
+.productImg {
+  width: 25rem;
+  height: 25rem;
+}
+
+.productImgDiv {
+  height: 400px;
+  overflow: hidden;
+}
+
+.productDiv {
+  gap: 10rem;
+  margin-top: 3rem;
+}
+
+.imagesDiv {
+  border-radius: 1rem;
+  width: 50%;
+}
+
+.productDetails {
+  direction: rtl;
+  border-radius: 1rem;
+  border: 2px solid var(--hr-color);
+  width: 50%;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  padding-inline: 1.5rem;
+}
+.noProductImg {
+  width: 25rem;
+  height: 25rem;
+  margin-bottom: 4rem;
+}
+.socialMediaDiv{
+  width: 75%;
+  margin-top: 1.5rem;
+}
+
+.socialMedia {
+  cursor: pointer;
+  font-size: 0.6rem;
+  color: var(--text-color);
+}
+
+.productImages {
+  height: 400px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.relatedProductsDiv {
+  direction: rtl;
+  margin-top: 5.5rem;
+}
+
+.relatedProducts {
+  gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(270px,0.5fr));
+  direction: ltr;
+}
+.quickLinksDivFooter p{
+    font-size: 1rem;
+    margin: 0;
+}
+.whoWeDivFooter p {
+  font-size: 1rem;
+  margin: 0;
+}
+.relatedProductsText {
+  font-size: 2rem;
+}
+
+@media screen and (max-width: 1500px) {
+  .categoryProducts {
+    grid-template-columns: repeat(auto-fit,minmax(270px,300px));
+  }
+  .relatedProducts {
+    gap: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(270px,300px));
+    direction: ltr;
+  }
+}
+@media screen and (max-width: 1150px) {
+  .productDiv {
+    gap: 5rem;
+  }
+  .categoryProducts {
+    grid-template-columns: repeat(auto-fit,minmax(270px,0.5fr));
+  }
+  .relatedProducts {
+    grid-template-columns: repeat(auto-fit,minmax(270px,0.5fr));
+  }
+}
+@media screen and (max-width: 1050px) {
+  .productDiv {
+    gap: 2rem;
+  }
+  .productPageImages {
+    height: 400px;
+  }
+  .imagesDiv {
+    border-radius: 0.75rem;
+  }
+  .productDetails {
+    border-radius: 0.75rem;
+  }
+  .footer {
+    padding-inline: 0rem;
+  }
+  .carouselImage {
+    height: 330px;
+  }
+}
+@media screen and (max-width: 920px) {
+  .quickLinksDivFooter p {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+  .whoWeDivFooter p {
+    font-size: 0.8rem;
+  }
+  .productPageImages {
+    height: 320px;
+  }
+  .footer {
+    padding-block: 2rem;
+    padding-inline: 2rem;
+  }
+  .carouselImage {
+    height: 280px;
+  }
+}
+@media screen and (max-width: 770px) {
+  .socialMedia {
+    font-size: 0.3rem;
+  }
+  .relatedProductsText {
+    font-size: 1.6rem;
+  }
+  .carouselImage {
+    height: 220px;
+  }
+  .quickLinksDivFooter div p {
+    font-size: 0.65rem;
+  }
+  .whoWeDivFooter div p {
+    font-size: 0.65rem;
+  }
+  .isWholesalerLink{
+    font-size: 0.65rem;
+  }
+
+  .homePageMainContentDiv {
+    padding-inline: 1.5rem;
+  }
+  .whoWeDiv h1 {
+    font-size: 1.6rem;
+  }
+
+  .whoWe {
+    font-size: 0.8rem;
+  }
+  .featuredProduct {
+    grid-template-columns: repeat(auto-fit,minmax(200px,0.5fr));
+    gap: 1rem;
+  }
+  .whoWeDiv {
+    margin-top: 4rem;
+  }
+  .categoryProducts {
+    gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,0.5fr));
+    direction: ltr;
+  }
+}
+@media screen and (max-width: 680px) {
+
+  .featuredProduct {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .noProductImg {
+    width: 18rem;
+    height: 18rem;
+    margin-bottom: 2rem;
+  }
+  .productPageImages {
+    height: 380px;
+  }
+  .productPageImages {
+    border-radius: 0.5rem;
+  }
+  .productDetails {
+    width: 88%;
+    padding-top: 0rem;
+    padding-bottom: 1rem;
+  }
+  .productDiv {
+    flex-direction: column;
+    border-radius: 1rem;
+    border: 2px solid var(--hr-color);
+    align-items: center;
+  }
+  .imagesDiv {
+    padding-top: 1rem;
+    width: 80%;
+  }
+  .productDetails {
+    border: none;
+  }
+
+  .footer {
+    padding-block: 1rem;
+    padding-inline: 1rem;
+  }
+
+  .quickLinksDivFooter div p {
+    font-size: 0.5rem;
+  }
+  .whoWeDivFooter div p {
+    font-size: 0.5rem;
+  }
+  .isWholesalerLink{
+    font-size: 0.5rem;
+  }
+  .carouselSlide {
+    margin-top: 2rem;
+  }
+  .categoryProducts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .relatedProducts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+@media screen and (max-width: 550px) {
+  .whoWeDiv h1 {
+    font-size: 1.2rem;
+  }
+  .relatedProductsText {
+    font-size: 1.2rem;
+  }
+  .carouselSlide {
+     margin-top: 1rem;
+  }
+  .productDetails h2 {
+    font-size: 1rem;
+  }
+  .relatedProductsDiv {
+    margin-top: 3rem;
+  }
+  .productPageImages {
+    height: 250px;
+  }
+  .productDiv {
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+  .whoWe {
+    font-size: 0.6rem;
+  }
+  .whoWeDiv {
+    margin-top: 3rem;
+  }
+  .homePageCategoryDiv {
+    margin-top: 2rem;
+  }
+  .homePageFeaturedProductDiv {
+    margin-block: 2rem;
+  }
+  .featuredProduct {
+    margin-top: 2rem;
+  }
+  .quickLinksDivFooter p {
+    text-wrap: nowrap;
+    font-size: 0.35rem;
+  }
+  .whoWeDivFooter p {
+    text-wrap: nowrap;
+    font-size: 0.35rem;
+  }
+  .isWholesalerLink{
+    font-size: 0.35rem;
+    text-wrap: nowrap;
+
+  }
+  .footer {
+    padding-inline: 0.5rem;
+  }
+  .socialMediaDiv {
+    width: 50%;
+    margin-top: 0.5rem;
+  }
+  .carouselImage {
+    height: 180px;
+  }
+  .isWholesalerLink{
+    font-size: 0.5rem;
+  }
+  .categoryHeader {
+    font-size: 1rem;
+  }
+}
+@media screen and (max-width: 490px) {
+  .featuredProduct {
+    gap: 0.5rem;
+  }
+  .productPageImages {
+    height: 260px;
+  }
+  .carouselImage {
+    height: 130px;
+  }
+  .categoryProducts {
+    gap: 0.5rem;
+  }
+  .relatedProducts {
+    gap: 0.5rem;
+  }
+}
+

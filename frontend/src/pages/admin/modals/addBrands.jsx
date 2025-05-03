@@ -48,8 +48,8 @@ export const AddBrandsModal = ({product,isUpdated}) => {
         setImages(updatedImages);
     };
     const url = isUpdated ?
-        `http://localhost:5001/admin/brands/${product?._id}` :
-        'http://localhost:5001/admin/brands';
+        `https://kewi.ps/admin/brands/${product?._id}` :
+        'https://kewi.ps/admin/brands';
     const method = isUpdated ? 'PUT' : 'POST';
 
     function handleOnSubmit (e){
@@ -89,8 +89,7 @@ export const AddBrandsModal = ({product,isUpdated}) => {
                 <div className={`modal-content ${isDark ? "bg-dark text-white" : "" }`}>
                     <div className="modal-header">
                         <h1 className="modal-title fs-5" id="exampleModalLabel">{isUpdated ? 'Update Brand' : 'Add Brand' }</h1>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form onSubmit={handleOnSubmit}>
                         <div className="modal-body">

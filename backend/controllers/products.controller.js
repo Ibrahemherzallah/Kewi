@@ -15,6 +15,24 @@ export const getProducts = async (req, res) => {
     }
 };
 
+export const getProductsById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const product = await Product.findById(id)
+            .populate('categoryId')
+            .populate('brandId');
+
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+        console.log("The product is : " , product)
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 export const getProductsByCategory = async (req, res) => {
     const { categoryId } = req.params;
 
@@ -29,6 +47,24 @@ export const getProductsByCategory = async (req, res) => {
     }
 };
 
+export const getRelatedProductsByCategory = async (req, res) => {
+    const { categoryId } = req.params;
+    const { excludeId } = req.query;
+
+    try {
+        const products = await Product.find({
+            categoryId,
+            _id: { $ne: excludeId } // Exclude the current product
+        })
+            .populate('categoryId')
+            .populate('brandId')
+            .limit(4); // Limit to 4 related products
+
+        res.json(products);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 export const getNewestProducts = async (req, res) => {
     try {
@@ -57,6 +93,7 @@ export const addProduct = async (req, res) => {
             color,
             customerPrice,
             wholesalerPrice,
+            stockNumber,
             isSoldOut = false,
             isOnSale = false,
             salePrice,
@@ -67,6 +104,7 @@ export const addProduct = async (req, res) => {
             name: name || "",
             description: description || "",
             id: id || "",
+            stockNumber: stockNumber || 0,
             categoryId: mongoose.Types.ObjectId.isValid(categoryId) ? new mongoose.Types.ObjectId(categoryId) : null,  // Convert categoryId to ObjectId
             brandId: mongoose.Types.ObjectId.isValid(brandId) ? new mongoose.Types.ObjectId(brandId) : null,  // Convert brandId to ObjectId
             gender: gender || null,  // Allow gender to be optional
@@ -109,15 +147,17 @@ export const updateProduct = async (req, res) => {
             return res.status(404).json({ message: "Product not found" });
         }
 
-        let categoryId = req.body.categoryId;
+        const brandId = req.body.brandId?.id || req.body.brandId || existingProduct.brandId;
+        const categoryId = req.body.categoryId?.id || req.body.categoryId || existingProduct.categoryId;
 
 
         const updatedData = {
             name: req.body.name || existingProduct.name,
             description: req.body.description || existingProduct.description,
             id: req.body.id || existingProduct.id,
-            categoryId: req.body.categoryId || existingProduct.categoryId || null,
-            brandId: req.body.brandId || existingProduct.brandId || null,
+            stockNumber: req.body.stockNumber || existingProduct.stockNumber,
+            categoryId: mongoose.Types.ObjectId.isValid(categoryId) ? new mongoose.Types.ObjectId(categoryId) : existingProduct.categoryId,
+            brandId: mongoose.Types.ObjectId.isValid(brandId) ? new mongoose.Types.ObjectId(brandId) : existingProduct.brandId,
             gender: req.body.gender || existingProduct.gender,
             size: req.body.size || existingProduct.size,
             color: req.body.color || existingProduct.color,
@@ -128,6 +168,8 @@ export const updateProduct = async (req, res) => {
             isOnSale: req.body.isOnSale ?? existingProduct.isOnSale,
             image: existingProduct.image,
         };
+        console.log("The size is : " ,updatedData.size )
+        console.log("The categoryId is : " ,updatedData.categoryId )
 
         // Handle images if provided
         if (req.files && req.files[0]) {

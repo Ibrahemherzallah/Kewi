@@ -40,6 +40,7 @@ select {
 
 .medium {
     width: 50%;
+    min-width: 10rem;
 }
 
 .small {
@@ -47,7 +48,15 @@ select {
     width: 45%;
 }
 
+.xsmall {
+    width: 35%;
+}
+
 .small > select{
+    height: 2.1rem;
+}
+
+.xsmall > select{
     height: 2.1rem;
 }
 
@@ -62,7 +71,10 @@ span {
 .dropdownBtn {
     border: 1px solid gray;
     background-color: var(--bg-color);
+    color: var(--text-color);
     border-radius: 5px;
+    padding: 0.5rem;
+
 }
 
 
@@ -78,7 +90,8 @@ span {
     position: absolute;        /* Make it float above other elements */
     left: 0;
     width: 100%;
-    background-color: white;   /* Ensure it's visible */
+    background-color: var(--bg-color);
+    color: var(--text-color);
     z-index: 9999;             /* Ensure it’s above other elements */
 }
 
@@ -92,11 +105,14 @@ span {
 .icon {
     transition: transform 0.3s ease;
     transform: rotate(180deg);
+    font-size: 0.85rem;
+
 }
 
 .iconR {
     transition: transform 0.3s ease;
     transform: rotate(0deg);
+    font-size: 0.85rem;
 }
 
 .dropdownOptions li {
@@ -104,5 +120,27 @@ span {
 }
 
 .dropdownOptions li:hover {
-    background-color: #e6e6e6;
+    background-color: var(--li-hover);
+}
+
+
+@media screen and (max-width: 550px) {
+    .medium {
+        min-width: 6rem;
+    }
+    .dropdownBtn {
+        height: 1.8rem;
+        font-size: 0.75rem;
+        padding: 0rem 0.5rem;
+    }
+    .icon {
+        font-size: 0.65rem;
+    }
+
+    .iconR {
+        font-size: 0.65rem;
+    }
+    .dropdownOptions li {
+        font-size: 0.65rem;
+    }
 }

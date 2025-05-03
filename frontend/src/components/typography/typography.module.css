@@ -32,6 +32,8 @@
 .typo.h2 {
   font-size: 1.75rem;
   font-weight: 650;
+  text-wrap: nowrap !important;
+
 }
 
 .typo.h3 {
@@ -80,3 +82,111 @@
   font-size: 2.25rem !important;
 }
 
+
+@media screen and (max-width: 920px) {
+  .typo.h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .typo.h1 {
+    font-size: 1.6rem;
+    font-weight: 650;
+  }
+  .typo.h2 {
+    font-size: 1rem;
+    font-weight: 650;
+  }
+  .typo.h3 {
+     font-size: 1rem;
+     font-weight: 600;
+   }
+  .typo.h6 {
+    font-size: 0.55rem;
+    font-weight: 600;
+  }
+  .typo.p {
+    font-size: 0.6rem;
+    font-weight: 450;
+  }
+  .typo.h5 {
+    font-size: 0.65rem;
+    font-weight: 600;
+  }
+}
+
+
+@media screen and (max-width: 680px) {
+  .typo.h2 {
+    font-size: 0.85rem;
+    font-weight: 650;
+  }
+  .typo.p {
+    font-size: 0.4rem;
+    font-weight: 450;
+  }
+  .typo.h3 {
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .typo.h6 {
+    font-size: 0.45rem;
+    font-weight: 600;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .typo.h1 {
+    font-size: 1.2rem;
+    font-weight: 650;
+  }
+  .typo.h3 {
+    font-size: 0.6rem;
+    font-weight: 600;
+  }
+  .typo.h6 {
+    font-size: 0.35rem;
+    font-weight: 600;
+  }
+  .typo.h5 {
+    font-size: 0.5rem;
+    font-weight: 600;
+  }
+  .typo.p {
+    font-size: 0.45rem;
+    font-weight: 450;
+  }
+  .typo.h2 {
+    font-size: .65rem;
+    font-weight: 650;
+  }
+  .typo.p {
+    font-size: 0.4rem;
+    font-weight: 450;
+  }
+}
+
+
+@media screen and (max-width: 490px) {
+  .typo.h1 {
+    font-size: 1.2rem;
+    font-weight: 650;
+  }
+  .typo.h3 {
+    font-size: 0.45rem;
+    font-weight: 600;
+  }
+  .typo.h6 {
+    font-size: 0.25rem;
+    font-weight: 600;
+  }
+  .typo.h5 {
+    font-size: 0.4rem;
+    font-weight: 600;
+  }
+  .typo.p {
+    font-size: 0.35rem;
+    font-weight: 450;
+  }
+}

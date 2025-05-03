@@ -1,49 +1,71 @@
 import UserNavBar from "../../containers/userNavBar.jsx";
 import style from "./style/home.module.css";
 import Typography from "../../components/typography/typography.jsx";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInstagram } from '@fortawesome/free-brands-svg-icons'
+import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
+import { faTiktok } from '@fortawesome/free-brands-svg-icons';
 
-const Layout = ({children}) => {
+import {Button} from "react-bootstrap";
+import {IconBtn} from "../../components/icons/icons.jsx";
+import {Link} from "react-router";
+import {useContext} from "react";
+import {UserContext} from "../../context/userContext.jsx";
+
+const Layout = ({isSidebarOpen,setSidebarOpen,children}) => {
+
+    const {user} = useContext(UserContext);
     return (
         <>
-            <UserNavBar></UserNavBar>
+            <UserNavBar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}></UserNavBar>
             <div className={style.homePageMainContentDiv}>
                 {children}
             </div>
-            <div className={`d-flex justify-content-between ${style.footer}`}>
+            <div className={`d-flex justify-content-between ${style.footer} `}>
 
-                <div className={`d-flex w-50 justify-content-around`}>
+                <div className={`d-flex justify-content-around ${style.footerFirstSection}`}>
 
-                    <div>
+                    <div className={`${style.whoWeDivFooter} w-50`}>
                         <Typography component={'h2'} size={'l'}>من نحن</Typography>
-                        <br/>
-                        <Typography component={'p'} size={'xs'}>اكتشف أحدث إكسسوارات الموضة النسائية في كيوي.<br/> منتجات عالية
-                            الجودة للمرأة العصرية.</Typography>
+                        <div>
+                            <p className={`${style.whoWeTextFooter} text-wrap`}>نحن متجر متخصص في استيراد وتوزيع الشنط عالية الجودة بدأنا رحلتنا في عام 2018، بخطوات صغيرة. </p>
+                        </div>
                     </div>
-                    <div>
+                    <div className={`${style.quickLinksDivFooter} w-25`}>
                         <Typography component={'h2'} size={'l'}>روابط سريعة</Typography>
-                        <br />
-                        <Typography component={'p'} size={'xs'} style={{}}><a>حقائب يد</a></Typography>
-                        <Typography component={'p'} size={'xs'}><a>اكسسوارات</a></Typography>
+                        <div>
+                            <p><Link to={'/category/67fd7361d3d9f99f95edff41'} style={{color:'var(--text-color)'}} state= {{catName: 'حقائب اليد'}}>حقائب يد</Link></p>
+                            <p><Link to={'/category/6803f9c535efe305218f99f2'} style={{color:'var(--text-color)'}} state= {{catName: 'العطور'}}>العطور</Link></p>
+                            <p><Link to={'/category/67ff75611520f910df910f88'} style={{color:'var(--text-color)'}} state= {{catName: 'الاكسسوارات'}}>اكسسوارات</Link></p>
+                            <p><Link to={'/category/6803fb1535efe305218f9a10'} style={{color:'var(--text-color)'}} state= {{catName: 'العروض'}}>العروض</Link></p>
+                            {
+                                !user &&  <Link to={'/login'} className={`${style.isWholesalerLink}`}>هل أنت تاجر جملة ؟</Link>
+                            }
+                        </div>
+
                     </div>
 
                 </div>
-
-
-                <div className={`d-flex w-50 justify-content-around`}>
-                    <div>
+                <div className={`d-flex justify-content-around ${style.footerSecondSection}`}>
+                    <div className={`${style.whoWeDivFooter}`}>
                         <Typography component={'h2'} size={'l'}>خدمة العملاء</Typography>
-                        <br/>
-                        <Typography component={'p'} size={'xs'}>تواصل معنا</Typography>
-                        <Typography component={'p'}>أو من خلال الرقم :<br/> 9703948571655 + <br/> 9723849692284 +</Typography>
+                        <div>
+                            <p>تواصل معنا</p>
+                            <p>أو من خلال الرقم :<br/> 972599128813 + <br/> 972567758087 +</p>
+                        </div>
                     </div>
-                    <div>
+                    <div className={`${style.quickLinksDivFooter}`}>
                         <Typography component={'h2'} size={'l'}>معلومات التواصل</Typography>
-                        <br/>
-                        <Typography component={'p'} size={'l'}>اشترك للحصول على عروض خاصة وتحديثات</Typography>
+                        <div>
+                            <p>اشترك للحصول على عروض خاصة وتحديثات</p>
+                            <div className={`gap-2 d-flex flex-row justify-content-between mt-4 ${style.socialMediaDiv}`} style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+                                <Typography component={'p'} size={'xs'}><a className={`${style.socialMedia}`} href='https://www.instagram.com/kewi.jenin'><FontAwesomeIcon icon={faInstagram} size="3x" /></a> </Typography>
+                                <Typography component={'p'} size={'xs'}><a className={`${style.socialMedia}`} style={{marginTop:'0.1rem'}} href='https://www.facebook.com/kewi.jenin'><FontAwesomeIcon icon={faFacebookF} size="3x" /></a></Typography>
+                                <Typography component={'p'} size={'xs'}><a className={`${style.socialMedia}`} href='https://www.tiktok.com/@kewi.ps'><FontAwesomeIcon icon={faTiktok} size="3x" /></a></Typography>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-
             </div>
 
         </>
