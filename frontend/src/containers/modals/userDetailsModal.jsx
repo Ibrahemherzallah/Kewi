@@ -9,7 +9,7 @@ import {ThemeContext} from "../../context/themeContext.jsx";
 
 const UserDetailsModal = () => {
 
-    const [cities,setCities] = useState([{name:"الضفة الغربية",region:'w'},{name: "الداخل",region:'d'}]);
+    const [cities,setCities] = useState([{name:"الضفة الغربية",region:'w'},{name: "الداخل",region:'d'},{name:"القدس",region:'q'}]);
     const [selectedCity,setSelectedCity] = useState(null);
     const [selectedRegion,setSelectedRegion] = useState(null);
     const [notes,setNotes] = useState(null);
@@ -155,6 +155,9 @@ const UserDetailsModal = () => {
             }
             else if (selectedRegion === 'd'){
                 setDeliveryPrice(selectedType ===  'مستعجل' ? 70 : 50)
+            }
+            else if (selectedRegion === 'q'){
+                setDeliveryPrice(selectedType ===  'مستعجل' ? 30 : 20)
             }
         }
     }, [selectedRegion,selectedType]);
