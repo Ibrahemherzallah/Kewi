@@ -26,7 +26,6 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen}) => {
   const {isDark, setIsDark} = useContext(ThemeContext);
   const {products,setProducts} = useContext(CartContext);
 
-    console.log("products", products);
     const handleLogout = () => {
         fetch('https://kewi.ps/auth/logout', {
             method: 'POST',

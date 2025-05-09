@@ -41,7 +41,6 @@ export const getCategories = async (req, res) => {
     try {
         const category = await Category.find();
         res.status(200).json(category);
-        console.log("Category exists",category);
     } catch (error) {
         console.error("Error fetching categories:", error);
         res.status(500).json({ error: error.message });
@@ -85,7 +84,6 @@ export const updateCategory = async (req, res) => {
         }
 
         res.status(200).json(updatedProduct);
-        console.log("Category updated successfully:", updatedProduct);
     } catch (error) {
         console.error("Error updating Category:", error);
         res.status(500).json({ error: error.message });

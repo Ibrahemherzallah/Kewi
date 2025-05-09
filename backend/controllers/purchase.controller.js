@@ -75,15 +75,13 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = twilio(accountSid, authToken);
 
 export const sendWhatsAppMessage = async (req, res) => {
-    console.log("Enter the method ")
     const { cName, cNumber, cAddress, notes, cCity, price, numOfItems, delivery, id,  name, brandId, type } = req.body;
-    console.log("the type is : " , type)
     const message = `طلب جديد
                             الاسم: ${cName}
                             رقم الهاتف: ${cNumber}
-                            العنوان: ${cAddress}
+                            المدينة: ${cAddress}
                             ملاحظات: ${notes || 'لا يوجد'}
-                            المدينة: ${cCity}
+                            المنطقة: ${cCity}
                             السعر: ${price}
                             عدد العناصر: ${numOfItems}
                             التوصيل: ${delivery}
@@ -99,6 +97,7 @@ export const sendWhatsAppMessage = async (req, res) => {
             body: message,
         });
         const messageStatus = await client.messages(response.sid).fetch();
+        console.log("The message is : ", messageStatus);
         console.log('Message Status:', messageStatus.status);
         res.status(200).json({ message: 'تم إرسال رسالة واتساب بنجاح' });
     } catch (error) {

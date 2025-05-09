@@ -26,7 +26,6 @@ export const getProductsById = async (req, res) => {
         if (!product) {
             return res.status(404).json({ error: 'Product not found' });
         }
-        console.log("The product is : " , product)
         res.json(product);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -168,8 +167,6 @@ export const updateProduct = async (req, res) => {
             isOnSale: req.body.isOnSale ?? existingProduct.isOnSale,
             image: existingProduct.image,
         };
-        console.log("The size is : " ,updatedData.size )
-        console.log("The categoryId is : " ,updatedData.categoryId )
 
         // Handle images if provided
         if (req.files && req.files[0]) {
@@ -184,7 +181,6 @@ export const updateProduct = async (req, res) => {
         }
 
         res.status(200).json(updatedProduct);
-        console.log("Product updated successfully:", updatedProduct);
     } catch (error) {
         console.error("Error updating product:", error);
         res.status(500).json({ error: error.message });

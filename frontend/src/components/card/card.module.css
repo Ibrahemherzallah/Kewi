@@ -97,6 +97,11 @@
   border : 0.1rem solid #efefef;
 }
 
+.cardWrapper {
+  display: flex;
+  gap: 0.4rem;
+}
+
 .AdminCardDivDark {
   padding-bottom: 0.2rem;
   border-bottom : 0.09rem solid #efefef;
@@ -296,6 +301,9 @@
   }
   .addToCartIcon {
     font-size: 0.35rem;
+  }
+  .cardWrapper {
+    gap : 0.1rem
   }
 }
 

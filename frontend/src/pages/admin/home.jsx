@@ -102,9 +102,6 @@ const AdminDash = () => {
         }
     }, [openedBtn]);
 
-    useEffect(()=>{
-        console.log("The result is  : " , result)
-    },[result])
     return(
         <>
             <AdminNav></AdminNav>

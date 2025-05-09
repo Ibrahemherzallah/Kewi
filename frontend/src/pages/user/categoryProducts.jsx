@@ -56,7 +56,6 @@ const CategoryProducts = () => {
     useEffect(()=>{
         fetchBrands();
     },[])
-    console.log("The brands is : " , brands)
     return (
         <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}>
             <div className={`d-flex justify-content-between ${style.categoryProductsHeader}`}>
@@ -71,12 +70,7 @@ const CategoryProducts = () => {
                     <div className={`d-flex mt-3 justify-content-between ${style.dropdownsDiv}`}>
                         <UserDropDown options={brands} dropdownType={"النوع"} size={'medium'}
                             setSelected={(value) => {
-                                console.log("The value is : " , value);
-                            const selected = allBrands.find(b => {
-                                console.log("The b.name is : ", b.name)
-                                console.log("The b.value is : ", value)
-                                return b.name === value});
-                            console.log("selected", selected);
+                            const selected = allBrands.find(b =>  b.name === value);
                             if (selected?.isFake) {
                                 // Send request to increment clicks
                                 fetch(`https://kewi.ps/admin/brands/${selected._id}/click`, {

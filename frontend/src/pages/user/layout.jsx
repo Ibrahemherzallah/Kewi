@@ -16,9 +16,9 @@ const Layout = ({isSidebarOpen,setSidebarOpen,children}) => {
 
     const {user} = useContext(UserContext);
     return (
-        <>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <UserNavBar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}></UserNavBar>
-            <div className={style.homePageMainContentDiv}>
+            <div className={style.homePageMainContentDiv} style={{ flex: 1 }}>
                 {children}
             </div>
             <div className={`d-flex justify-content-between ${style.footer} `}>
@@ -67,8 +67,7 @@ const Layout = ({isSidebarOpen,setSidebarOpen,children}) => {
                     </div>
                 </div>
             </div>
-
-        </>
+        </div>
     )
 }
 

@@ -30,8 +30,6 @@
         const {isDark,setISDark} = useContext(ThemeContext);
         useEffect(() => {
             setErrors('');
-            console.log("newwwww The product is : " , product);
-            console.log("newwwww The product is : " , product);
                     setProductName(product?.name || '');
                     setDescription(product?.description || '');
                     setSelectedId(product?.id || '');
@@ -187,7 +185,7 @@
                                     </div>
                                     <div className={`d-flex justify-content-between mt-2`}>
                                         <Input placeholder={'Customer Price'} isRequired={true} label={'Price'} usage={'modal'} size={'sm'} required value={customerPrice} onChange={(e) => setCustomerPrice(e.target.value)} />
-                                        <DropDown isRequired={false} size={'small'} label={'Color'} options={colors} selected={color} setSelected={setSelectedColor}/>
+                                        <Input placeholder={'Product Color'} isRequired={false} size={'sm'} label={'Color'} usage={'modal'}  value={color} onChange={(e) => setSelectedColor(e.target.value)} />
                                     </div>
                                     <div className={`d-flex justify-content-between mt-2`}>
                                         <Input placeholder={'Wholesale Price (per shekel)'} isRequired={true} label={'Wholesale Price'} usage={'modal'} size={'md'} required value={wholesalerPrice} onChange={(e=> setWholesalerPrice(e.target.value))} />
