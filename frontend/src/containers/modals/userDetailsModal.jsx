@@ -9,7 +9,7 @@ import {ThemeContext} from "../../context/themeContext.jsx";
 
 const UserDetailsModal = () => {
 
-    const [cities,setCities] = useState([]);
+    const [cities,setCities] = useState([{name:"الضفة الغربية",region:'w'},{name: "الداخل",region:'d'}]);
     const [selectedCity,setSelectedCity] = useState(null);
     const [selectedRegion,setSelectedRegion] = useState(null);
     const [notes,setNotes] = useState(null);
@@ -24,6 +24,7 @@ const UserDetailsModal = () => {
     const {user} = useContext(UserContext);
     const {isDark,setISDark} = useContext(ThemeContext);
     const [showToast, setShowToast] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const validateForm = () => {
@@ -45,7 +46,6 @@ const UserDetailsModal = () => {
         }
         return true; // ✅ All validations passed
     }
-    console.log(user?.isWholesaler ?  'تاجر' : 'زبون')
 
     const handleSend = async (e) => {
         e.preventDefault();
@@ -69,7 +69,7 @@ const UserDetailsModal = () => {
                 id: products[i].id,
                 notes,
             };
-
+            setIsLoading(true);
             try {
                 const response = await fetch('https://kewi.ps/user/purchase', {
                     method: 'POST',
@@ -125,20 +125,22 @@ const UserDetailsModal = () => {
             } catch (err) {
                 console.error('Error sending data or updating stock:', err);
                 setError('حدث خطأ أثناء إرسال البيانات');
+                setIsLoading(false); // <-- Stop loading on error
+                return;
+            } finally {
+                setIsLoading(false); // after everything
             }
         }
         setShowToast(true);
+        setIsLoading(false); // <-- Stop loading
+        setTimeout(() => window.location.reload(), 1000); // Give time for toast to show
         const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal9'));
         modal.hide();
-        window.location.reload();
+        // window.location.reload();
     };
 
     useEffect(() => {
         setError('');
-        fetch("/cities.json")
-            .then((res) => res.json())
-            .then((data) => setCities(data))
-            .catch((err) => console.error("Failed to load cities:", err));
     },[])
     useEffect(() => {
         const cityData = cities.find(city => city.name === selectedCity);
@@ -176,8 +178,8 @@ const UserDetailsModal = () => {
                                     <InputArabic usage={'modal'} placeholder={'قم بادخال الاسم'} isRequired={true} required label={"الاسم الكامل"} size={'sm'} onChange={(e)=>{setCName(e.target.value)}}></InputArabic>
                                 </div>
                                 <div className={`d-flex justify-content-between mt-4`}>
-                                    <UserModalDropDown options={cities} usage={'modal'} isRequired={true} label={"المدينة"} size={'small'} setSelected={setSelectedCity} ></UserModalDropDown>
-                                    <InputArabic usage={'modal'} placeholder={'قم بادخال عنوان الشارع'} isRequired={true} label={"عنوان الشارع"} size={'sm'} required onChange={(e)=>{setCAddress(e.target.value)}}></InputArabic>
+                                    <UserModalDropDown options={cities} usage={'modal'} isRequired={true} label={"المنطقة"} size={'small'} setSelected={setSelectedCity} ></UserModalDropDown>
+                                    <InputArabic usage={'modal'} placeholder={'قم بادخال المدينة'} isRequired={true} label={"المدينة"} size={'sm'} required onChange={(e)=>{setCAddress(e.target.value)}}></InputArabic>
                                 </div>
                                 <div className={`d-flex justify-content-between mt-4`}>
                                     <div className={`w-50 d-flex align-items-end justify-content-between px-4 pb-1`}><span className={`ps-3`}>{deliveryPrice ? `₪ ${deliveryPrice}` : '₪0.00'} </span><span className={`fw-bold fs-6`}>سعر التوصيل</span> </div>
@@ -189,7 +191,14 @@ const UserDetailsModal = () => {
                             </div>
                             <p className={`text-center ${style.note}`}><span className={`fw-bold`}>ملاحظة : </span> بمجرد الضغط على زر الارسال سيتم ارسال الطلب الى شركة التوصيل وسيتم ايصال الطرد في أقرب وقت ممكن </p>
                             <div className=" d-flex justify-content-center py-3">
-                                <Button variant={'primary'} size={'xxs'} type='submit'>ارسال</Button>
+                                <Button variant={'primary'} size={'xs'} type='submit'>{isLoading ? (
+                                    <>
+                                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                        جاري الإرسال...
+                                    </>
+                                ) : (
+                                    'ارسال'
+                                )}</Button>
                             </div>
                         </form>
                     </div>

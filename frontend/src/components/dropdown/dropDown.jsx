@@ -8,12 +8,9 @@ export const DropDown = ({size,label,isRequired,options,selected,setSelected}) =
         <div className={`${style[size]}`}>
             <span className={'fw-medium'}>{label} {isRequired && <span className={style.required}>*</span> } </span><br/>
             <select name="" id="" className={`mt-1 ${style.dropdown}`} value={label === "Gender" || label === "Size" || label === "Color" ?  selected : null}  onChange={e => {
-                console.log('e.target.value' , e.target.value);
                 if(label === "Category" || label === "Brand"){
                     const selectedName = e.target.value;
-                    console.log("The selectedName is : ,", selectedName);
                     const selectedCategory = options.find(option => option.name === selectedName);
-                    console.log("The selectedCategory is : ,", selectedCategory);
 
                     setSelected(selectedCategory ? selectedCategory.id : "");
                 }

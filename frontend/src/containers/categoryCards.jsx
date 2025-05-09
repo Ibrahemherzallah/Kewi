@@ -11,7 +11,6 @@ const ITEMS_PER_PAGE = 1;
 const CARD_WIDTH = 220;
 function getCardWidth() {
     const width = window.innerWidth;
-    console.log("The width of screen is : " , width)
     if (width <= 550) return 90;      // mobile
     else if (width <= 770) return 130; // tablet
     else if (width <= 1000) return 170;
@@ -41,14 +40,12 @@ export function CategoryCards() {
     }, []);
     const handleNext = () => {
         setStartIndex((prevIndex) =>{
-            console.log("prevIndexxxxxx after" , prevIndex);
             return prevIndex + 4 ;
             }
         );
     };
     const handlePrev = () => {
         setStartIndex((prevIndex) => {
-            console.log("prevIndexxxxxx before" , prevIndex);
             return prevIndex - 4 >= -3 ? prevIndex - 4 : categories.length - 4
             }
         );
@@ -103,7 +100,7 @@ export function CategoryCards() {
                         <FontAwesomeIcon className={style.arrowIcon} icon={faChevronRight} />
                     </IconBtn>
                 </> :
-                    <div className={style.cardWrapper} style={{ display: "flex" , gap:'0.4rem'}}>
+                    <div className={style.cardWrapper}>
                         {categories?.map((category, index) => (
                             <button key={index} className={style.imageCardBtn}
                                     onClick={()=> {

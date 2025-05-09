@@ -40,7 +40,6 @@ const Product = () => {
                     const response = await fetch(`https://kewi.ps/admin/products/${id}`);
                     const data = await response.json();
                     setProduct(data);
-                    console.log('category',data);
                     setCategoryId(data?.categoryId?._id)
                     setFlag(!flag)
                 } catch (error) {
@@ -59,7 +58,6 @@ const Product = () => {
                 const response = await fetch(`https://kewi.ps/admin/related-products/category/${categoryId}?excludeId=${id}`);
                 const data = await response.json();
                 setRelatedProduct(data);
-                console.log("The related product is :", data);
             } catch (error) {
                 console.error("Error fetching related products:", error);
             }
@@ -71,7 +69,6 @@ const Product = () => {
     }, [flag]);
     function setLocalStorage(){
         let isExist = products.find(item => item._id === product._id);
-        console.log("isExist" ,isExist);
         if(!isExist){
             const newItem = {
                 ...product,
@@ -82,11 +79,9 @@ const Product = () => {
         if(!isSidebarOpen){
             setSidebarOpen(true);
         }
-        console.log("products products",products);
 
     }
 
-    console.log("The related product is : " , product);
     return (
             <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}>
                 <div className={`d-flex ${style.productDiv}`}>

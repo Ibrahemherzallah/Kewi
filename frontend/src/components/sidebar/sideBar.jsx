@@ -20,7 +20,6 @@ const Sidebar = ({ isOpen, onClose }) => {
         return total + price * quantity;
     }, 0);
 
-    console.log("totalPrice is : "  , totalPrice)
 
     return (
         <>

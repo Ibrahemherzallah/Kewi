@@ -40,7 +40,7 @@ select {
 
 .medium {
     width: 50%;
-    min-width: 10rem;
+    min-width: 12rem;
 }
 
 .small {

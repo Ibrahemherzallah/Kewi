@@ -23,7 +23,6 @@ const CardItem = ({isSidebarOpen,setSidebarOpen,item}) => {
 
     function setLocalStorage(){
         let isExist = products.find(product => product._id === item._id);
-        console.log("isExist" ,isExist);
         if(!isExist){
             const newItem = {
                 ...item,
@@ -34,7 +33,6 @@ const CardItem = ({isSidebarOpen,setSidebarOpen,item}) => {
         if(!isSidebarOpen){
             setSidebarOpen(true);
         }
-        console.log("products products",products);
     }
     return(
         <Card>
