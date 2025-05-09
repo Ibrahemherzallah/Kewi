@@ -28,7 +28,7 @@ const Layout = ({isSidebarOpen,setSidebarOpen,children}) => {
                     <div className={`${style.whoWeDivFooter} w-50`}>
                         <Typography component={'h2'} size={'l'}>من نحن</Typography>
                         <div>
-                            <p className={`${style.whoWeTextFooter} text-wrap`}>نحن متجر متخصص في استيراد وتوزيع الشنط عالية الجودة بدأنا رحلتنا في عام 2018، بخطوات صغيرة. </p>
+                            <p className={`${style.whoWeTextFooter} text-wrap`}>نحن متجر متخصص في استيراد وتوزيع الشنط عالية الجودة منذ 2018 . </p>
                         </div>
                     </div>
                     <div className={`${style.quickLinksDivFooter} w-25`}>
