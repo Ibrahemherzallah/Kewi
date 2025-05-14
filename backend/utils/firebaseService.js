@@ -1,4 +1,5 @@
 import {bucket} from "./firebaseConfig.js";
+import sharp from "sharp";
 
 /**
  * Uploads multiple images to Firebase Storage
@@ -11,12 +12,20 @@ export const uploadProductImages = async (files, productId) => {
         if (!files || files.length === 0) throw new Error("No images provided");
 
         const uploadPromises = files.map(async (file, index) => {
-            const fileName = `product_images/${productId}/image_${index + 1}.${file.mimetype.split("/")[1]}`;
+            // Convert to .webp
+            const webpBuffer = await sharp(file.buffer)
+                .webp({ quality: 80 }) // quality between 0–100
+                .toBuffer();
+
+            const fileName = `product_images/${productId}/image_${index + 1}.webp`;
             const fileUpload = bucket.file(fileName);
 
-            await fileUpload.save(file.buffer, {
-                metadata: {contentType: file.mimetype},
-                public: true
+            await fileUpload.save(webpBuffer, {
+                metadata: {
+                    contentType: "image/webp",
+                    cacheControl: "public, max-age=31536000", // cache for 1 year
+                },
+                public: true,
             });
 
             const [url] = await fileUpload.getSignedUrl({
@@ -38,11 +47,18 @@ export const uploadCategoryImage = async (file) => {
     try {
         if (!file) throw new Error("No image provided");
 
-        const fileName = `category_images/${Date.now()}.${file.mimetype.split("/")[1]}`;
+        const webpBuffer = await sharp(file.buffer)
+            .webp({ quality: 80 })
+            .toBuffer();
+
+        const fileName = `category_images/${Date.now()}.webp`;
         const fileUpload = bucket.file(fileName);
 
-        await fileUpload.save(file.buffer, {
-            metadata: { contentType: file.mimetype },
+        await fileUpload.save(webpBuffer, {
+            metadata: {
+                contentType: "image/webp",
+                cacheControl: "public, max-age=31536000",
+            },
         });
 
         const [url] = await fileUpload.getSignedUrl({

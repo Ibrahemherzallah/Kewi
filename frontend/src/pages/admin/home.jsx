@@ -13,11 +13,12 @@ import {AddWholesalers} from "./modals/addWholesalers.jsx";
 import {UserContext} from "../../context/userContext.jsx";
 import {ThemeContext} from "../../context/themeContext.jsx";
 import {data} from "react-router";
+import Skeleton from "react-loading-skeleton";
 
 const AdminDash = () => {
 
     const [activeTab, setActiveTab] = useState('products');
-    const [result,setResult] = useState();
+    const [result,setResult] = useState([]);
     const [searchedValue, setSearchedValue] = useState('');
     const [searchedId,setSearchedId] = useState('');
     const [category, setCategory] = useState([]);
@@ -29,46 +30,53 @@ const AdminDash = () => {
     const [selectedBrand,setSelectedBrand] = useState(null);
     const [selectedWholesaler,setSelectedWholesaler] = useState(null);
     const {isDark,setIsDark} = useContext(ThemeContext);
+    const [loading, setLoading] = useState(false);
 
 
     const fetchData = async (tab) => {
+        setLoading(true);
         try {
             let response;
             switch (tab) {
                 case "products":
+                    setResult([]);
                     response = await fetch("https://kewi.ps/admin/products").then( response => response.json())
                         .then(data => {
                             setResult(data)
                         })
                     break;
                 case "categories":
+                    setResult([]);
                     response = await fetch("https://kewi.ps/admin/categories").then( response => response.json())
                         .then(data => {
                             setResult(data);
                         })
                     break;
                 case "brands":
+                    setResult([]);
                     response = await fetch("https://kewi.ps/admin/brands").then( response => response.json())
                         .then(data => {
                             setResult(data);
                         })
                     break;
                 case "orders":
-                        response = await fetch('https://kewi.ps/admin/purchase').then( response => response.json())
+                    setResult([]);
+                    response = await fetch('https://kewi.ps/admin/purchase').then( response => response.json())
                             .then(data => {
                                 setResult(data);
                             })
                         break;
 
                 case "wholesalers":
+                    setResult([]);
                     response = await fetch("https://kewi.ps/admin/wholesalers").then( response => response.json())
                         .then(data => {
                             setResult(data);
                         })
                         break;
-                default:
-                    return;
+                default:return;
             }
+            setLoading(false);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -179,69 +187,81 @@ const AdminDash = () => {
                                         <Button variant={isDark ? 'secondary-outline' : 'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal5" onClick={()=>{setIsUpdated(false); setSelectedWholesaler(null)}}>
                                             <FontAwesomeIcon icon={faPlus} size="md"/>Add Wholesalers</Button>: 'null'}
                 </div>
-                <div className="tab-content">
-                    {activeTab === "products" && (
-                        <div className={`tab-pane fade show active ${style.productsTab}`}>
-                            <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
-                                <h6>Image</h6><h6>Name</h6><h6>id</h6><h6>Brand</h6><h6>Category</h6><h6>Price</h6><h6>Status</h6><h6># of clicks</h6><h6>Actions</h6>
-                            </div>
-                            {Array.isArray(result) && result
-                                .filter(item => item?.name?.includes(searchedValue) && item?.id?.includes(searchedId))
-                                .map(res => (
-                                    <ProductCard key={res.id} product={res} setSelectedProduct={setSelectedProduct} setOpenedBtn={setOpenedBtn} setIsUpdated={setIsUpdated}/>
-                                ))}
-                            <AddProductModal category={category} brand={brand} product={selectedProduct} isUpdated={isUpdated}/>
+                {
+                    loading ? (
+                        <div>
+                            <Skeleton height={100} count={5} />
                         </div>
-                    )}
+                    ) : (
+                        <>
+                            <div className="tab-content">
+                                {activeTab === "products" && (
+                                    <div className={`tab-pane fade show active ${style.productsTab}`}>
+                                        <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
+                                            <h6>Image</h6><h6>Name</h6><h6>id</h6><h6>Brand</h6><h6>Category</h6><h6>Price</h6><h6>Status</h6><h6># of clicks</h6><h6>Actions</h6>
+                                        </div>
+                                        {Array.isArray(result) && result
+                                            .filter(item => item?.name?.includes(searchedValue) && item?.id?.includes(searchedId))
+                                            .map(res => (
+                                                <ProductCard key={res.id} product={res} setSelectedProduct={setSelectedProduct} setOpenedBtn={setOpenedBtn} setIsUpdated={setIsUpdated}/>
+                                            ))}
+                                        <AddProductModal category={category} brand={brand} product={selectedProduct} isUpdated={isUpdated}/>
+                                    </div>
+                                )}
 
-                    {activeTab === "categories" && (
-                        <div className={`tab-pane fade show active ${style.productsTab}`}>
-                            <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
-                                <h6>Image</h6><h6>Name</h6><h6>Description</h6><h6>Actions</h6>
+                                {activeTab === "categories" && (
+                                    <div className={`tab-pane fade show active ${style.productsTab}`}>
+                                        <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
+                                            <h6>Image</h6><h6>Name</h6><h6>Description</h6><h6>Actions</h6>
+                                        </div>
+                                        {Array.isArray(result) && result.map(res => (
+                                            <CategoryCard key={res.id} product={res} setSelectedProduct={setSelectedCategory} setIsUpdated={setIsUpdated} src={res.image} alt={res.name} name={res.name} description={res.description}/>
+                                        ))}
+                                        <AddCategoryModal product={selectedCategory} isUpdated={isUpdated}/>
+
+                                    </div>
+                                )}
+
+                                {activeTab === "brands" && (
+                                    <div className={`tab-pane fade show active ${style.productsTab}`}>
+                                        <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
+                                            <h6>Image</h6><h6>Name</h6><h6>#of Clicks</h6><h6>Actions</h6>
+                                        </div>
+                                        {Array.isArray(result) && result.map(res => (
+                                            <BrandCard key={res.id} product={res} setSelectedProduct={setSelectedBrand} setIsUpdated={setIsUpdated} numOfClicks={res.isFake ? res.numOfClicks : '#'} src={res.image} alt={res.name} name={res.name}/>
+                                        ))}
+                                        <AddBrandsModal product={selectedBrand} isUpdated={isUpdated}></AddBrandsModal>
+
+                                    </div>
+                                )}
+
+                                {activeTab === "orders" && (
+                                    <div className={`tab-pane fade show active ${style.productsTab}`}>
+                                        <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
+                                            <h6>CName</h6><h6>C Phone</h6><h6>C Address</h6><h6>productId</h6><h6>Price</h6><h6># Of Item</h6><h6>DeliveryType</h6><h6>Order Date</h6><h6>Notes</h6>
+                                        </div>
+                                        {Array.isArray(result) && result.map(res => (
+                                            <OrderCard key={res.id} res={res}/>
+                                        ))}
+                                    </div>
+                                )}
+                                {activeTab === "wholesalers" && (
+                                    <div className={`tab-pane fade show active ${style.productsTab}`}>
+                                        <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
+                                            <h6>Full Name</h6><h6>Phone Number</h6><h6>Address</h6><h6>Actions</h6>
+                                        </div>
+                                        {Array.isArray(result) && result.map(res => ( res.isWholesaler &&
+                                            <WholesalerCard key={res.id} product={res} setSelectedProduct={setSelectedWholesaler} setIsUpdated={setIsUpdated} name={res.userName} number={res.phone} address={res.address}/>
+                                        ))}
+                                        <AddWholesalers product={selectedWholesaler} isUpdated={isUpdated} ></AddWholesalers>
+                                    </div>
+                                )}
                             </div>
-                            {Array.isArray(result) && result.map(res => (
-                                <CategoryCard key={res.id} product={res} setSelectedProduct={setSelectedCategory} setIsUpdated={setIsUpdated} src={res.image} alt={res.name} name={res.name} description={res.description}/>
-                            ))}
-                            <AddCategoryModal product={selectedCategory} isUpdated={isUpdated}/>
 
-                        </div>
-                    )}
+                        </>
+                    )
 
-                    {activeTab === "brands" && (
-                        <div className={`tab-pane fade show active ${style.productsTab}`}>
-                            <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
-                                <h6>Image</h6><h6>Name</h6><h6>#of Clicks</h6><h6>Actions</h6>
-                            </div>
-                            {Array.isArray(result) && result.map(res => (
-                                <BrandCard key={res.id} product={res} setSelectedProduct={setSelectedBrand} setIsUpdated={setIsUpdated} numOfClicks={res.isFake ? res.numOfClicks : '#'} src={res.image} alt={res.name} name={res.name}/>
-                            ))}
-                            <AddBrandsModal product={selectedBrand} isUpdated={isUpdated}></AddBrandsModal>
-
-                        </div>
-                    )}
-
-                    {activeTab === "orders" && (
-                        <div className={`tab-pane fade show active ${style.productsTab}`}>
-                            <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
-                                <h6>CName</h6><h6>C Phone</h6><h6>C Address</h6><h6>productId</h6><h6>Price</h6><h6># Of Item</h6><h6>DeliveryType</h6><h6>Order Date</h6><h6>Notes</h6>
-                            </div>
-                            {Array.isArray(result) && result.map(res => (
-                                <OrderCard key={res.id} res={res}/>
-                            ))}
-                        </div>
-                    )}
-                    {activeTab === "wholesalers" && (
-                        <div className={`tab-pane fade show active ${style.productsTab}`}>
-                            <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
-                                <h6>Full Name</h6><h6>Phone Number</h6><h6>Address</h6><h6>Actions</h6>
-                            </div>
-                            {Array.isArray(result) && result.map(res => ( res.isWholesaler &&
-                                <WholesalerCard key={res.id} product={res} setSelectedProduct={setSelectedWholesaler} setIsUpdated={setIsUpdated} name={res.userName} number={res.phone} address={res.address}/>
-                            ))}
-                            <AddWholesalers product={selectedWholesaler} isUpdated={isUpdated} ></AddWholesalers>
-                        </div>
-                    )}
-                </div>
+                }
             </div>
         </>
 
