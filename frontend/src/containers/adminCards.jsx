@@ -5,18 +5,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPen } from "@fortawesome/free-solid-svg-icons";
 import {AddProductModal} from "../pages/admin/modals/addProducts.jsx";
 import ConfirmationModal from "../pages/admin/modals/confirmationModal.jsx";
-import {useContext} from "react";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
+import {useContext, useState} from "react";
 import {ThemeContext} from "../context/themeContext.jsx";
 
 
 export const ProductCard = ({product, setSelectedProduct,setOpenedBtn,setIsUpdated}) => {
     const modalId = `deleteModal-${product._id}`;
     const {isDark, setIsDark} = useContext(ThemeContext);
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
+
     return(
         <div className={`mt-2 pe-2 ${isDark? style.AdminCardDivDark : style.AdminCardDiv}`}>
             <div className={`d-flex align-items-center ${style.ProductCardDiv}`}>
                 <div className={style.productImageDiv}>
-                    <img className={style.productImage} src={product.image[0]} alt={product.name} />
+                    {!isImageLoaded && (
+                        <Skeleton height="5rem" width="5rem" borderRadius={8} />
+                    )}
+                    <img
+                        src={product.image[0]}
+                        alt={product.name}
+                        className={`${style.productImage} ${!isImageLoaded ? 'd-none' : ''}`}
+                        onLoad={() => setIsImageLoaded(true)}
+                    />
                 </div>
                 <h6>{product.name}</h6>
                 <h6>{product.id}</h6>
