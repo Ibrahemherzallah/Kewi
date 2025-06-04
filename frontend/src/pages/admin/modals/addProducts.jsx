@@ -27,6 +27,7 @@
         const [salePrice, setSalePrice] = useState('');
         const [isSoldOut,setIsSoldOut] = useState(false);
         const [errors, setErrors] = useState('');
+        const [loading, setLoading] = useState(false);
         const {isDark,setISDark} = useContext(ThemeContext);
         useEffect(() => {
             setErrors('');
@@ -104,6 +105,7 @@
         function handleSubmit(e) {
             e.preventDefault();
             if (!validateForm()) return;
+            setLoading(true); // Start loading
 
             const formData = new FormData();
 
@@ -148,7 +150,9 @@
                     })
                     .catch(error => {
                         console.error("Error uploading product:", error);
-                    })
+                    }) .finally(() => {
+                        setLoading(false); // Stop loading
+                    });
         }
         useEffect(() => {
             const selectedBrand = brand?.find(item => item.id === brandId);
@@ -245,9 +249,16 @@
                             </div>
 
                             <div className="modal-footer d-flex justify-content-center">
-                                <Button variant={'secondary'} size={'xxs'} type='submit' onClick={()=>{
-                                    if (!images || images.length === 0) setErrors("Image is required");
-                                }}>{isUpdated ? 'Update' : 'Add'}</Button>
+                                <Button variant={'secondary'} size={'xxs'} type='submit' disabled={loading}
+                                    onClick={() => {
+                                        if (!images || images.length === 0) {
+                                            setErrors("Image is required");
+                                            return;
+                                        }
+                                    }}
+                                >
+                                    {loading ? 'Loading...' : (isUpdated ? 'Update' : 'Add')}
+                                </Button>
                             </div>
                         </form>
                     </div>

@@ -35,6 +35,7 @@
   right:-20px;
   top:-20px;
   rotate: 10deg;
+  z-index: 4;
 }
 
 .saleImg {
@@ -42,6 +43,7 @@
   position: absolute;
   right:-10px;
   top:-10px;
+  z-index: 4;
 }
 
 .imageCardBtn {

@@ -95,7 +95,7 @@ const CategoryProducts = () => {
                 {
                     (filteredProducts.length === 0) &&
                     <div className={`w-100 d-flex justify-content-center`}>
-                        <img  src={noProduct} className={style.noProductImg}  alt={"noProduct"} />
+                        <img src={noProduct} className={style.noProductImg}  alt={"noProduct"} />
                     </div>
                 }
             </div>

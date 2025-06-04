@@ -42,10 +42,7 @@ export const UserDropDown = ({ size, options, dropdownType,selected,setSelected}
         <div className={`${style[size]}`} style={{ position: 'relative' }}>
             <button className={`d-flex justify-content-between align-items-center w-100 fw-semibold ${style.dropdownBtn}`} onClick={() => setShow(!show)}>
                 {selected ? selected : dropdownType}
-                <FontAwesomeIcon
-                    icon={faCaretDown}
-                    className={show ? style.icon : style.iconR}
-                />
+                <FontAwesomeIcon icon={faCaretDown} className={show ? style.icon : style.iconR} />
             </button>
 
             <ul className={`${style.dropdownOptions} ${show ? style.dropdownShow : ''} mt-1`}>

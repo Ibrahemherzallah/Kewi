@@ -83,7 +83,6 @@ span {
     border-radius: 0.5rem;
     list-style: none;
     padding: 0;
-    max-height: 0;
     overflow: hidden;
     opacity: 0;
     transition: max-height 0.3s ease, opacity 0.3s ease;
@@ -93,6 +92,8 @@ span {
     background-color: var(--bg-color);
     color: var(--text-color);
     z-index: 9999;             /* Ensure it’s above other elements */
+    max-height: 20rem;
+    overflow-y: scroll;
 }
 
 /* When visible */

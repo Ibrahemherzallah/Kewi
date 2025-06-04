@@ -54,7 +54,7 @@
 .sideBarCardsContainer {
     padding-block: 1.5rem;
     padding-inline: 1rem ;
-    height: 450px;
+    height: 60%;
     overflow-y: scroll;
 }
 

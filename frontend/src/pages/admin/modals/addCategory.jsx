@@ -12,6 +12,7 @@ export const AddCategoryModal = ({product,isUpdated}) => {
     const [description,setDescription] = useState();
     const [error, setError] = useState('');
     const {isDark,setISDark} = useContext(ThemeContext);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setCategoryName(product?.name || '');
@@ -50,6 +51,8 @@ export const AddCategoryModal = ({product,isUpdated}) => {
     const method = isUpdated ? 'PUT' : 'POST';
     function handleOnSubmit (e){
         e.preventDefault();
+        setLoading(true); // Start loading
+
         const formData = new FormData();
         formData.append("name", categoryName);
         formData.append("description", description);
@@ -75,7 +78,9 @@ export const AddCategoryModal = ({product,isUpdated}) => {
             })
             .catch(error => {
                 console.error("Error uploading product:", error);
-            });
+            }).finally(() => {
+            setLoading(false); // Stop loading
+        });
     }
     return (
         <div className="modal fade" id="exampleModal3" tabIndex="-1" aria-labelledby="exampleModal3Label"
@@ -126,9 +131,10 @@ export const AddCategoryModal = ({product,isUpdated}) => {
                             </div>
                         </div>
                         <div className="modal-footer d-flex justify-content-center">
+
                             <Button variant={'secondary'} size={'xxs'} type='submit' onClick={()=>{
                                 if (!images || images.length === 0) setError("Image is required")
-                            }}>{isUpdated ? 'Update' : 'Add'}</Button>
+                            }}>{loading ? 'Loading...' : (isUpdated ? 'Update' : 'Add')}</Button>
                         </div>
                     </form>
                 </div>
