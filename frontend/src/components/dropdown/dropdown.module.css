@@ -92,7 +92,7 @@ span {
     background-color: var(--bg-color);
     color: var(--text-color);
     z-index: 9999;             /* Ensure it’s above other elements */
-    max-height: 20rem;
+    max-height: 20rem !important;
     overflow-y: scroll;
 }
 
