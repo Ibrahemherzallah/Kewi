@@ -220,9 +220,6 @@
 }
 
 @media screen and (max-width: 1500px) {
-  .categoryProducts {
-    grid-template-columns: repeat(auto-fit,minmax(270px,300px));
-  }
   .relatedProducts {
     gap: 2rem;
     display: grid;
@@ -233,9 +230,6 @@
 @media screen and (max-width: 1150px) {
   .productDiv {
     gap: 5rem;
-  }
-  .categoryProducts {
-    grid-template-columns: repeat(auto-fit,minmax(270px,0.5fr));
   }
   .relatedProducts {
     grid-template-columns: repeat(auto-fit,minmax(270px,0.5fr));
