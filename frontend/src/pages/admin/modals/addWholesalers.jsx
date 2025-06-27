@@ -12,6 +12,7 @@ export const AddWholesalers = ({product,isUpdated}) => {
     const [address, setAddress] = useState("");
     const [error, setError] = useState("");
     const {isDark,setISDark} = useContext(ThemeContext);
+    const token = localStorage.getItem("token");
 
     const url = isUpdated ?
         `https://kewi.ps/admin/wholesalers/${product?._id}` :
@@ -35,7 +36,10 @@ export const AddWholesalers = ({product,isUpdated}) => {
 
         fetch(url, {
             method: method,
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
             body: JSON.stringify(data),
         })
             .then(response => response.json())

@@ -24,6 +24,7 @@ const CategoryProducts = () => {
         (!selectedBrand || item?.brandId?.name === selectedBrand) &&
         (!selectedSize || item?.size === selectedSize)
     );
+    const token = localStorage.getItem("token");
 
 
     async function fetchBrands() {
@@ -75,6 +76,10 @@ const CategoryProducts = () => {
                                 // Send request to increment clicks
                                 fetch(`https://kewi.ps/admin/brands/${selected._id}/click`, {
                                     method: 'PATCH',
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        "Authorization": `Bearer ${token}`
+                                    },
                                 }).catch(err => console.error("Error incrementing clicks:", err));
                                     }
                                     setSelectedBrand(value);

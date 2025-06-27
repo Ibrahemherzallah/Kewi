@@ -29,6 +29,8 @@
         const [errors, setErrors] = useState('');
         const [loading, setLoading] = useState(false);
         const {isDark,setISDark} = useContext(ThemeContext);
+        const token = localStorage.getItem("token");
+
         useEffect(() => {
             setErrors('');
                     setProductName(product?.name || '');
@@ -133,8 +135,12 @@
             // Send the request using fetch
 
              fetch(url, {
-                    method: method,
-                    body: formData,
+                 method: method,
+                 headers: {
+                     "Content-Type": "application/json",
+                     "Authorization": `Bearer ${token}`
+                 },
+                 body: formData,
                 })
                     .then(response => response.json())
                     .then(data => {
