@@ -13,7 +13,6 @@ export const AddCategoryModal = ({product,isUpdated}) => {
     const [error, setError] = useState('');
     const {isDark,setISDark} = useContext(ThemeContext);
     const [loading, setLoading] = useState(false);
-    const token = localStorage.getItem("token");
 
     useEffect(() => {
         setCategoryName(product?.name || '');
@@ -62,10 +61,6 @@ export const AddCategoryModal = ({product,isUpdated}) => {
 
         fetch(url, {
             method: method,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
             body: formData, // Send FormData
         })
             .then(response => response.json())

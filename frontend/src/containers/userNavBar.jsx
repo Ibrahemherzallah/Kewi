@@ -25,15 +25,11 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen}) => {
   const {user, setUser} = useContext(UserContext);
   const {isDark, setIsDark} = useContext(ThemeContext);
   const {products,setProducts} = useContext(CartContext);
-  const token = localStorage.getItem("token");
 
     const handleLogout = () => {
         fetch('https://kewi.ps/auth/logout', {
             method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
+            credentials: 'include', // Important for sending session cookies
         })
             .then(res => res.json())
             .then(data => {

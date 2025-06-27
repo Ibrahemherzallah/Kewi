@@ -21,15 +21,11 @@ const AdminNav = () => {
     const {user,setUser} = useContext(UserContext);
     const navigate = useNavigate(); // ✅ Initialize navigate function
     const {isDark,setIsDark} = useContext(ThemeContext);
-    const token = localStorage.getItem("token");
 
         const handleLogout = () => {
             fetch('https://kewi.ps/auth/logout', {
                 method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
+                credentials: 'include', // Important for sending session cookies
             })
                 .then(res => res.json())
                 .then(data => {
