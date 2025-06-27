@@ -25,6 +25,7 @@ const UserDetailsModal = () => {
     const {isDark,setISDark} = useContext(ThemeContext);
     const [showToast, setShowToast] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const token = localStorage.getItem("token");
 
 
     const validateForm = () => {
@@ -74,7 +75,8 @@ const UserDetailsModal = () => {
                 const response = await fetch('https://kewi.ps/user/purchase', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
                     },
                     body: JSON.stringify(payload),
                 });
@@ -90,7 +92,8 @@ const UserDetailsModal = () => {
                 await fetch('https://kewi.ps/user/product/update-stock', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         id: products[i]._id,
@@ -103,7 +106,8 @@ const UserDetailsModal = () => {
                 await fetch('https://kewi.ps/user/purchase/send-whatsapp', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
                     },
                     body: JSON.stringify({
                         cName,
