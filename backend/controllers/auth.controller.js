@@ -1,8 +1,6 @@
 import bcrypt from "bcryptjs";
 import User from "../models/users.model.js";
 import session from "express-session";
-import jwt from 'jsonwebtoken';
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 
 export const signUp = async (req, res) => {
@@ -70,9 +68,7 @@ export const logIn = async (req, res) => {
         if (!correctPass) {
             return res.status(400).json({ error: "Invalid username or password" });
         }
-        const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-            expiresIn: '7d',
-        });
+
         // Store user information in session
         req.session.user = {
             _id: user._id,
@@ -82,7 +78,6 @@ export const logIn = async (req, res) => {
         const redirectUrl = user.isWholesaler ? "/" : "/admin/dashboard";
 
         return res.status(200).json({
-            token,
             message: "Login successful",
             user: req.session.user,
             redirectUrl

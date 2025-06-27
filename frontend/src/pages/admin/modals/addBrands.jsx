@@ -14,7 +14,6 @@ export const AddBrandsModal = ({product,isUpdated}) => {
     const [error, setError] = useState('');
     const {isDark,setISDark} = useContext(ThemeContext);
     const [loading, setLoading] = useState(false);
-    const token = localStorage.getItem("token");
 
 
     useEffect(() => {
@@ -68,10 +67,6 @@ export const AddBrandsModal = ({product,isUpdated}) => {
 
         fetch(url, {
             method: method,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
             body: formData,
         })
             .then(response => response.json())

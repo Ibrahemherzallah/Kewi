@@ -5,16 +5,11 @@ const ConfirmationModal = ({deletedItem, id,itemId}) => {
 
     const [showToast, setShowToast] = useState(false);
     const {isDark,setIsDark} = useContext(ThemeContext);
-    const token = localStorage.getItem("token");
 
     const handleDelete = async (deletedItem, itemId) => {
         try {
             const response = await fetch(`https://kewi.ps/admin/${deletedItem}${deletedItem !== 'categories' ? 's' : ''}/${itemId}`, {
                 method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
             });
 
             if (!response.ok) {
