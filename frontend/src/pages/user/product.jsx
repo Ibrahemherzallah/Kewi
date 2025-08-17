@@ -25,6 +25,8 @@ const Product = () => {
     const [relatedProduct, setRelatedProduct] = useState([]); // initialize as []
     const [categoryId,setCategoryId] = useState(null);
     const [flag,setFlag] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const { products, setProducts } = useContext(CartContext);
     const {user} = useContext(UserContext);
 
@@ -35,6 +37,7 @@ const Product = () => {
         });
     })
     useEffect( () => {
+        setLoading(true);
             const fetchData = async () => {
                 try {
                     const response = await fetch(`https://kewi.ps/admin/products/${id}`);
@@ -44,6 +47,9 @@ const Product = () => {
                     setFlag(!flag)
                 } catch (error) {
                     console.error("Error fetching product:", error);
+                    setError(error.message || 'حدث خطأ غير متوقع');
+                } finally {
+                    setLoading(false);
                 }
             }
 
@@ -83,55 +89,86 @@ const Product = () => {
     }
 
     return (
-            <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}>
-                <div className={`d-flex ${style.productDiv}`}>
-                    <div className={`overflow-hidden ${style.imagesDiv}`}>
-                        <Carousel>
-                            {product?.image?.map((imgSrc, index) => (
-                                <Carousel.Item key={index}>
-                                    <img
-                                        className={`d-block w-100 ${style.productPageImages}`}
-                                        src={imgSrc}
-                                        alt={`Product image ${index + 1}`}
-                                    />
-                                </Carousel.Item>
-                            ))}
-                        </Carousel>
-                    </div>
-                    <div className={`d-flex flex-column ${style.productDetails}`}>
-                        <h2 className={`fw-bold`}>{product?.name}</h2>
-                        <Typography component={'h6'} variant={'tertiary'}>{product?.color}</Typography>
-                        <div className={`mt-2 d-flex gap-3`}>
-                            <Typography component={'h5'}>₪{user?.isWholesaler ? product.wholesalerPrice : product.isOnSale ? product.salePrice : product.customerPrice}.00</Typography>
-                            {  product?.isOnSale &&
-                                <div className={`mb-2`}>
-                                    <Typography component={'p'} variant={'tertiary'} line={'above'}>₪{product.customerPrice}</Typography>
-                                </div>
-                            }
+        <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}>
+            {loading ? (
+                <p style={{ textAlign: "center", fontSize: "18px", fontWeight: "600", color: "#666",height: '40rem' }}>
+                    جاري تحميل المنتج...
+                </p>
+            ) : error ? (
+                <p style={{ textAlign: "center", fontSize: "18px", fontWeight: "600", color: "red" }}>
+                    {error}
+                </p>
+            ) : (
+                <>
+                    {/* Product Details */}
+                    <div className={`d-flex ${style.productDiv}`}>
+                        <div className={`overflow-hidden ${style.imagesDiv}`}>
+                            <Carousel>
+                                {product?.image?.map((imgSrc, index) => (
+                                    <Carousel.Item key={index}>
+                                        <img
+                                            className={`d-block w-100 ${style.productPageImages}`}
+                                            src={imgSrc}
+                                            alt={`Product image ${index + 1}`}
+                                        />
+                                    </Carousel.Item>
+                                ))}
+                            </Carousel>
                         </div>
-                        <br />
-                        <p>{product.description}</p>
-
-                        <Button variant={product.isSoldOut ? 'tertiary' : 'primary'} size={'xl'} style={{marginTop:'auto'}} onClick={()=>{product.isSoldOut ? null :setLocalStorage()}}>
-                            أضف الى السلة <FontAwesomeIcon icon={faCartPlus} />
-                        </Button>
+                        <div className={`d-flex flex-column ${style.productDetails}`}>
+                            <h2 className={`fw-bold`}>{product?.name}</h2>
+                            <Typography component={'h6'} variant={'tertiary'}>{product?.color}</Typography>
+                            <div className={`mt-2 d-flex gap-3`}>
+                                <Typography component={'h5'}>
+                                    ₪{user?.isWholesaler
+                                    ? product.wholesalerPrice
+                                    : product.isOnSale
+                                        ? product.salePrice
+                                        : product.customerPrice}.00
+                                </Typography>
+                                {product?.isOnSale && (
+                                    <div className={`mb-2`}>
+                                        <Typography component={'p'} variant={'tertiary'} line={'above'}>
+                                            ₪{product.customerPrice}
+                                        </Typography>
+                                    </div>
+                                )}
+                            </div>
+                            <br />
+                            <p>{product.description}</p>
+                            <Button
+                                variant={product.isSoldOut ? 'tertiary' : 'primary'}
+                                size={'xl'}
+                                style={{ marginTop: 'auto' }}
+                                onClick={() => {
+                                    if (!product.isSoldOut) setLocalStorage();
+                                }}
+                            >
+                                أضف الى السلة <FontAwesomeIcon icon={faCartPlus} />
+                            </Button>
+                        </div>
                     </div>
-                </div>
 
-
-                <div className={`${style.relatedProductsDiv}`} data-aos="fade-up">
-                    <Typography component="h1" style={{ whiteSpace: 'nowrap'}}>
-                        منتجات <span className={`${style.relatedProductsText}`} style={{color: 'var(--secondary)'}}>مشابهة</span>
-                    </Typography>
-                    <div className={`${style.relatedProducts} my-5`}>
-                        {
-                            relatedProduct?.map((item, index) => (
-                                <CardItem key={index} isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} item={item}></CardItem>
-                            ))
-                        }
+                    {/* Related Products */}
+                    <div className={`${style.relatedProductsDiv}`} data-aos="fade-up">
+                        <Typography component="h1" style={{ whiteSpace: 'nowrap' }}>
+                            منتجات <span className={`${style.relatedProductsText}`} style={{ color: 'var(--secondary)' }}>مشابهة</span>
+                        </Typography>
+                        <div className={`${style.relatedProducts} my-5`}>
+                            {relatedProduct?.map((item, index) => (
+                                <CardItem
+                                    key={index}
+                                    isSidebarOpen={isSidebarOpen}
+                                    setSidebarOpen={setSidebarOpen}
+                                    item={item}
+                                />
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </Layout>
-    )
-}
+                </>
+            )}
+        </Layout>
+    );
+};
+
 export default Product;

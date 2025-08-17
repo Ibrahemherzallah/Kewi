@@ -13,7 +13,7 @@ import promotionImg3 from "../../assets/img3.jpg";
 import promotionImg4 from "../../assets/img4.jpg";
 
 import CardItem from "../../containers/card.jsx";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {UserContext} from "../../context/userContext.jsx";
 import Layout from "./layout.jsx";
 import AOS from 'aos';
@@ -27,6 +27,10 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
+  // ⬅ Refs for the sections
+  const featuredRef = useRef(null);
+  const categoriesRef = useRef(null);
+
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -39,96 +43,77 @@ const Home = () => {
           setProducts(data);
         })
   },[])
-  return(
+
+
+
+  const scrollToFeatured = () => {
+    featuredRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToCategories = () => {
+    categoriesRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+
+  return (
       <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}>
-        <div id="carouselExampleIndicators" className={`carousel slide ${style.carouselSlide}`} data-bs-ride="carousel" data-bs-interval="2000" data-aos="fade-up">
-          <div className="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
-          </div>
-
-          <div className="carousel-inner">
-            <div className="carousel-item active">
-              <Link to={'/category/6803fb1535efe305218f9a10'} state= {{catName: 'العروض'}}>
-                <img src={promotionImg3} className={`d-block w-100 ${style.carouselImage}`} alt="..."/>
-              </Link>
-            </div>
-            <div className="carousel-item">
-              <Link to={'/category/6803fb1535efe305218f9a10'} state= {{catName: 'العروض'}}>
-                <img src={promotionImg2} className={`d-block w-100 ${style.carouselImage}`} alt="..."/>
-              </Link>
-            </div>
-            <div className="carousel-item">
-              <Link to={'/category/6803fb1535efe305218f9a10'} state= {{catName: 'العروض'}}>
-                <img id="carouselImage" src={promotionImg} className={`d-block w-100 ${style.carouselImage}`} alt="..."/>
-              </Link>
-            </div>
-            <div className="carousel-item">
-              <Link to={'/category/6803fb1535efe305218f9a10'} state= {{catName: 'العروض'}}>
-                <img src={promotionImg4} className={`d-block w-100 ${style.carouselImage}`} alt="..."/>
-              </Link>
+        <section className={`${style.heroSection}`}>
+          <div className={`${style.heroContainer}`}>
+            <h1 style={{ direction: "rtl" }}>مرحباً بك في KEWI</h1>
+            <p>اكتشفي أحدث الحقائب والإكسسوارات بتصاميم عصرية وأسعار مميزة</p>
+            <div className={`${style.heroButtons}`}>
+              <button onClick={scrollToFeatured} className={`${style.btnRed}`}>
+                تسوق الآن
+              </button>
+              <button onClick={scrollToCategories} className={`${style.btnWhite}`}>
+                استعرض الفئات
+              </button>
             </div>
           </div>
+        </section>
 
-          <button
-              className="carousel-control-prev"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="prev"
-          >
-            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button
-              className="carousel-control-next"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="next"
-          >
-            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Next</span>
-          </button>
-        </div>
-
-
-        <div className={`d-flex flex-column justify-content-center align-items-center ${style.whoWeDiv}`} data-aos="fade-up">
-          <h1 className={`fw-bold`}>من نحن ؟</h1><br />
-          <p className={`text-center ${style.whoWe}`} >
-            “في كل شنطة بنقدمها، وراها سعي وتعب وحُب… إحنا ما بنبيع بس منتج، إحنا بنوصلكم شغفنا وطموحنا خطوة بخطوة.”<br/>
-            “مش بس شنط، هذا تعب وسعي وحلم تحقق عشان يوصل لإيدك.”
-          </p>
-        </div>
-        <div className={`${style.homePageCategoryDiv}`} data-aos="fade-up">
+        <div
+            ref={categoriesRef}
+            className={`${style.homePageCategoryDiv}`}
+            data-aos="fade-up"
+        >
           <div className="d-flex align-items-center my-3 gap-5" data-aos="fade-up">
-            <hr style={{ flex: 1, borderTop: '2px solid #ccc' }} />
-            <Typography component="h1" style={{ whiteSpace: 'nowrap',color:'var(--hint-text)' }}>
+            <hr style={{ flex: 1, borderTop: "2px solid #ccc" }} />
+            <Typography component="h1" style={{ whiteSpace: "nowrap", color: "var(--hint-text)" }}>
               تسوق  حسب  الفئة
             </Typography>
-            <hr style={{ flex: 1, borderTop: '2px solid #ccc' }} />
+            <hr style={{ flex: 1, borderTop: "2px solid #ccc" }} />
           </div>
           <CategoryCards data-aos="fade-up"></CategoryCards>
         </div>
-        <div className={`${style.homePageFeaturedProductDiv}`} data-aos="fade-up">
+
+        <div
+            ref={featuredRef}
+            className={`${style.homePageFeaturedProductDiv}`}
+            data-aos="fade-up"
+        >
           <div className="d-flex align-items-center my-3 gap-5" data-aos="fade-up">
-            <hr style={{ flex: 1, borderTop: '2px solid #ccc' }} />
-            <Typography component="h1" style={{ whiteSpace: 'nowrap', color: 'var(--hint-text)' }}>
+            <hr style={{ flex: 1, borderTop: "2px solid #ccc" }} />
+            <Typography component="h1" style={{ whiteSpace: "nowrap", color: "var(--hint-text)" }}>
               أخر ما وصلنا
             </Typography>
-            <hr style={{ flex: 1, borderTop: '2px solid #ccc' }} />
+            <hr style={{ flex: 1, borderTop: "2px solid #ccc" }} />
           </div>
           <div className={`${style.featuredProduct}`} data-aos="fade-up">
-            {
-              products.map((item,index) => (
-                  <CardItem key={index} isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} item={item}></CardItem>
-              ))
-            }
+            {products.map((item, index) => (
+                <CardItem
+                    key={index}
+                    isSidebarOpen={isSidebarOpen}
+                    setSidebarOpen={setSidebarOpen}
+                    item={item}
+                ></CardItem>
+            ))}
           </div>
         </div>
-        <br/>
+
+        <br />
       </Layout>
-  )
+  );
 }
 
 export default Home;

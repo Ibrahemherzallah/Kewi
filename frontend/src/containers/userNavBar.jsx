@@ -51,10 +51,10 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen}) => {
             <Navbar user={true}>
                 <Nav>
                     <NavBrand>
-                        <div className='d-flex gap-3 w-100'>
+                        <Link to={'/'} className='d-flex gap-3 w-100'>
                             <img className={style.logoImg} src={logo} alt="" />
                             <img className={`${style.logoTextImg} ${isDark ? style.dark : ''}`} src={isDark ? logoTextWhite : logoText} alt="" />
-                        </div>
+                        </Link>
                     </NavBrand>
                     <NavIcons>
 
@@ -129,7 +129,7 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen}) => {
                                                 to={'/category/680fd54f4dde5779298c2701'} state={{catName: 'حقائب سفر'}}
                                                 className={`${style.dropDownItem}`} href="#">حقائب سفر</Link></li>
                                             <li className={`${style.dropDownItemLi}`}><Link
-                                                to={'/category/680fd7654dde5779298c273e'} state={{catName: 'حزدان يد'}}
+                                                to={'/category/680fd7654dde5779298c273e'} state={{catName: 'جزدان يد'}}
                                                 className={`${style.dropDownItem}`} href="#">جزدان يد</Link></li>
                                         </ul>
                                     </li>

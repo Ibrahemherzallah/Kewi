@@ -110,6 +110,12 @@ const AdminDash = () => {
         }
     }, [openedBtn]);
 
+    const filteredProducts = result.filter(item =>
+        (searchedValue === "" || item?.name?.toLowerCase().includes(searchedValue.toLowerCase())) &&
+        (searchedId === "" || item?.id?.toString().toLowerCase().includes(searchedId.toLowerCase()))
+    );
+
+
     return(
         <>
             <AdminNav></AdminNav>
@@ -200,10 +206,8 @@ const AdminDash = () => {
                                         <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
                                             <h6>Image</h6><h6>Name</h6><h6>id</h6><h6>Brand</h6><h6>Category</h6><h6>Price</h6><h6>Status</h6><h6># of clicks</h6><h6>Actions</h6>
                                         </div>
-                                        {Array.isArray(result) && result
-                                            .filter(item => item?.name?.includes(searchedValue) && item?.id?.includes(searchedId))
-                                            .map(res => (
-                                                <ProductCard key={res.id} product={res} setSelectedProduct={setSelectedProduct} setOpenedBtn={setOpenedBtn} setIsUpdated={setIsUpdated}/>
+                                            {filteredProducts.map(res => (
+                                                <ProductCard key={res._id} product={res} setSelectedProduct={setSelectedProduct} setOpenedBtn={setOpenedBtn} setIsUpdated={setIsUpdated}/>
                                             ))}
                                         <AddProductModal category={category} brand={brand} product={selectedProduct} isUpdated={isUpdated}/>
                                     </div>

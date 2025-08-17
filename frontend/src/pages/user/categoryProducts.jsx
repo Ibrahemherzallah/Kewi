@@ -19,12 +19,16 @@ const CategoryProducts = () => {
     const [selectedBrand , setSelectedBrand] = useState(undefined);
     const [selectedSize, setSelectedSize] = useState(undefined);
     const [isSidebarOpen, setSidebarOpen] = useState(false);
-    const [allBrands, setAllBrands] = useState([]);
-    const filteredProducts = products.filter(item =>
-        (!selectedBrand || item?.brandId?.name === selectedBrand) &&
-        (!selectedSize || item?.size === selectedSize)
-    );
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
+    const [allBrands, setAllBrands] = useState([]);
+    const filteredProducts = products
+
+    const filteredBags = products.filter(item =>
+            (!selectedBrand || item?.brandId?.name === selectedBrand) &&
+            (!selectedSize || item?.size === selectedSize)
+    );
 
     async function fetchBrands() {
         if (brands.length === 0) {
@@ -41,12 +45,16 @@ const CategoryProducts = () => {
         }
     }
     async function fetchProducts() {
+        setLoading(true)
         try {
             const res = await fetch(`https://kewi.ps/admin/products/category/${id}`);
             const data = await res.json();
             setProducts(data);
         } catch (err) {
             console.error("Error fetching products by category:", err);
+            setError(err.message || 'حدث خطأ غير متوقع');
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -86,20 +94,35 @@ const CategoryProducts = () => {
                      </div>
                 }
             </div>
-            <div className={`mb-5 ${filteredProducts.length === 0 ? `d-flex justify-content-center` : ''} ${style.categoryProducts}`}>
-                {
-                    filteredProducts?.map((item, index) => (
-                        <CardItem key={index} isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} item={item}></CardItem>
-                    ))
-                }
-                {
-                    (filteredProducts.length === 0) &&
-                    <div className={`w-100 d-flex justify-content-center`}>
-                        <img src={noProduct} className={style.noProductImg}  alt={"noProduct"} />
-                    </div>
-                }
-            </div>
+
+            {/* LOADING / ERROR / PRODUCTS */}
+            {loading ? (
+                <p style={{ textAlign: "center", fontSize: "18px", fontWeight: "600", color: "#666",height: "40rem" }}>
+                    جاري تحميل المنتجات...
+                </p>
+            ) : error ? (
+                <p style={{ textAlign: "center", fontSize: "18px", fontWeight: "600", color: "red" }}>
+                    {error}
+                </p>
+            ) : (
+                <div className={`mb-5 ${filteredProducts.length === 0 ? `d-flex justify-content-center` : ''} ${style.categoryProducts}`}>
+                    {catName === 'حقائب اليد'
+                        ? filteredBags?.map((item, index) => (
+                            <CardItem key={index} isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} item={item} />
+                        ))
+                        : filteredProducts?.map((item, index) => (
+                            <CardItem key={index} isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} item={item} />
+                        ))
+                    }
+                    {(filteredProducts.length === 0 && filteredBags.length === 0) && (
+                        <div className={`w-100 d-flex justify-content-center`}>
+                            <img src={noProduct} className={style.noProductImg} alt={"noProduct"} />
+                        </div>
+                    )}
+                </div>
+            )}
         </Layout>
     );
-}
+};
+
 export default CategoryProducts;
