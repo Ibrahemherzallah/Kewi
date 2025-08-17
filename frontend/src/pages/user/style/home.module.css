@@ -218,7 +218,88 @@
 .relatedProductsText {
   font-size: 2rem;
 }
+/*////////////////////////*/
 
+
+
+
+
+.heroSection {
+  /*background: linear-gradient(to right, #bbecc1, #74e377); !* kiwi green shades *!*/
+  /*background: linear-gradient(to right, #cadfcd, #8be68e); !* kiwi green shades *!*/
+  background: linear-gradient(to right, var(--main-section-left), var(--main-section-right)); /* kiwi green shades */
+
+  /*background: linear-gradient(to right, #5a5a5a, #122e12); !* kiwi green shades *!*/
+
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.heroSection h1 {
+  font-size: 3rem;
+  color: var(--main-section-text);
+  margin-bottom: 1.5rem;
+}
+
+.heroSection p {
+  font-size: 1.25rem;
+  color: var(--main-section-text);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btnRed {
+  background: #7ed88d;
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+}
+
+.btnRed:hover {
+  background: #87df92; /* darker kiwi green */
+}
+
+.btnWhite {
+  background: white;
+  color: #6BCB77;
+  padding: 0.75rem 2rem;
+  border: 2px solid #ddd; /* softer than pure white */
+  border-radius: 0.5rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btnWhite:hover {
+  background: #f9f9f9;
+}
+
+
+@media (max-width: 640px) {
+  .heroSection h1 {
+    font-size: 2rem;
+  }
+
+  .heroSection p {
+    font-size: 1rem;
+  }
+
+  .btnRed, .btnW  hite {
+    font-size: 0.9rem;
+  }
+}
+
+
+/*////////////////\\\\\\\\\\\\\\*/
 @media screen and (max-width: 1500px) {
   .relatedProducts {
     gap: 2rem;
