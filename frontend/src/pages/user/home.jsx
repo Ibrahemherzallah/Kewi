@@ -60,7 +60,7 @@ const Home = () => {
       <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} activeTab={activeTab} setActiveTab={setActiveTab}>
         <section className={`${style.heroSection}`}>
           <div className={`${style.heroContainer}`}>
-            <h1 style={{ direction: "rtl" }}>مرحباً بك في KEWI</h1>
+            <h1 className={'fw-semibold'}>مرحباً بك في كيوي</h1>
             <p>اكتشفي أحدث الحقائب والإكسسوارات بتصاميم عصرية وأسعار مميزة</p>
             <div className={`${style.heroButtons}`}>
               <button onClick={scrollToFeatured} className={`${style.btnRed}`}>
