@@ -15,7 +15,8 @@ import {CartContext} from "../../context/cartContext.jsx";
 import Button from "../../components/button/button.jsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Carousel } from 'react-bootstrap';
-import {UserContext} from "../../context/userContext.jsx"; // import carousel
+import {UserContext} from "../../context/userContext.jsx";
+import {CartReserve} from "../../context/cartReserve.jsx"; // import carousel
 
 const Product = () => {
 
@@ -27,7 +28,9 @@ const Product = () => {
     const [flag,setFlag] = useState(true);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [activeTab, setActiveTab] = useState('cart');
     const { products, setProducts } = useContext(CartContext);
+    const { reserved, setReserved } = useContext(CartReserve);
     const {user} = useContext(UserContext);
 
     useEffect(() => {
@@ -85,11 +88,39 @@ const Product = () => {
         if(!isSidebarOpen){
             setSidebarOpen(true);
         }
-
     }
+    async function setLocalReserved() {
+        let isExist = reserved.find(r => r._id === product._id);
 
+        if (!isExist) {
+            // Call API to increment clicks only if new
+            try {
+                await fetch(`https://kewi.ps/admin/products/${product._id}/click`, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+            } catch (err) {
+                console.error("Failed to update product clicks:", err);
+            }
+
+            // Add to reserved
+            const newItem = {
+                ...product,
+                numOfItems: 1,
+            };
+            setReserved([...reserved, newItem]);
+        }
+
+        // Open sidebar on reserved tab
+        if (!isSidebarOpen) {
+            setActiveTab("reserved");
+            setSidebarOpen(true);
+        }
+    }
     return (
-        <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}>
+        <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} activeTab={activeTab} setActiveTab={setActiveTab}>
             {loading ? (
                 <p style={{ textAlign: "center", fontSize: "18px", fontWeight: "600", color: "#666",height: '40rem' }}>
                     جاري تحميل المنتج...
@@ -136,16 +167,32 @@ const Product = () => {
                             </div>
                             <br />
                             <p>{product.description}</p>
-                            <Button
-                                variant={product.isSoldOut ? 'tertiary' : 'primary'}
-                                size={'xl'}
-                                style={{ marginTop: 'auto' }}
-                                onClick={() => {
-                                    if (!product.isSoldOut) setLocalStorage();
-                                }}
-                            >
-                                أضف الى السلة <FontAwesomeIcon icon={faCartPlus} />
-                            </Button>
+                            {
+                                product.isSoon
+                                    ?
+                                    <Button
+                                        variant={product?.isSoldOut ? 'tertiary' : 'primary'}
+                                        size={'xl'}
+                                        style={{ marginTop: 'auto' }}
+                                        onClick={() => {
+                                            if (!product.isSoldOut) setLocalReserved();
+                                        }}
+                                    >
+                                        إحجز الان
+                                    </Button>
+                                    :
+                                    <Button
+                                        variant={product?.isSoldOut ? 'tertiary' : 'primary'}
+                                        size={'xl'}
+                                        style={{ marginTop: 'auto' }}
+                                        onClick={() => {
+                                            if (!product.isSoldOut) setLocalStorage();
+                                        }}
+                                    >
+                                        أضف الى السلة <FontAwesomeIcon icon={faCartPlus} />
+                                    </Button>
+                            }
+
                         </div>
                     </div>
 

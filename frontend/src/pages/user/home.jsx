@@ -26,6 +26,7 @@ const Home = () => {
   const {user} = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("cart"); // cart | reserved
 
   // ⬅ Refs for the sections
   const featuredRef = useRef(null);
@@ -56,7 +57,7 @@ const Home = () => {
 
 
   return (
-      <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}>
+      <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} activeTab={activeTab} setActiveTab={setActiveTab}>
         <section className={`${style.heroSection}`}>
           <div className={`${style.heroContainer}`}>
             <h1 style={{ direction: "rtl" }}>مرحباً بك في KEWI</h1>
@@ -72,11 +73,7 @@ const Home = () => {
           </div>
         </section>
 
-        <div
-            ref={categoriesRef}
-            className={`${style.homePageCategoryDiv}`}
-            data-aos="fade-up"
-        >
+        <div ref={categoriesRef} className={`${style.homePageCategoryDiv}`} data-aos="fade-up">
           <div className="d-flex align-items-center my-3 gap-5" data-aos="fade-up">
             <hr style={{ flex: 1, borderTop: "2px solid #ccc" }} />
             <Typography component="h1" style={{ whiteSpace: "nowrap", color: "var(--hint-text)" }}>
@@ -87,11 +84,7 @@ const Home = () => {
           <CategoryCards data-aos="fade-up"></CategoryCards>
         </div>
 
-        <div
-            ref={featuredRef}
-            className={`${style.homePageFeaturedProductDiv}`}
-            data-aos="fade-up"
-        >
+        <div ref={featuredRef} className={`${style.homePageFeaturedProductDiv}`} data-aos="fade-up">
           <div className="d-flex align-items-center my-3 gap-5" data-aos="fade-up">
             <hr style={{ flex: 1, borderTop: "2px solid #ccc" }} />
             <Typography component="h1" style={{ whiteSpace: "nowrap", color: "var(--hint-text)" }}>
@@ -101,12 +94,7 @@ const Home = () => {
           </div>
           <div className={`${style.featuredProduct}`} data-aos="fade-up">
             {products.map((item, index) => (
-                <CardItem
-                    key={index}
-                    isSidebarOpen={isSidebarOpen}
-                    setSidebarOpen={setSidebarOpen}
-                    item={item}
-                ></CardItem>
+                <CardItem key={index} isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} activeTab={activeTab} setActiveTab={setActiveTab} item={item}></CardItem>
             ))}
           </div>
         </div>

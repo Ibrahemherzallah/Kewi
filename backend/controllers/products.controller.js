@@ -34,15 +34,27 @@ export const getProductsById = async (req, res) => {
 
 export const getProductsByCategory = async (req, res) => {
     const { categoryId } = req.params;
+    if(categoryId === '6804dfd569ff9ce587677f0c') {
+        try {
+            const products = await Product.find({ isSoon: true })
+                .populate('categoryId')
+                .populate('brandId');
 
-    try {
-        const products = await Product.find({ categoryId })
-            .populate('categoryId')
-            .populate('brandId');
+            res.json(products);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+    else {
+        try {
+            const products = await Product.find({ categoryId })
+                .populate('categoryId')
+                .populate('brandId');
 
-        res.json(products);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+            res.json(products);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
     }
 };
 
@@ -95,6 +107,7 @@ export const addProduct = async (req, res) => {
             stockNumber,
             isSoldOut = false,
             isOnSale = false,
+            isSoon = false,
             salePrice,
             numOfClicks = 0
         } = req.body;
@@ -114,6 +127,7 @@ export const addProduct = async (req, res) => {
             salePrice: salePrice ? Number(salePrice) : null,
             isSoldOut: isSoldOut === "true",
             isOnSale: isOnSale === "true",
+            isSoon: isSoon === "true",
             numOfClicks: Number(numOfClicks),
             image: [],
         };
@@ -131,6 +145,27 @@ export const addProduct = async (req, res) => {
         res.status(500).json({ error: e.message });
     }
 };
+
+export const incrementProductClicks = async (req, res) => {
+    try {
+        const { id } = req.params; // productId from URL
+        const product = await Product.findByIdAndUpdate(
+            id,
+            { $inc: { numOfClicks: 1 } }, // increment
+            { new: true } // return updated document
+        );
+
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+
+        res.status(200).json({ message: "Clicks incremented", product });
+    } catch (error) {
+        console.error("Error incrementing clicks:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
 
 export const updateProduct = async (req, res) => {
     try {
@@ -165,6 +200,7 @@ export const updateProduct = async (req, res) => {
             salePrice: req.body.salePrice || existingProduct.salePrice,
             isSoldOut: req.body.isSoldOut ?? existingProduct.isSoldOut,
             isOnSale: req.body.isOnSale ?? existingProduct.isOnSale,
+            isSoon: req.body.isSoon ?? existingProduct.isSoon,
             image: existingProduct.image,
         };
 

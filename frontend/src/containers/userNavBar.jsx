@@ -19,7 +19,7 @@ import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 
-const UserNavBar = ({isSidebarOpen,setSidebarOpen}) => {
+const UserNavBar = ({isSidebarOpen,setSidebarOpen,activeTab, setActiveTab}) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const {user, setUser} = useContext(UserContext);
@@ -146,7 +146,7 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen}) => {
                                               className="nav-link">العروض</Link>
                                     </li>
                                     <li className={`nav-item ${isDark ? style.navItemDark : style.navItem}`}>
-                                        <Link to={'/category/6804dfd569ff9ce587677f0c'} state={{catName: 'المنتجات'}}
+                                        <Link to={'/category/6804dfd569ff9ce587677f0c'} state={{catName: 'قريبا'}}
                                               className="nav-link">قريبا</Link>
                                     </li>
                                     <li className={`nav-item ${isDark ? style.navItemDark : style.navItem}`}>
@@ -178,7 +178,7 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen}) => {
                 </div>
             </div>
             {/* Sidebar */}
-            <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
+            <Sidebar isOpen={isSidebarOpen} activeTab={activeTab} setActiveTab={setActiveTab} onClose={() => setSidebarOpen(false)} />
             <UserDetailsModal></UserDetailsModal>
         </>
 

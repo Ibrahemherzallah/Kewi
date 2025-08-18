@@ -12,12 +12,12 @@ import {Link} from "react-router";
 import {useContext} from "react";
 import {UserContext} from "../../context/userContext.jsx";
 
-const Layout = ({isSidebarOpen,setSidebarOpen,children}) => {
+const Layout = ({isSidebarOpen,setSidebarOpen,activeTab,setActiveTab,children}) => {
 
     const {user} = useContext(UserContext);
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            <UserNavBar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}></UserNavBar>
+            <UserNavBar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} activeTab={activeTab} setActiveTab={setActiveTab}></UserNavBar>
             <div className={style.homePageMainContentDiv} style={{ flex: 1 }}>
                 {children}
             </div>
