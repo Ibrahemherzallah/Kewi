@@ -256,7 +256,7 @@
 }
 
 .btnRed {
-  background: #7ed88d;
+  background: #66330c;
   color: white;
   padding: 0.75rem 2rem;
   border-radius: 0.5rem;
@@ -266,7 +266,7 @@
 }
 
 .btnRed:hover {
-  background: #87df92; /* darker kiwi green */
+  background: #6c3e1c; /* darker kiwi green */
 }
 
 .btnWhite {
@@ -302,8 +302,6 @@
   transition: all 0.3s ease-in-out;
   background: var(--btn-bg-hover);
 }
-
-
 
 
 
