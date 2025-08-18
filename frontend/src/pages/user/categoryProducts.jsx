@@ -21,6 +21,7 @@ const CategoryProducts = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [activeTab, setActiveTab] = useState('cart');
 
     const [allBrands, setAllBrands] = useState([]);
     const filteredProducts = products
@@ -65,7 +66,7 @@ const CategoryProducts = () => {
         fetchBrands();
     },[])
     return (
-        <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}>
+        <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} activeTab={activeTab} setActiveTab={setActiveTab}>
             <div className={`d-flex justify-content-between ${style.categoryProductsHeader}`}>
                 {
                     <h2 className={`mt-3 mb-5 ${style.categoryHeader}`}>
@@ -108,10 +109,10 @@ const CategoryProducts = () => {
                 <div className={`mb-5 ${filteredProducts.length === 0 ? `d-flex justify-content-center` : ''} ${style.categoryProducts}`}>
                     {catName === 'حقائب اليد'
                         ? filteredBags?.map((item, index) => (
-                            <CardItem key={index} isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} item={item} />
+                            <CardItem key={index} isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}  activeTab={activeTab} setActiveTab={setActiveTab} item={item} />
                         ))
                         : filteredProducts?.map((item, index) => (
-                            <CardItem key={index} isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} item={item} />
+                            <CardItem key={index} isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} activeTab={activeTab} setActiveTab={setActiveTab} item={item} />
                         ))
                     }
                     {(filteredProducts.length === 0 && filteredBags.length === 0) && (

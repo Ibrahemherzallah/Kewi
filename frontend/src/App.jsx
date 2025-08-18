@@ -10,10 +10,12 @@ import {ThemeContext} from "./context/themeContext.jsx";
 import CategoryProducts from "./pages/user/categoryProducts.jsx";
 import Product from "./pages/user/product.jsx";
 import {CartContext} from "./context/cartContext.jsx";
+import {CartReserve} from "./context/cartReserve.jsx";
 import ScrollToTop from "./containers/scrrollToTop.jsx";
 function App() {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
     const [products, setProducts] = useState(JSON.parse(localStorage.getItem("products")) || []);
+    const [reserved, setReserved] = useState(JSON.parse(localStorage.getItem("reserved")) || []);
     const [isDark, setIsDark] = useState(() => {
         return localStorage.getItem("isDark") === "true";
     });
@@ -24,27 +26,30 @@ function App() {
     useEffect(()=>{
         localStorage.setItem("isDark", isDark.toString());
         localStorage.setItem("products", JSON.stringify(products));
+        localStorage.setItem("reserved", JSON.stringify(reserved));
     })
-  return (
-    <div id={isDark? 'dark' : 'light'} style={{minHeight:'100vh'}}>
-        <UserContext.Provider value={{user,setUser}}>
-            <ThemeContext.Provider value={{isDark, setIsDark}}>
-                <CartContext.Provider value={{products,setProducts}}>
-                    <BrowserRouter>
-                        <ScrollToTop />
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/login" element={user ? user.isWholesaler ? <Navigate to={'/'}/> : <Navigate to={'/admin/dashboard'}/>  : <Login />} />
-                            <Route path="/admin/dashboard" element={user && !user.isWholesaler  ?  <AdminDash /> : <Navigate to={'/login'}/>} />
-                            <Route path="/category/:id" element={<CategoryProducts />} />
-                            <Route path="/product/:id" element={<Product />}></Route>
-                        </Routes>
-                    </BrowserRouter>
-                </CartContext.Provider>
-            </ThemeContext.Provider>
-        </UserContext.Provider>
-    </div>
-  )    
+    return (
+        <div id={isDark? 'dark' : 'light'} style={{minHeight:'100vh'}}>
+            <UserContext.Provider value={{user,setUser}}>
+                <ThemeContext.Provider value={{isDark, setIsDark}}>
+                    <CartContext.Provider value={{products,setProducts}}>
+                        <CartReserve.Provider value={{ reserved, setReserved }}>
+                            <BrowserRouter>
+                                <ScrollToTop />
+                                <Routes>
+                                    <Route path="/" element={<Home />} />
+                                    <Route path="/login" element={user ? user.isWholesaler ? <Navigate to={'/'}/> : <Navigate to={'/admin/dashboard'}/>  : <Login />} />
+                                    <Route path="/admin/dashboard" element={user && !user.isWholesaler  ?  <AdminDash /> : <Navigate to={'/login'}/>} />
+                                    <Route path="/category/:id" element={<CategoryProducts />} />
+                                    <Route path="/product/:id" element={<Product />}></Route>
+                                </Routes>
+                            </BrowserRouter>
+                        </CartReserve.Provider>
+                    </CartContext.Provider>
+                </ThemeContext.Provider>
+            </UserContext.Provider>
+        </div>
+    )
 }
 
 export default App

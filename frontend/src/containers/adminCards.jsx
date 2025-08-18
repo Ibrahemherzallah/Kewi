@@ -36,7 +36,7 @@ export const ProductCard = ({product, setSelectedProduct,setOpenedBtn,setIsUpdat
                 <h6>{product?.categoryId?.name}</h6>
                 <h6>₪ {product.customerPrice}</h6>
                 <h6>{product.isSoldOut ? 'Sold out' : 'In Stock'}</h6>
-                <h6>{product?.brandId?.isFake ? product.numOfClicks : '#'}</h6>
+                <h6>{product?.isSoon ? product?.numOfClicks : '#'}</h6>
                 <div className={`gap-2 d-flex align-items-center ${style.actionsDiv}`}>
                     <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#${modalId}`}><FontAwesomeIcon className={`text-danger`} style={{fontSize:'0.8rem'}} icon={faTrash} /></button>
                     <button data-bs-toggle="modal" data-bs-target="#exampleModal1" style={{fontSize:'0.8rem'}} onClick={() =>{setIsUpdated(true);setOpenedBtn(true);setSelectedProduct(product)} }>

@@ -47,10 +47,6 @@ const productSchema = new mongoose.Schema({
     required: false,
     enum: ['صغير','وسط','كبير']
   },
-  numOfClicks: {
-    type: Number,
-    default: 0
-  },
   customerPrice: {
     type: Number,
     required: true,
@@ -72,8 +68,16 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     required: false,
     default: false
-  }
-
+  },
+  isSoon: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  numOfClicks: {
+    type: Number,
+    default: 0
+  },
 },{timestamps: true})
 
 const Product = mongoose.model("Product", productSchema);
