@@ -1,6 +1,5 @@
 import Purchase from '../models/purchase.model.js';
 import Product from "../models/product.model.js";
-import axios from 'axios';
 import twilio from 'twilio';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -19,13 +18,14 @@ export const getPurchase = async (req, res) => {
 };
 
 export const addPurchase = async (req, res) => {
-    const { cName, cNumber, cAddress, cCity, price, numOfItems, delivery, id, notes } = req.body;
+    const { cName, cNumber, cAddress, cCity, price, numOfItems,color, delivery, id, notes } = req.body;
     try {
         const newPurchase = new Purchase({
             fullName: cName,
             phoneNumber: cNumber,
             streetAddress: cAddress,
             city: cCity,
+            color: color,
             price: price,
             numOfItems: numOfItems,
             deliveryType: delivery,
@@ -75,7 +75,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = twilio(accountSid, authToken);
 
 export const sendWhatsAppMessage = async (req, res) => {
-    const { cName, cNumber, cAddress, notes, cCity, price, numOfItems, delivery, id,  name, brandId, type } = req.body;
+    const { cName, cNumber, cAddress, notes, cCity, price, numOfItems, delivery,color, id,  name, brandId, type } = req.body;
     const message = `طلب جديد
                             الاسم: ${cName}
                             رقم الهاتف: ${cNumber}
@@ -87,6 +87,7 @@ export const sendWhatsAppMessage = async (req, res) => {
                             التوصيل: ${delivery}
                             معرف المنتج: ${id}
                             اسم المنتج: ${name}
+                            لون المنتج: ${color}
                             اسم الصنف: ${brandId}
                              مصدر الطلب:${type}
                             `;
@@ -103,5 +104,25 @@ export const sendWhatsAppMessage = async (req, res) => {
     } catch (error) {
         console.error('فشل إرسال رسالة واتساب:', error);
         res.status(500).json({ message: 'فشل إرسال الرسالة', error: error.message });
+    }
+};
+
+
+export const deleteOrder = async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log("Deleting order with id:", id);
+
+        // if using MongoDB _id
+        const order = await Purchase.findByIdAndDelete(id);
+
+        if (!order) {
+            return res.status(404).json({ success: false, message: "Order not found" });
+        }
+
+        res.status(200).json({ success: true, message: "Order deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting order:", error);
+        res.status(500).json({ success: false, message: "Server error" });
     }
 };

@@ -90,24 +90,35 @@ export const BrandCard = ({src,name,numOfClicks,product,setIsUpdated,setSelected
     )
 }
 
-export const OrderCard = ({res}) => {
-    const {isDark, setIsDark} = useContext(ThemeContext);
+export const OrderCard = ({res, deleteOrder}) => {
+    const {isDark} = useContext(ThemeContext);
+
     return(
         <div className={`mt-2 pe-1 ${isDark? style.AdminCardDivDark : style.AdminCardDiv}`}>
             <div className={`d-flex align-items-center justify-content-between ${style.orderCardDiv}`}>
-                <h6 className={`text-center`}>{res.fullName}</h6>
-                <h6 className={`text-center`}>{res.phoneNumber}</h6>
-                <h6 className={`text-center`}>{res.city} - {res.streetAddress}</h6>
-                <h6 className={`text-center`}>{res.productId}</h6>
-                <h6 className={`text-center`}>{res.price}</h6>
-                <h6 className={`text-center`}>{res.numOfItems}</h6>
-                <h6 className={`text-center`}>{res.deliveryType}</h6>
-                <h6 className={`text-center`}>{res.createdAt.toString().split('T')[0]}</h6>
-                <h6 className={`text-center`}>{res.notes}</h6>
+                <h6 className="text-center">{res.fullName}</h6>
+                <h6 className="text-center">{res.phoneNumber}</h6>
+                <h6 className="text-center">{res.city} - {res.streetAddress}</h6>
+                <h6 className="text-center">{res.productId}</h6>
+                <h6 className="text-center">{res.price}</h6>
+                <h6 className="text-center">{res.numOfItems}</h6>
+                <h6 className="text-center">{res.deliveryType}</h6>
+                <h6 className="text-center">{res.createdAt.toString().split('T')[0]}</h6>
+                <h6 className="text-center">{res?.color}</h6>
+                <h6 className="text-center">{res.notes}</h6>
+
+                {/* Trash button */}
+                <FontAwesomeIcon
+                    icon={faTrash}
+                    className="text-danger ms-2"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => deleteOrder(res._id)}
+                />
             </div>
         </div>
     )
 }
+
 
 
 export const WholesalerCard = ({name, number,address,product,setIsUpdated,setSelectedProduct}) => {
