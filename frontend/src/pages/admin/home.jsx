@@ -10,6 +10,7 @@ import {AddProductModal} from "./modals/addProducts.jsx";
 import {AddCategoryModal} from "./modals/addCategory.jsx";
 import {AddBrandsModal} from "./modals/addBrands.jsx";
 import {AddWholesalers} from "./modals/addWholesalers.jsx";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import {UserContext} from "../../context/userContext.jsx";
 import {ThemeContext} from "../../context/themeContext.jsx";
 import {data} from "react-router";
@@ -115,6 +116,20 @@ const AdminDash = () => {
         (searchedId === "" || item?.id?.toString().toLowerCase().includes(searchedId.toLowerCase()))
     );
 
+
+    const handleDeleteOrder = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this order?")) return;
+
+        try {
+            await fetch(`https://kewi.ps/admin/orders/${id}`, {
+                method: "DELETE",
+            });
+            // Update state to remove order from UI
+            setResult(prev => prev.filter(order => order._id !== id));
+        } catch (err) {
+            console.error("Error deleting order:", err);
+        }
+    };
 
     return(
         <>
@@ -242,10 +257,10 @@ const AdminDash = () => {
                                 {activeTab === "orders" && (
                                     <div className={`tab-pane fade show active ${style.productsTab}`}>
                                         <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
-                                            <h6>CName</h6><h6>C Phone</h6><h6>C Address</h6><h6>productId</h6><h6>Price</h6><h6># Of Item</h6><h6>DeliveryType</h6><h6>Order Date</h6><h6>Notes</h6>
+                                            <h6>CName</h6><h6>C Phone</h6><h6>C Address</h6><h6>productId</h6><h6>Price</h6><h6># Of Item</h6><h6>DeliveryType</h6><h6>Order Date</h6><h6>color</h6><h6>Notes</h6>
                                         </div>
                                         {Array.isArray(result) && result.map(res => (
-                                            <OrderCard key={res.id} res={res}/>
+                                            <OrderCard key={res._id} res={res} deleteOrder={handleDeleteOrder}/>
                                         ))}
                                     </div>
                                 )}

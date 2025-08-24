@@ -66,6 +66,7 @@ const UserDetailsModal = () => {
                 price: user?.isWholesaler ? products[i].wholesalerPrice : products[i].isOnSale ? products[i].salePrice : products[i].customerPrice,
                 numOfItems: products[i].numOfItems,
                 delivery: selectedType,
+                color: products[i].color,
                 id: products[i].id,
                 notes,
             };
@@ -110,6 +111,7 @@ const UserDetailsModal = () => {
                         cNumber,
                         cAddress,
                         notes,
+                        color: products[i].color,
                         cCity: selectedCity,
                         price: products[i].isOnSale ? products[i].salePrice : products[i].customerPrice,
                         numOfItems: products[i].numOfItems,

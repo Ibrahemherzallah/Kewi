@@ -10,6 +10,10 @@ const purchaseSchema = new mongoose.Schema({
     required: true,
     minlength: 10,
   },
+  color: {
+    type: String,
+    required: true,
+  },
   city: {
     type: String, // Changed from ObjectId to String to match your frontend
     required: true,

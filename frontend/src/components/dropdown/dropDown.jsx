@@ -45,7 +45,10 @@ export const UserDropDown = ({ size, options, dropdownType,selected,setSelected}
                 <FontAwesomeIcon icon={faCaretDown} className={show ? style.icon : style.iconR} />
             </button>
 
-            <ul className={`${style.dropdownOptions} ${show ? style.dropdownShow : ''} mt-1`}>
+            <ul
+                className={`${style.dropdownOptions} ${show ? style.dropdownShow : ''} mt-1`}
+                style={{ display: show ? "block" : "none" }}
+            >
                 <li className="p-2" onClick={() => { setSelected(null); setShow(false); }}>
                     مسح الفلاتر
                 </li>
