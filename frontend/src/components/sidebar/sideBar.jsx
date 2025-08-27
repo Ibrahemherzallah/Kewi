@@ -113,7 +113,7 @@ const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab}) => {
                     <div>
                         <hr className={style.sideBarHr} />
                         <div className={`d-flex justify-content-between px-4 ${style.sidebarTotalPrice}`}>
-                            <p>₪{totalPrice}.00</p>
+                            <p>₪{totalPrice.toFixed(2)}</p>
                             <p>الاجمالي</p>
                         </div>
                         <div className="mx-4 mt-3">
@@ -134,7 +134,7 @@ const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab}) => {
                     <div>
                         <hr className={style.sideBarHr} />
                         <div className={`d-flex justify-content-between px-4 ${style.sidebarTotalPrice}`}>
-                            <p>₪{reservedTotal}.00</p>
+                            <p>₪{reservedTotal}</p>
                             <p>الاجمالي</p>
                         </div>
                     </div>
