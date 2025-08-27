@@ -68,7 +68,7 @@ const SideBarCard = ({ product }) => {
             <div className={`w-100 p-2 px-3 ${style.sideBarCardContent}`}>
                 <h1 className={`m-0 fw-semibold ${style.sideBarCardHeader}`}>{product?.name}</h1>
                 <p className={`m-0 ${style.sideBarCardPrice}`}>
-                    ₪{user?.isWholesaler ? product?.wholesalerPrice : product?.isOnSale ? product?.salePrice : product?.customerPrice}.00
+                    ₪{user?.isWholesaler ? product?.wholesalerPrice : product?.isOnSale ? product?.salePrice : product?.customerPrice}
                 </p>
                 <div className={`d-flex justify-content-between w-100 ${style.sideBarCardButtons}`}>
                     <div className={`d-flex justify-content-between align-items-center w-50`}>

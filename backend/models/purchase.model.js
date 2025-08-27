@@ -12,7 +12,8 @@ const purchaseSchema = new mongoose.Schema({
   },
   color: {
     type: String,
-    required: true,
+    required: false,
+    default: '',
   },
   city: {
     type: String, // Changed from ObjectId to String to match your frontend
