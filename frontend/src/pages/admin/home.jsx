@@ -257,7 +257,7 @@ const AdminDash = () => {
                                 {activeTab === "orders" && (
                                     <div className={`tab-pane fade show active ${style.productsTab}`}>
                                         <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
-                                            <h6>CName</h6><h6>C Phone</h6><h6>C Address</h6><h6>productId</h6><h6>Price</h6><h6># Of Item</h6><h6>DeliveryType</h6><h6>Order Date</h6><h6>color</h6><h6>Notes</h6>
+                                            <h6>CName</h6><h6>C Phone</h6><h6>C Address</h6><h6>productId</h6><h6>Price</h6><h6>DeliveryType</h6><h6>Order Date</h6><h6>Notes</h6>
                                         </div>
                                         {Array.isArray(result) && result.map(res => (
                                             <OrderCard key={res._id} res={res} deleteOrder={handleDeleteOrder}/>

@@ -22,14 +22,32 @@ const CategoryProducts = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState('cart');
-
+    const [selectedSort, setSelectedSort] = useState("عشوائي");
     const [allBrands, setAllBrands] = useState([]);
     const filteredProducts = products
 
     const filteredBags = products.filter(item =>
-            (!selectedBrand || item?.brandId?.name === selectedBrand) &&
-            (!selectedSize || item?.size === selectedSize)
+        (!selectedBrand || item?.brandId?.name === selectedBrand) &&
+        (!selectedSize || item?.size === selectedSize)
     );
+
+    const handleSort = (value) => {
+        setSelectedSort(value);
+
+        let sortedProducts = [...products]; // use current products (after filters)
+
+        if (value === "الأحدث") {
+            sortedProducts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        } else if (value === "الأقدم") {
+            sortedProducts.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        } else {
+            // default = random
+            sortedProducts.sort(() => Math.random() - 0.5);
+        }
+        setProducts(sortedProducts);
+    };
+
+
 
     async function fetchBrands() {
         if (brands.length === 0) {
@@ -75,24 +93,41 @@ const CategoryProducts = () => {
                     </h2>
                 }
 
-                { catName === 'حقائب اليد' &&
+                { catName === 'حقائب اليد' ?
                     <div className={`d-flex mt-3 justify-content-between ${style.dropdownsDiv}`}>
                         <UserDropDown options={brands} dropdownType={"النوع"} size={'medium'}
-                            setSelected={(value) => {
-                            const selected = allBrands.find(b =>  b.name === value);
-                            if (selected?.isFake) {
-                                // Send request to increment clicks
-                                fetch(`https://kewi.ps/admin/brands/${selected._id}/click`, {
-                                    method: 'PATCH',
-                                }).catch(err => console.error("Error incrementing clicks:", err));
-                                    }
-                                    setSelectedBrand(value);
-                                }}
-                                    selected={selectedBrand}>
+                                      setSelected={(value) => {
+                                          const selected = allBrands.find(b =>  b.name === value);
+                                          if (selected?.isFake) {
+                                              // Send request to increment clicks
+                                              fetch(`https://kewi.ps/admin/brands/${selected._id}/click`, {
+                                                  method: 'PATCH',
+                                              }).catch(err => console.error("Error incrementing clicks:", err));
+                                          }
+                                          setSelectedBrand(value);
+                                      }}
+                                      selected={selectedBrand}>
 
                         </UserDropDown>
                         <UserDropDown options={sizes} dropdownType={"الحجم"} size={'medium'} setSelected={setSelectedSize} selected={selectedSize}></UserDropDown>
-                     </div>
+                        <UserDropDown
+                            options={["الأحدث", "الأقدم", "عشوائي"]}
+                            dropdownType={"ترتيب حسب"}
+                            size={'medium'}
+                            setSelected={handleSort}
+                            selected={selectedSort}
+                        />
+                    </div> :
+                    <div className={`d-flex mt-3 justify-content-between ${style.dropdownsDiv}`}>
+                        <UserDropDown
+                            options={["الأحدث", "الأقدم", "عشوائي"]}
+                            dropdownType={"ترتيب حسب"}
+                            size={'medium'}
+                            setSelected={handleSort}
+                            selected={selectedSort}
+                        />
+                    </div>
+
                 }
             </div>
 

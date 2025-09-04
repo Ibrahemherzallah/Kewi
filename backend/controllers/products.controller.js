@@ -51,6 +51,12 @@ export const getProductsByCategory = async (req, res) => {
                 .populate('categoryId')
                 .populate('brandId');
 
+            // Randomize (Fisher–Yates shuffle is better than sort(() => Math.random() - 0.5))
+            for (let i = products.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [products[i], products[j]] = [products[j], products[i]];
+            }
+
             res.json(products);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -63,13 +69,18 @@ export const getRelatedProductsByCategory = async (req, res) => {
     const { excludeId } = req.query;
 
     try {
-        const products = await Product.find({
-            categoryId,
-            _id: { $ne: excludeId } // Exclude the current product
-        })
-            .populate('categoryId')
-            .populate('brandId')
-            .limit(4); // Limit to 4 related products
+        const products = await Product.aggregate([
+            {
+                $match: {
+                    categoryId: new mongoose.Types.ObjectId(categoryId),
+                    _id: { $ne: new mongoose.Types.ObjectId(excludeId) }
+                }
+            },
+            { $sample: { size: 4 } } // Pick 4 random docs
+        ]);
+
+        // If you still want populated fields (brandId, categoryId), do a second populate step
+        await Product.populate(products, [{ path: "categoryId" }, { path: "brandId" }]);
 
         res.json(products);
     } catch (error) {

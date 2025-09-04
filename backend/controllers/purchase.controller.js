@@ -18,29 +18,50 @@ export const getPurchase = async (req, res) => {
 };
 
 export const addPurchase = async (req, res) => {
-    const { cName, cNumber, cAddress, cCity, price, numOfItems,color, delivery, id, notes } = req.body;
+    const {
+        cName,
+        cNumber,
+        cAddress,
+        cCity,
+        delivery,
+        notes,
+        id,
+        products, // includes { productId, quantity, color, price }
+        totalPrice,
+        numOfItems,
+    } = req.body;
+    console.log("TOTAL PRICE IS : " , totalPrice);
     try {
         const newPurchase = new Purchase({
             fullName: cName,
             phoneNumber: cNumber,
             streetAddress: cAddress,
             city: cCity,
-            color: color,
-            price: price,
-            numOfItems: numOfItems,
             deliveryType: delivery,
-            productId: id,
-            notes: notes,
+            notes,
+            id,
+            price: totalPrice, // frontend calculated
+            totalPrice,
+            numOfItems,
+            products, // now includes price + color
         });
 
         await newPurchase.save();
 
-        res.status(201).json({ message: 'تم إضافة الشراء بنجاح', purchase: newPurchase });
+        res.status(201).json({
+            message: "تم إضافة الشراء بنجاح",
+            purchase: newPurchase,
+        });
     } catch (error) {
-        console.error('Error creating purchase:', error);
-        res.status(500).json({ message: 'فشل في إضافة الشراء', error: error.message });
+        console.error("Error creating purchase:", error);
+        res.status(500).json({
+            message: "فشل في إضافة الشراء",
+            error: error.message,
+        });
     }
 };
+
+
 
 export const updateStock = async (req, res) => {
     const { id, quantity } = req.body; // id = product id, quantity = number to decrease
@@ -75,35 +96,47 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = twilio(accountSid, authToken);
 
 export const sendWhatsAppMessage = async (req, res) => {
-    const { cName, cNumber, cAddress, notes, cCity, price, numOfItems, delivery,color, id,  name, brandId, type } = req.body;
+    const { cName, cNumber, cAddress, notes, cCity, price, numOfItems, delivery, products, type, totalPrice } = req.body;
+
+    // Format products into a readable string
+    const productsMessage = products
+        .map(
+            (p, index) => `
+      🛒 المنتج ${index + 1}:
+      - معرف المنتج: ${p.productId}
+      - الكمية: ${p.quantity}
+      - اللون: ${p.color || "غير محدد"}
+    `
+        )
+        .join("\n");
+
     const message = `طلب جديد
-                            الاسم: ${cName}
-                            رقم الهاتف: ${cNumber}
-                            المدينة: ${cAddress}
-                            ملاحظات: ${notes || 'لا يوجد'}
-                            المنطقة: ${cCity}
-                            السعر: ${price}
-                            عدد العناصر: ${numOfItems}
-                            التوصيل: ${delivery}
-                            معرف المنتج: ${id}
-                            اسم المنتج: ${name}
-                            لون المنتج: ${color}
-                            اسم الصنف: ${brandId}
-                             مصدر الطلب:${type}
-                            `;
+الاسم: ${cName}
+رقم الهاتف: ${cNumber}
+المدينة: ${cAddress}
+ملاحظات: ${notes || "لا يوجد"}
+المنطقة: ${cCity}
+السعر الإجمالي بدون توصيل: ${totalPrice}
+التوصيل: ${delivery}
+${productsMessage}
+مصدر الطلب: ${type}
+`;
+
     try {
         const response = await client.messages.create({
             from: `whatsapp:${process.env.TWILIO_WHATSAPP_FROM}`,
             to: 'whatsapp:+972567758087',
             body: message,
         });
+
         const messageStatus = await client.messages(response.sid).fetch();
         console.log("The message is : ", messageStatus);
-        console.log('Message Status:', messageStatus.status);
-        res.status(200).json({ message: 'تم إرسال رسالة واتساب بنجاح' });
+        console.log("Message Status:", messageStatus.status);
+
+        res.status(200).json({ message: "تم إرسال رسالة واتساب بنجاح" });
     } catch (error) {
-        console.error('فشل إرسال رسالة واتساب:', error);
-        res.status(500).json({ message: 'فشل إرسال الرسالة', error: error.message });
+        console.error("فشل إرسال رسالة واتساب:", error);
+        res.status(500).json({ message: "فشل إرسال الرسالة", error: error.message });
     }
 };
 

@@ -99,12 +99,22 @@ export const OrderCard = ({res, deleteOrder}) => {
                 <h6 className="text-center">{res.fullName}</h6>
                 <h6 className="text-center">{res.phoneNumber}</h6>
                 <h6 className="text-center">{res.city} - {res.streetAddress}</h6>
-                <h6 className="text-center">{res.productId}</h6>
+                <h6 className="text-center" style={{fontSize : '0.8rem'}}>
+                    {res?.products && res.products.length > 0 ? (
+                        res.products.map((p, i) => (
+                            <div key={i}>
+                                {p.id} × {p.quantity}
+                            </div>
+                        ))
+                    ) : (
+                        res?.productId
+                    )}
+                </h6>
                 <h6 className="text-center">{res.price}</h6>
-                <h6 className="text-center">{res.numOfItems}</h6>
+                {/*<h6 className="text-center">{res.numOfItems}</h6>*/}
                 <h6 className="text-center">{res.deliveryType}</h6>
                 <h6 className="text-center">{res.createdAt.toString().split('T')[0]}</h6>
-                <h6 className="text-center">{res?.color}</h6>
+                {/*<h6 className="text-center">{res?.color}</h6>*/}
                 <h6 className="text-center">{res.notes}</h6>
 
                 {/* Trash button */}
