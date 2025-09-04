@@ -125,6 +125,26 @@ span {
 }
 
 
+@media screen and (max-width: 800px) {
+    .medium {
+        min-width: 8rem;
+    }
+    .dropdownBtn {
+        height: 1.8rem;
+        font-size: 0.75rem;
+        padding: 0rem 0.5rem;
+    }
+    .icon {
+        font-size: 0.65rem;
+    }
+    .iconR {
+        font-size: 0.65rem;
+    }
+    .dropdownOptions li {
+        font-size: 0.65rem;
+    }
+}
+
 @media screen and (max-width: 550px) {
     .medium {
         min-width: 6rem;
@@ -137,11 +157,16 @@ span {
     .icon {
         font-size: 0.65rem;
     }
-
     .iconR {
         font-size: 0.65rem;
     }
     .dropdownOptions li {
         font-size: 0.65rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .medium {
+        min-width: 5rem;
     }
 }

@@ -38,12 +38,20 @@ const purchaseSchema = new mongoose.Schema({
   },
   numOfItems: {
     type: Number,
-    required: true,
+    required: false,
   },
-  productId: {
-    type: String, // Product ID you are sending
-    required: true,
-  }
+  products: [
+    {
+      productId: String,
+      quantity: Number,
+      color: String,
+      id: String,
+    }
+  ],
+  totalPrice: {
+    type: Number,
+    required: true
+  },
 }, { timestamps: true });
 
 const Purchase = mongoose.model("Purchase", purchaseSchema);

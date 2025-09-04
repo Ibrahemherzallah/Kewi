@@ -46,99 +46,119 @@ const UserDetailsModal = () => {
         }
         return true; // ✅ All validations passed
     }
+    console.log("The products is : " ,products)
 
     const handleSend = async (e) => {
         e.preventDefault();
 
         const isValid = validateForm();
-        if (!isValid) {
-            return;
-        }
+        if (!isValid) return;
+
         setError(null);
+        setIsLoading(true);
 
+        try {
+            // Build the products array including color
+            const productList = products.map((item) => {
+                const unitPrice = user?.isWholesaler
+                    ? item.wholesalerPrice
+                    : item.isOnSale
+                        ? item.salePrice
+                        : item.customerPrice;
 
-        for (let i = 0; i < products.length; i++) {
+                return {
+                    productId: item._id,
+                    name: item.name,
+                    brandId: item?.categoryId?.name,
+                    id: item.id,
+                    quantity: item.numOfItems,
+                    color: item?.color || "",
+                    price: unitPrice, // send unit price
+                };
+            });
+            // Calculate total price on frontend
+            const totalPrice = productList.reduce(
+                (sum, item) => sum + item.price * item.quantity,
+                0
+            );
+            console.log("totalPrice, " , totalPrice);
             const payload = {
-                cName,
-                cNumber,
-                cAddress,
-                cCity: selectedCity,
-                price: user?.isWholesaler ? products[i].wholesalerPrice : products[i].isOnSale ? products[i].salePrice : products[i].customerPrice,
-                numOfItems: products[i].numOfItems,
-                delivery: selectedType,
-                color: products[i]?.color,
-                id: products[i].id,
-                notes,
+                cName,//
+                cNumber,//
+                cAddress,//
+                cCity: selectedCity,//
+                delivery: selectedType,//
+                notes,//
+                products: productList,
+                totalPrice: totalPrice.toFixed(2), // send pre-calculated total
+
             };
-            setIsLoading(true);
-            try {
-                const response = await fetch('https://kewi.ps/user/purchase', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload),
-                });
 
-                if (!response.ok) {
-                    throw new Error('فشل في إرسال البيانات');
-                }
+            // Send one purchase request
+            const response = await fetch("https://kewi.ps/user/purchase", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload),
+            });
 
-                const result = await response.json();
-                console.log('تم إرسال البيانات بنجاح:', result);
+            if (!response.ok) throw new Error("فشل في إرسال البيانات");
 
-                // Now update the stock in the backend
-                await fetch('https://kewi.ps/user/product/update-stock', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+            const result = await response.json();
+            console.log("تم إرسال البيانات بنجاح:", result);
+
+            // Update stock
+            for (let item of products) {
+                await fetch("https://kewi.ps/user/product/update-stock", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        id: products[i]._id,
-                        quantity: products[i].numOfItems
+                        id: item._id,
+                        quantity: item.numOfItems,
                     }),
                 });
-
-                console.log('تم تحديث المخزون بنجاح');
-
-                await fetch('https://kewi.ps/user/purchase/send-whatsapp', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        cName,
-                        cNumber,
-                        cAddress,
-                        notes,
-                        color: products[i]?.color,
-                        cCity: selectedCity,
-                        price: products[i].isOnSale ? products[i].salePrice : products[i].customerPrice,
-                        numOfItems: products[i].numOfItems,
-                        delivery: selectedType,
-                        id: products[i].id,
-                        name: products[i].name,
-                        brandId: products[i]?.categoryId?.name,
-                        type: user?.isWholesaler ?  'تاجر' : 'زبون'
-                    }),
-                });
-
-
-            } catch (err) {
-                console.error('Error sending data or updating stock:', err);
-                setError('حدث خطأ أثناء إرسال البيانات');
-                setIsLoading(false); // <-- Stop loading on error
-                return;
-            } finally {
-                setIsLoading(false); // after everything
             }
+
+            // Send one WhatsApp message
+            await fetch("https://kewi.ps/user/purchase/send-whatsapp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    cName,
+                    cNumber,
+                    cAddress,
+                    cCity: selectedCity,
+                    notes,
+                    totalPrice: totalPrice.toFixed(2),
+                    delivery: selectedType,
+                    type: user?.isWholesaler ? "تاجر" : "زبون",
+                    products: products.map((item) => ({
+                        name: item.name,
+                        productId: item.id,
+                        totalPrice, // send pre-calculated total
+                        brandId: item?.categoryId?.name,
+                        quantity: item.numOfItems,
+                        color: item?.color || "",
+                        price: user?.isWholesaler
+                            ? item.wholesalerPrice
+                            : item.isOnSale
+                                ? item.salePrice
+                                : item.customerPrice,
+                    })),
+                }),
+            });
+
+            setShowToast(true);
+            // setTimeout(() => window.location.reload(), 1000);
+            const modal = bootstrap.Modal.getInstance(
+                document.getElementById("exampleModal9")
+            );
+            modal.hide();
+        } catch (err) {
+            console.error("Error sending data or updating stock:", err);
+            setError("حدث خطأ أثناء إرسال البيانات");
+        } finally {
+            setIsLoading(false);
         }
-        setShowToast(true);
-        setIsLoading(false); // <-- Stop loading
-        setTimeout(() => window.location.reload(), 1000); // Give time for toast to show
-        const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal9'));
-        modal.hide();
-        // window.location.reload();
     };
 
     useEffect(() => {
