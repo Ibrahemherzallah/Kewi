@@ -423,11 +423,11 @@
 }
 @media screen and (max-width: 680px) {
 
-  .featuredProduct {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
+  /*.featuredProduct {*/
+  /*  display: flex;*/
+  /*  flex-wrap: wrap;*/
+  /*  gap: 1rem;*/
+  /*}*/
   .noProductImg {
     width: 18rem;
     height: 18rem;
@@ -475,11 +475,11 @@
   .carouselSlide {
     margin-top: 2rem;
   }
-  .categoryProducts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
+  /*.categoryProducts {*/
+  /*  display: flex;*/
+  /*  flex-wrap: wrap;*/
+  /*  gap: 1rem;*/
+  /*}*/
   .relatedProducts {
     display: flex;
     flex-wrap: wrap;
@@ -554,6 +554,7 @@
 }
 @media screen and (max-width: 490px) {
   .featuredProduct {
+    grid-template-columns: repeat(auto-fit,minmax(180px,0.5fr));
     gap: 0.5rem;
   }
   .productPageImages {
@@ -563,6 +564,7 @@
     height: 130px;
   }
   .categoryProducts {
+    grid-template-columns: repeat(auto-fit,minmax(180px,0.5fr));
     gap: 0.5rem;
   }
   .relatedProducts {
@@ -570,3 +572,13 @@
   }
 }
 
+@media screen and (max-width: 420px) {
+  .featuredProduct {
+    grid-template-columns: repeat(auto-fit,minmax(160px,0.5fr));
+    gap: 0.5rem;
+  }
+  .categoryProducts {
+    grid-template-columns: repeat(auto-fit,minmax(160px,0.5fr));
+    gap: 0.5rem;
+  }
+}

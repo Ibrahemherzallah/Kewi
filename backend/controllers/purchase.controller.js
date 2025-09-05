@@ -97,7 +97,7 @@ const client = twilio(accountSid, authToken);
 
 export const sendWhatsAppMessage = async (req, res) => {
     const { cName, cNumber, cAddress, notes, cCity, price, numOfItems, delivery, products, type, totalPrice } = req.body;
-
+    console.log("products : " ,products)
     // Format products into a readable string
     const productsMessage = products
         .map(
@@ -106,6 +106,7 @@ export const sendWhatsAppMessage = async (req, res) => {
       - معرف المنتج: ${p.productId}
       - الكمية: ${p.quantity}
       - اللون: ${p.color || "غير محدد"}
+      - السعر: ${p.unitPrice || "غير محدد"}
     `
         )
         .join("\n");

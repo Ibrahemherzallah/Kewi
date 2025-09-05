@@ -5,8 +5,8 @@ import Typography from "../../components/typography/typography.jsx";
 import Layout from "./layout.jsx";
 import {DropDown, UserDropDown} from "../../components/dropdown/dropDown.jsx";
 import {useEffect, useState} from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {useParams} from "react-router";
-import {useLocation} from "react-router-dom";
 import noProduct from '../../assets/nproduct.webp';
 
 const CategoryProducts = () => {
@@ -14,18 +14,32 @@ const CategoryProducts = () => {
     const [brands, setBrands] = useState([]);
     const { id } = useParams();
     const [products, setProducts] = useState([]);
+    const navigate = useNavigate();
+    // const location = useLocation();
     const location = useLocation();
-    const { catName } = location.state || {};
     const [selectedBrand , setSelectedBrand] = useState(undefined);
     const [selectedSize, setSelectedSize] = useState(undefined);
+    const [selectedSort, setSelectedSort] = useState("عشوائي");
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [activeTab, setActiveTab] = useState('cart');
-    const [selectedSort, setSelectedSort] = useState("عشوائي");
     const [allBrands, setAllBrands] = useState([]);
-    const filteredProducts = products
+    const queryParams = new URLSearchParams(location.search);
+    const catName = queryParams.get("catName");
 
+    // helper to update URL without reloading
+    const updateQuery = (key, value) => {
+        const params = new URLSearchParams(location.search);
+        if (value) {
+            params.set(key, value);
+        } else {
+            params.delete(key); // remove empty values (like مسح الفلاتر)
+        }
+        navigate({ search: params.toString() }, { replace: true });
+    };
+
+    const filteredProducts = products
     const filteredBags = products.filter(item =>
         (!selectedBrand || item?.brandId?.name === selectedBrand) &&
         (!selectedSize || item?.size === selectedSize)
@@ -33,7 +47,7 @@ const CategoryProducts = () => {
 
     const handleSort = (value) => {
         setSelectedSort(value);
-
+        updateQuery("sort", value);
         let sortedProducts = [...products]; // use current products (after filters)
 
         if (value === "الأحدث") {
@@ -48,7 +62,12 @@ const CategoryProducts = () => {
     };
 
 
-
+    // Keep state in sync when query changes (e.g., on back/forward navigation)
+    useEffect(() => {
+        setSelectedBrand(queryParams.get("brand") || null);
+        setSelectedSize(queryParams.get("size") || null);
+        setSelectedSort(queryParams.get("sort") || null);
+    }, [location.search]);
     async function fetchBrands() {
         if (brands.length === 0) {
             try {
@@ -105,11 +124,19 @@ const CategoryProducts = () => {
                                               }).catch(err => console.error("Error incrementing clicks:", err));
                                           }
                                           setSelectedBrand(value);
+                                          updateQuery("brand", value);
                                       }}
                                       selected={selectedBrand}>
 
                         </UserDropDown>
-                        <UserDropDown options={sizes} dropdownType={"الحجم"} size={'medium'} setSelected={setSelectedSize} selected={selectedSize}></UserDropDown>
+                        <UserDropDown options={sizes} dropdownType={"الحجم"} size={'medium'}
+                            setSelected={(value) => {
+                                setSelectedSize(value);
+                                updateQuery("size", value);
+                            }}
+                            selected={selectedSize}>
+
+                        </UserDropDown>
                         <UserDropDown
                             options={["الأحدث", "الأقدم", "عشوائي"]}
                             dropdownType={"ترتيب حسب"}

@@ -58,9 +58,6 @@ const Product = () => {
 
             fetchData();
         },[id])
-
-
-
     useEffect(() => {
         const fetchRelatedProduct = async () => {
             try {
