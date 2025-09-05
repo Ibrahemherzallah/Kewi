@@ -133,6 +133,11 @@ const UserDetailsModal = () => {
                     type: user?.isWholesaler ? "تاجر" : "زبون",
                     products: products.map((item) => ({
                         name: item.name,
+                        unitPrice: user?.isWholesaler
+                            ? item.wholesalerPrice
+                            : item.isOnSale
+                                ? item.salePrice
+                                : item.customerPrice,
                         productId: item.id,
                         totalPrice, // send pre-calculated total
                         brandId: item?.categoryId?.name,

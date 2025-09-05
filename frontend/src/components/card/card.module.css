@@ -207,9 +207,9 @@
 }
 
 @media screen and (max-width: 1000px) {
-    .imageCardBtn {
-      width: 20rem;
-    }
+   .imageCardBtn {
+     width: 20rem;
+   }
   .imageCard {
       height: 200px
   }
@@ -260,9 +260,6 @@
 
 
 @media screen and (max-width: 680px) {
-  .card {
-    width: 30%;
-  }
   .imageCardBtn {
     width: 14rem;
   }
@@ -306,21 +303,14 @@
 
 
 @media screen and (max-width: 550px) {
-  .card {
-    width: 22%;
-  }
-  .img {
-    border-top-right-radius: 5px;
-    border-top-left-radius: 5px;
-  }
   .soldOutImg {
     width: 35%;
-    height: 35%;
+    height: 50%;
     right:-5px;
     top:-7px;
   }
   .saleImg {
-    width: 35%;
+    width: 45%;
     right:-5px;
     top:-5px;
   }
@@ -328,10 +318,6 @@
     width: 50%;
     left:-10px;
     top:-1px;
-  }
-  .cardBody {
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
   }
   .imageCardBtn {
     width: 8rem;
@@ -360,22 +346,7 @@
   }
 }
 
-
-
 @media screen and (max-width: 490px) {
-  .card {
-    width: 23%;
-  }
-  .img {
-    height: 5rem;
-    border-top-right-radius: 3px;
-    border-top-left-radius: 3px;
-  }
-  .cardBody {
-    padding: 0.2rem;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-  }
   .imageCard {
     height: 70px;
     border-radius: 5px;

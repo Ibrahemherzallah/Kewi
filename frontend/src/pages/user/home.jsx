@@ -1,24 +1,12 @@
-import NavBar from "../../containers/userNavBar.jsx";
-import saleImg from "../../assets/sale.jpg";
 import style from './style/home.module.css';
-import { IconBtn } from "../../components/icons/icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import Typography from "../../components/typography/typography";
 import {CategoryCards} from "../../containers/categoryCards.jsx";
-import promotionImg from "../../assets/img1.jpg";
-import promotionImg2 from "../../assets/img2.jpg";
-import promotionImg3 from "../../assets/img3.jpg";
-import promotionImg4 from "../../assets/img4.jpg";
-
 import CardItem from "../../containers/card.jsx";
 import {useContext, useEffect, useRef, useState} from "react";
 import {UserContext} from "../../context/userContext.jsx";
 import Layout from "./layout.jsx";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import {Link} from "react-router";
 
 
 const Home = () => {
@@ -98,7 +86,6 @@ const Home = () => {
             ))}
           </div>
         </div>
-
         <br />
       </Layout>
   );

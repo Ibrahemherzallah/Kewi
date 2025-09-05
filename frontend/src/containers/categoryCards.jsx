@@ -114,9 +114,7 @@ export function CategoryCards() {
                                 key={index}
                                 className={style.imageCardBtn}
                                 onClick={() => {
-                                    navigate(`/category/${category._id}`, {
-                                        state: { catName: category.name }
-                                    });
+                                    navigate(`/category/${category._id}?catName=${encodeURIComponent(category.name)}`);
                                 }}
                             >
                                 <div className={`w-100 ${style.imageCardContainer}`}>
@@ -159,9 +157,7 @@ export function CategoryCards() {
                                 // width: "90px" // set card width for mobile
                             }}
                             onClick={() => {
-                                navigate(`/category/${category._id}`, {
-                                    state: { catName: category.name }
-                                });
+                                navigate(`/category/${category._id}?catName=${encodeURIComponent(category.name)}`);
                             }}
                         >
                             <div className={`w-100 ${style.imageCardContainer}`}>
@@ -169,12 +165,6 @@ export function CategoryCards() {
                                     className={style.imageCard}
                                     src={category.image}
                                     alt={category.name}
-                                    // style={{
-                                    //     width: "100%",
-                                    //     height: "100%",
-                                    //     objectFit: "cover",
-                                    //     borderRadius: "10px"
-                                    // }}
                                 />
                                 <div className={style.overlay}>
                                     <span className={style.overlayText}>{category.name}</span>

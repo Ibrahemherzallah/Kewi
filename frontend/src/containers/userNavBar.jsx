@@ -118,39 +118,62 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen,activeTab, setActiveTab}) => {
                                             الحقائب
                                         </a>
                                         <ul className={`p-2 ${isOpen ? 'd-block' : 'd-none'} ${style.navDropDown} position-absolute`}>
-                                            <li className={`${style.dropDownItemLi}`}><Link
-                                                to={'/category/67fd7361d3d9f99f95edff41'}
-                                                state={{catName: 'حقائب اليد'}} className={`${style.dropDownItem}`}>حقائب
-                                                يد</Link></li>
-                                            <li className={`${style.dropDownItemLi}`}><Link
-                                                to={'/category/6803f9b235efe305218f99e7'} state={{catName: 'حقائب ظهر'}}
-                                                className={`${style.dropDownItem}`} href="#">حقائب ظهر</Link></li>
-                                            <li className={`${style.dropDownItemLi}`}><Link
-                                                to={'/category/680fd54f4dde5779298c2701'} state={{catName: 'حقائب سفر'}}
-                                                className={`${style.dropDownItem}`} href="#">حقائب سفر</Link></li>
-                                            <li className={`${style.dropDownItemLi}`}><Link
-                                                to={'/category/680fd7654dde5779298c273e'} state={{catName: 'جزدان يد'}}
-                                                className={`${style.dropDownItem}`} href="#">جزدان يد</Link></li>
+                                            <li className={style.dropDownItemLi}>
+                                                <Link
+                                                    to={`/category/67fd7361d3d9f99f95edff41?catName=${encodeURIComponent("حقائب اليد")}`}
+                                                    className={style.dropDownItem}
+                                                >
+                                                    حقائب يد
+                                                </Link>
+                                            </li>
+
+                                            <li className={style.dropDownItemLi}>
+                                                <Link
+                                                    to={`/category/6803f9b235efe305218f99e7?catName=${encodeURIComponent("حقائب ظهر")}`}
+                                                    className={style.dropDownItem}
+                                                >
+                                                    حقائب ظهر
+                                                </Link>
+                                            </li>
+
+                                            <li className={style.dropDownItemLi}>
+                                                <Link
+                                                    to={`/category/680fd54f4dde5779298c2701?catName=${encodeURIComponent("حقائب سفر")}`}
+                                                    className={style.dropDownItem}
+                                                >
+                                                    حقائب سفر
+                                                </Link>
+                                            </li>
+
+                                            <li className={style.dropDownItemLi}>
+                                                <Link
+                                                    to={`/category/680fd7654dde5779298c273e?catName=${encodeURIComponent("جزدان يد")}`}
+                                                    className={style.dropDownItem}
+                                                >
+                                                    جزدان يد
+                                                </Link>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li className={`nav-item ${isDark ? style.navItemDark : style.navItem}`}>
-                                        <Link to={'/category/6803f9c535efe305218f99f2'} state={{catName: 'العطور'}}
-                                              className="nav-link" aria-current="page" href="#">العطور</Link>
+                                        <Link
+                                            to={`/category/6803f9c535efe305218f99f2?catName=${encodeURIComponent("العطور")}`}
+                                            className="nav-link" aria-current="page" href="#">العطور</Link>
                                     </li>
                                     <li className={`nav-item ${isDark ? style.navItemDark : style.navItem}`}>
-                                        <Link to={'/category/67ff75611520f910df910f88'} state={{catName: 'الاكسسوارات'}}
+                                        <Link to={`/category/67ff75611520f910df910f88?catName=${encodeURIComponent("الاكسسوارات")}`}
                                               className="nav-link">الاكسسوارات</Link>
                                     </li>
                                     <li className={`nav-item ${isDark ? style.navItemDark : style.navItem}`}>
-                                        <Link to={'/category/6803fb1535efe305218f9a10'} state={{catName: 'العروض'}}
+                                        <Link to={`/category/6803fb1535efe305218f9a10?catName=${encodeURIComponent("العروض")}`}
                                               className="nav-link">العروض</Link>
                                     </li>
                                     <li className={`nav-item ${isDark ? style.navItemDark : style.navItem}`}>
-                                        <Link to={'/category/6804dfd569ff9ce587677f0c'} state={{catName: 'قريبا'}}
+                                        <Link to={`/category/6804dfd569ff9ce587677f0c?catName=${encodeURIComponent("قريبا")}`}
                                               className="nav-link">قريبا</Link>
                                     </li>
                                     <li className={`nav-item ${isDark ? style.navItemDark : style.navItem}`}>
-                                        <Link to={'/category/6804df8869ff9ce587677eba'} state={{catName: 'المنتجات'}}
+                                        <Link to={`/category/6804df8869ff9ce587677eba?catName=${encodeURIComponent("المنتجات")}`}
                                               className="nav-link">اخرى</Link>
                                     </li>
                                 </ul>
