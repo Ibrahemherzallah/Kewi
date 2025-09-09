@@ -48,12 +48,12 @@ const AdminNav = () => {
                         <NavBrand>
                             <div className='d-flex gap-3 w-100'>
                                 <img className={style.logoImg} src={logo} alt="" />
-                                <img className={`mt-4 ${style.logoTextImg} ${isDark ? style.dark : ''}`} src={isDark ? logoTextWhite : logoText} alt="" />
+                                <img className={`mt-3 mt-lg-4 ${style.logoTextImg} ${isDark ? style.dark : ''}`} src={isDark ? logoTextWhite : logoText} alt="" />
                             </div>
                         </NavBrand>
                         <NavIcons>
                             <IconBtn onClick={()=>{setIsDark(!isDark)}}><FontAwesomeIcon icon={isDark ? faMoon : faSun}  style={{color:'var(--nav-text)',fontSize:'1.5rem'}} /></IconBtn>
-                            <button className={`btn border-0 fw-semibold fs-5 ${style.logoutBtnAdmin}`} type="button" data-bs-toggle="modal" data-bs-target="#myModal2">Log out</button>
+                            <button className={`btn border-0 fw-semibold fs-5 text-nowrap ${style.logoutBtnAdmin}`} type="button" data-bs-toggle="modal" data-bs-target="#myModal2">Log out</button>
                     </NavIcons>
                 </Nav>
             </Navbar>

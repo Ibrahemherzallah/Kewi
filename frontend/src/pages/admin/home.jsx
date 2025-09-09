@@ -135,7 +135,7 @@ const AdminDash = () => {
         <>
             <AdminNav></AdminNav>
             <div className={`${style.container}`}>
-                <div className={`d-flex justify-content-between flex-md-wrap align-items-center`}>
+                <div className={`d-flex justify-content-between flex-md-wrap  ${style.navItemsDiv}`}>
                     <ul className={`nav nav-pills ${style.navPills} ${style.tabs}`} id="pills-tab" role="tablist">
                         <li className={`nav-item ${style.navItem}`} role="presentation">
                             <button className={`nav-link active ${isDark ? style.navLinkDark : style.navLink}`} id="pills-home-tab" data-bs-toggle="pill"
@@ -181,7 +181,7 @@ const AdminDash = () => {
                     </ul>
 
                     {activeTab === 'products' ?
-                        <div className={`d-flex justify-content-end gap-3 ${style.addDiv}`}>
+                        <div className={`d-flex gap-3 ${style.addDiv}`}>
                             <SearchInput placeholder={"Search by id"} onChange={(e) => {
                                 setSearchedId(e.target.value);
                             }}
@@ -193,20 +193,27 @@ const AdminDash = () => {
                             <Button variant={isDark ? 'secondary-outline' : 'secondary'} type="button" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal1" onClick={()=>{setIsUpdated(false); setOpenedBtn(true); setSelectedProduct(null)}}>
                                 <FontAwesomeIcon icon={faPlus} size="md"/>
-                                Add Products</Button>
+                                Add Products
+                            </Button>
                         </div>
                         : activeTab === 'categories' ?
-                            <Button variant={isDark ? 'secondary-outline' : 'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal3" onClick={()=>{setIsUpdated(false); setSelectedCategory(null)}}>
-                                <FontAwesomeIcon icon={faPlus} size="md"/>
-                                Add Category
-                            </Button> : activeTab === 'brands' ?
-                            <Button variant={isDark ? 'secondary-outline' : 'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2" onClick={()=>{setIsUpdated(false); setSelectedBrand(null)}}>
+                            <div className={`d-flex gap-3 ${style.addDiv}`}>
+                                <Button variant={isDark ? 'secondary-outline' : 'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal3" onClick={()=>{setIsUpdated(false); setSelectedCategory(null)}}>
                                     <FontAwesomeIcon icon={faPlus} size="md"/>
-                                    Add Brands
-                            </Button> : activeTab === 'orders' ?
+                                    Add Category
+                                </Button>
+                            </div> : activeTab === 'brands' ?
+                            <div className={`d-flex gap-3 ${style.addDiv}`}>
+                                <Button variant={isDark ? 'secondary-outline' : 'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2" onClick={()=>{setIsUpdated(false); setSelectedBrand(null)}}>
+                                        <FontAwesomeIcon icon={faPlus} size="md"/>
+                                        Add Brands
+                                </Button>
+                            </div>: activeTab === 'orders' ?
                             '' : activeTab === 'wholesalers'?
+                                        <div className={`d-flex gap-3 ${style.addDiv}`}>
                                         <Button variant={isDark ? 'secondary-outline' : 'secondary'} type="button" data-bs-toggle="modal" data-bs-target="#exampleModal5" onClick={()=>{setIsUpdated(false); setSelectedWholesaler(null)}}>
-                                            <FontAwesomeIcon icon={faPlus} size="md"/>Add Wholesalers</Button>: 'null'}
+                                            <FontAwesomeIcon icon={faPlus} size="md"/>Add Wholesalers</Button>
+                                        </div>: 'null'}
                 </div>
                 {
                     loading ? (
@@ -214,8 +221,8 @@ const AdminDash = () => {
                             <Skeleton height={100} count={5} />
                         </div>
                     ) : (
-                        <>
-                            <div className="tab-content">
+                        <div className={`${style.scrollWrapper}`}>
+                            <div className={`tab-content ${style.mainContentDiv}`}>
                                 {activeTab === "products" && (
                                     <div className={`tab-pane fade show active ${style.productsTab}`}>
                                         <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
@@ -276,8 +283,7 @@ const AdminDash = () => {
                                     </div>
                                 )}
                             </div>
-
-                        </>
+                        </div>
                     )
 
                 }
