@@ -70,6 +70,16 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.scrollWrapper {
+    width: 100%;
+    overflow-x: auto;         /* enable horizontal scroll */
+    -webkit-overflow-scrolling: touch; /* smooth scrolling on mobile */
+}
+
+.mainContentDiv {
+    min-width: 900px; /* adjust based on your columns */
+}
+
 
 .contents h6{
     color: #b3b3b3;
@@ -84,15 +94,44 @@
     border-bottom: 4px solid #ededed;;
 }
 
+/*.navItemsDiv {*/
+/*    display: flex;*/
+/*}*/
+
 
 .addDiv {
     max-height: 43.5px;
-    width:30%;
+    justify-content: flex-end;
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1260px) {
     .addDiv {
-        margin-top: 2rem;
-        width:45%;
+        margin-top: 1rem;
+        /*width:45%;*/
     }
+}
+
+@media screen and (max-width: 800px) {
+    .navItemsDiv {
+        gap: 1rem;
+        flex-direction: column;
+    }
+    .addDiv {
+        width: 100%;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 1rem;
+    }
+    .container {
+        padding: 1rem;
+        padding-inline: 1rem;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .addDiv {
+        flex-direction: column;
+        margin-bottom: 2.5rem;
+    }
+
 }
