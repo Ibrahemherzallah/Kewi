@@ -133,5 +133,7 @@
         flex-direction: column;
         margin-bottom: 2.5rem;
     }
-
+    .scrollWrapper {
+        margin-top: 1.5rem;
+    }
 }
