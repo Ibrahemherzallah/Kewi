@@ -182,16 +182,14 @@ const AdminDash = () => {
 
                     {activeTab === 'products' ?
                         <div className={`d-flex gap-3 ${style.addDiv}`}>
-                            <div className={`gap-3 justify-content-between w-100 ${style.adminInputsDiv}`}>
-                                <SearchInput placeholder={"Search by id"} onChange={(e) => {
-                                    setSearchedId(e.target.value);
-                                }}
-                                />
-                                <SearchInput placeholder={"Search by name"} onChange={(e) => {
-                                    setSearchedValue(e.target.value);
-                                }}
-                                />
-                            </div>
+                            <SearchInput placeholder={"Search by id"} onChange={(e) => {
+                                setSearchedId(e.target.value);
+                            }}
+                            />
+                            <SearchInput placeholder={"Search by name"} onChange={(e) => {
+                                setSearchedValue(e.target.value);
+                            }}
+                            />
                             <Button variant={isDark ? 'secondary-outline' : 'secondary'} type="button" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal1" onClick={()=>{setIsUpdated(false); setOpenedBtn(true); setSelectedProduct(null)}}>
                                 <FontAwesomeIcon icon={faPlus} size="md"/>
