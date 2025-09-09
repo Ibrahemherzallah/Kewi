@@ -2,7 +2,7 @@
     border: 0.01rem solid #cdcdcd;
     padding: 0.5rem 0.8rem;
     outline: none;
-    width: 100%;
+    /*width: 100%;*/
     font-size: 0.8rem;
     background-color: var(--search-bg);
     color: var(--search-color);
