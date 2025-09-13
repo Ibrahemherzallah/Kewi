@@ -1,27 +1,28 @@
 /*/////////// Products ///////////*/
 
-/* Force modal to render solid instead of blending with backdrop */
-.modal.show .modal-dialog {
-    -webkit-transform: translate(0, 0) !important; /* remove buggy fade transform */
-    transform: translate(0, 0) !important;
-}
-
+.modal-content,
 .modalContent {
-    background-color: #fff !important;
+    background-color: #ffffff !important;
     color: #000 !important;
     opacity: 1 !important;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    z-index: 1055; /* keep it above backdrop */
-    position: relative;
 }
 
-/* For dark mode */
 .modalContent.bg-dark {
     background-color: #212529 !important;
     color: #fff !important;
 }
 
+.modal-backdrop {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.modal.show .modal-dialog {
+    transform: none !important;
+    -webkit-transform: none !important;
+}
+
+/*////////////////////\\\\\\\\\\\\\\\\\\\\*/
 .soldOutDiv {
     width: 20%;
 }

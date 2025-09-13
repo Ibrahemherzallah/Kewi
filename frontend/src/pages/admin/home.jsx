@@ -182,7 +182,7 @@ const AdminDash = () => {
 
                     {activeTab === 'products' ?
                         <div className={`d-flex gap-3 ${style.addDiv}`}>
-                            <div className={`gap-3 justify-content-between w-100 ${style.adminInputsDiv}`}>
+                            {/*<div className={`gap-3 justify-content-between w-100 ${style.adminInputsDiv}`}>*/}
                                 <SearchInput placeholder={"Search by id"} onChange={(e) => {
                                     setSearchedId(e.target.value);
                                 }}
@@ -191,7 +191,7 @@ const AdminDash = () => {
                                     setSearchedValue(e.target.value);
                                 }}
                                 />
-                            </div>
+                            {/*</div>*/}
                             <Button variant={isDark ? 'secondary-outline' : 'secondary'} type="button" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal1" onClick={()=>{setIsUpdated(false); setOpenedBtn(true); setSelectedProduct(null)}}>
                                 <FontAwesomeIcon icon={faPlus} size="md"/>
