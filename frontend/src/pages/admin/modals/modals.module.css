@@ -4,7 +4,7 @@
     opacity: 0.5 !important; /* make sure backdrop is correct */
 }
 
-.modal-content {
+.modalContent {
     background-color: #fff !important; /* force white background */
     color: #000 !important;
     opacity: 1 !important; /* prevent transparency on iOS */
@@ -13,7 +13,7 @@
 }
 
 /* For dark mode */
-.modal-content.bg-dark {
+.modalContent.bg-dark {
     background-color: #212529 !important;
     color: #fff !important;
 }
