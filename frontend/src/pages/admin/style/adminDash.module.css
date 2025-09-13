@@ -98,10 +98,6 @@
 /*    display: flex;*/
 /*}*/
 
-.adminInputsDiv {
-    display: flex;
-    flex-direction: row;
-}
 
 .addDiv {
     max-height: 43.5px;
