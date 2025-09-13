@@ -182,6 +182,7 @@ const AdminDash = () => {
 
                     {activeTab === 'products' ?
                         <div className={`d-flex gap-3 ${style.addDiv}`}>
+
                             <SearchInput placeholder={"Search by id"} onChange={(e) => {
                                 setSearchedId(e.target.value);
                             }}
