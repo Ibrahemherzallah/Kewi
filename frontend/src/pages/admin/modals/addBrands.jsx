@@ -89,8 +89,8 @@ export const AddBrandsModal = ({product,isUpdated}) => {
     return (
         <div className="modal fade" id="exampleModal2" tabIndex="-1" aria-labelledby="exampleModal2Label"
              aria-hidden="true">
-            <div className="modal-dialog">
-                <div className={`modal-content ${style.modalContent} ${isDark ? "bg-dark text-white" : "" }`}>
+            <div className="modal-dialog modal-dialog-centered">
+                <div className={`modal-content ${isDark ? "bg-dark text-white" : "" }`}>
                     <div className="modal-header">
                         <h1 className="modal-title fs-5" id="exampleModalLabel">{isUpdated ? 'Update Brand' : 'Add Brand' }</h1>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
