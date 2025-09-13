@@ -1,15 +1,19 @@
 /*/////////// Products ///////////*/
 
-.modal-backdrop.show {
-    opacity: 0.5 !important; /* make sure backdrop is correct */
+/* Force modal to render solid instead of blending with backdrop */
+.modal.show .modal-dialog {
+    -webkit-transform: translate(0, 0) !important; /* remove buggy fade transform */
+    transform: translate(0, 0) !important;
 }
 
 .modalContent {
-    background-color: #fff !important; /* force white background */
+    background-color: #fff !important;
     color: #000 !important;
-    opacity: 1 !important; /* prevent transparency on iOS */
-    -webkit-backdrop-filter: none !important; /* iOS fix */
+    opacity: 1 !important;
+    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
+    z-index: 1055; /* keep it above backdrop */
+    position: relative;
 }
 
 /* For dark mode */
@@ -17,7 +21,6 @@
     background-color: #212529 !important;
     color: #fff !important;
 }
-
 
 .soldOutDiv {
     width: 20%;
