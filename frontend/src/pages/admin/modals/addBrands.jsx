@@ -92,7 +92,7 @@ export const AddBrandsModal = ({product,isUpdated}) => {
             <div className="modal-dialog modal-dialog-centered">
                 <div className={`modal-content ${isDark ? "bg-dark text-white" : "" }`}>
                     <div className="modal-header">
-                        <h1 className="modal-title fs-5" id="exampleModalLabel">{isUpdated ? 'Update Brand' : 'Add Brand' }</h1>
+                        <h1 className="modal-title fs-5" id="exampleModal2Label">{isUpdated ? 'Update Brand' : 'Add Brand' }</h1>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form onSubmit={handleOnSubmit}>
