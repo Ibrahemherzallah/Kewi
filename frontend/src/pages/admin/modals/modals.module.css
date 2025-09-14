@@ -1,4 +1,17 @@
 /*/////////// Products ///////////*/
+/* Force iOS Safari modal visibility */
+.modal.show {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 1055 !important;
+}
+
+.modal-backdrop.show {
+    opacity: 0.5 !important;
+    z-index: 1050 !important;
+}
+
 .soldOutDiv {
     width: 20%;
 }
