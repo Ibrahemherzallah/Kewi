@@ -82,70 +82,6 @@ export const AddCategoryModal = ({product,isUpdated}) => {
             setLoading(false); // Stop loading
         });
     }
-
-    useEffect(() => {
-        // Add iOS-specific styles
-        const style = document.createElement('style');
-        style.textContent = `
-      @supports (-webkit-touch-callout: none) {
-        .modal {
-          -webkit-overflow-scrolling: touch;
-        }
-        
-        .modal-dialog {
-          max-height: 100%;
-          overflow-y: auto;
-        }
-        
-        .modal-content {
-          border-radius: 12px;
-          border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        
-        .modal-backdrop {
-          background-color: rgba(0, 0, 0, 0.5);
-        }
-        
-        body.modal-open {
-          position: fixed;
-          width: 100%;
-        }
-      }
-      
-      /* General modal fixes */
-.modal-content {
-    opacity: 1 !important;
-    transform: translateZ(0) !important;
-    -webkit-transform: translateZ(0) !important;
-}
-
-/* Fix for backdrop on iOS */
-.modal-backdrop.show {
-    opacity: 0.5 !important;
-}
-
-/* Dark mode support */
-.modal-content.bg-dark {
-    background-color: #212529 !important;
-    color: #fff !important;
-}
-
-.modal-content.bg-dark .btn-close {
-    filter: invert(1) grayscale(100%) brightness(200%);
-}
-`;
-        document.head.appendChild(style);
-
-        // Clean up function
-        return () => {
-            document.head.removeChild(style);
-        };
-    }, []);
-
-
-
-
-
     return (
         <div className="modal fade" id="exampleModal3" tabIndex="-1" aria-labelledby="exampleModal3Label" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
@@ -155,9 +91,8 @@ export const AddCategoryModal = ({product,isUpdated}) => {
                         <button type="button" className="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                     </div>
-                    <div className="modal-body">
-
                     <form onSubmit={handleOnSubmit}>
+                        <div className="modal-body">
                             {error && <div className="alert alert-danger">{error}</div>}
 
                             <Input placeholder={'Enter category name'} isRequired={true}
@@ -193,6 +128,7 @@ export const AddCategoryModal = ({product,isUpdated}) => {
                                     </div>
                                 ))}
                             </div>
+                        </div>
                         <div className="modal-footer d-flex justify-content-center">
 
                             <Button variant={'secondary'} size={'xxs'} type='submit' onClick={()=>{
@@ -200,8 +136,6 @@ export const AddCategoryModal = ({product,isUpdated}) => {
                             }}>{loading ? 'Loading...' : (isUpdated ? 'Update' : 'Add')}</Button>
                         </div>
                     </form>
-                    </div>
-
                 </div>
             </div>
         </div>
