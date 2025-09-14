@@ -1,15 +1,20 @@
 /*/////////// Products ///////////*/
-/* Force iOS Safari modal visibility */
-.modal.show {
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    z-index: 1055 !important;
+.modal-backdrop.show {
+    opacity: 0.5 !important; /* make sure backdrop is correct */
 }
 
-.modal-backdrop.show {
-    opacity: 0.5 !important;
-    z-index: 1050 !important;
+.modal-content {
+    background-color: #fff !important; /* force white background */
+    color: #000 !important;
+    opacity: 1 !important; /* prevent transparency on iOS */
+    -webkit-backdrop-filter: none !important; /* iOS fix */
+    backdrop-filter: none !important;
+}
+
+/* For dark mode */
+.modal-content.bg-dark {
+    background-color: #212529 !important;
+    color: #fff !important;
 }
 
 .soldOutDiv {
