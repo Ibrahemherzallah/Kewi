@@ -161,6 +161,74 @@ export const AddProductModal = ({category,brand,product,isUpdated}) => {
         const selectedBrand = brand?.find(item => item.id === brandId);
         setIsSoldOut(selectedBrand?.isFake || false)
     }, [brandId]);
+
+
+
+    useEffect(() => {
+        // Add iOS-specific styles
+        const style = document.createElement('style');
+        style.textContent = `
+      @supports (-webkit-touch-callout: none) {
+        .modal {
+          -webkit-overflow-scrolling: touch;
+        }
+        
+        .modal-dialog {
+          max-height: 100%;
+          overflow-y: auto;
+        }
+        
+        .modal-content {
+          border-radius: 12px;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-backdrop {
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        body.modal-open {
+          position: fixed;
+          width: 100%;
+        }
+      }
+      
+      /* General modal fixes */
+.modal-content {
+    opacity: 1 !important;
+    transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
+}
+
+/* Fix for backdrop on iOS */
+.modal-backdrop.show {
+    opacity: 0.5 !important;
+}
+
+/* Dark mode support */
+.modal-content.bg-dark {
+    background-color: #212529 !important;
+    color: #fff !important;
+}
+
+.modal-content.bg-dark .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+`;
+        document.head.appendChild(style);
+
+        // Clean up function
+        return () => {
+            document.head.removeChild(style);
+        };
+    }, []);
+
+
+
+
+
+
+
     return (
         <div className="modal fade" id="exampleModal1" tabIndex="-1" aria-labelledby="exampleModal1Label" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
@@ -169,8 +237,9 @@ export const AddProductModal = ({category,brand,product,isUpdated}) => {
                         <h1 className="modal-title fs-5" id="exampleModal1Label">{isUpdated ? 'Update Product' : 'Add Product'}</h1>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <div className="modal-body">
+
                     <form onSubmit={handleSubmit} >
-                        <div className="modal-body">
                             {errors && <div className="alert alert-danger">{errors}</div>}
 
                             <DropDown isRequired={true} label={'Category'} size={'xlarge'} options={category} selected={categoryId} setSelected={setSelectedCategory} />
@@ -259,7 +328,6 @@ export const AddProductModal = ({category,brand,product,isUpdated}) => {
                                     </div>
                                 ))}
                             </div>
-                        </div>
 
                         <div className="modal-footer d-flex justify-content-center">
                             <Button variant={'secondary'} size={'xxs'} type='submit' disabled={loading}
@@ -274,6 +342,8 @@ export const AddProductModal = ({category,brand,product,isUpdated}) => {
                             </Button>
                         </div>
                     </form>
+                    </div>
+
                 </div>
             </div>
         </div>
