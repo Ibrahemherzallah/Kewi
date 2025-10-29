@@ -13,10 +13,12 @@ export const AddCategoryModal = ({product,isUpdated}) => {
     const [error, setError] = useState('');
     const {isDark,setISDark} = useContext(ThemeContext);
     const [loading, setLoading] = useState(false);
+    const [isOther, setIsOther] = useState(false);
 
     useEffect(() => {
         setCategoryName(product?.name || '');
         setDescription(product?.description || '');
+        setIsOther(product?.other || '');
         if (product?.image) {
             setImages([{
                 file: null,
@@ -57,6 +59,7 @@ export const AddCategoryModal = ({product,isUpdated}) => {
         formData.append("name", categoryName);
         formData.append("description", description);
         formData.append("image", images[0].file);
+        formData.append("other", isOther);
 
 
         fetch(url, {
@@ -100,16 +103,22 @@ export const AddCategoryModal = ({product,isUpdated}) => {
                             <div className={`mt-2`}>
                                 <InputTextarea placeholder={'Plz enter category description'} isRequired={false} label={'Description'} usage={'modal'} size={'xl'}  style={{ height: '4rem' }} value={description} onChange={(e)=>{setDescription(e.target.value)}}  />
                             </div>
-                            <div className={`mt-2 ${style.fileUpload}`}>
-                                <input type='file' id="fileInputCategory"
-                                       accept="image/*"
-                                       multiple
-                                       onChange={handleFileChange}
-                                       hidden/>
-                                <label htmlFor="fileInputCategory">
-                                    <FaUpload className="upload-icon" />
-                                    Upload images
-                                </label>
+                            <div className={'d-flex justify-content-between align-items-center'}>
+                                <div className={`mt-2 ${style.fileUpload}`}>
+                                    <input type='file' id="fileInputCategory"
+                                           accept="image/*"
+                                           multiple
+                                           onChange={handleFileChange}
+                                           hidden/>
+                                    <label htmlFor="fileInputCategory">
+                                        <FaUpload className="upload-icon" />
+                                        Upload images
+                                    </label>
+                                </div>
+                                <div className={`form-check form-switch ps-0 justify-content-between align-items-center d-flex pt-4 ${style.soldOutDiv}`}>
+                                    <span className={`mt-1 ms-1`}>Is Other</span>
+                                    <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked={isOther} onChange={()=> setIsOther(!isOther)} />
+                                </div>
                             </div>
 
                             {/* Preview Uploaded Image */}

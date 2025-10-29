@@ -8,6 +8,8 @@ import categoryRoutes from './routes/adminRoutes/category.routes.js';
 import brandRoutes from './routes/adminRoutes/brand.routes.js';
 import orderRoutes from './routes/adminRoutes/order.routes.js';
 import homeRoutes from './routes/userRoutes/home.routes.js';
+import usersRoutes from './routes/userRoutes/user.routes.js';
+
 import cors from 'cors';
 import session from "express-session";
 import helmet from 'helmet';
@@ -24,7 +26,7 @@ const allowedOrigins = [
     'http://localhost:5173',
     'https://kewi.ps',
     'http://kewi.ps',
-    'https://www.kewi.ps' // ✅ Add this
+    'https://www.kewi.ps'
 ];
 app.use(cors({
     origin: function (origin, callback) {
@@ -76,6 +78,7 @@ app.use('/admin', brandRoutes);
 app.use('/admin', categoryRoutes);
 app.use('/admin', productRoutes);
 app.use('/admin', wholesalerRoutes);
+app.use('/admin', usersRoutes);
 app.use('/auth', authRoutes);
 
 app.use('/user', homeRoutes);

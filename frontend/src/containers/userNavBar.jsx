@@ -6,7 +6,7 @@ import style from '../components/navbar/navbar.module.css';
 import { IconBtn } from '../components/icons/icons.jsx';
 import {faMoon, faStore} from "@fortawesome/free-solid-svg-icons";
 import { faSun } from '@fortawesome/free-regular-svg-icons';
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Sidebar from "../components/sidebar/sideBar.jsx";
 import { useNavigate } from "react-router-dom";
 import {Link} from "react-router";
@@ -20,12 +20,13 @@ import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 
 const UserNavBar = ({isSidebarOpen,setSidebarOpen,activeTab, setActiveTab}) => {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
+  const [isOtherTapOpen,setIsOtherTapOpen] = useState(false);
   const navigate = useNavigate();
   const {user, setUser} = useContext(UserContext);
   const {isDark, setIsDark} = useContext(ThemeContext);
   const {products,setProducts} = useContext(CartContext);
-
+  const [category,setCategories] = useState();
     const handleLogout = () => {
         fetch('https://kewi.ps/auth/logout', {
             method: 'POST',
@@ -46,6 +47,19 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen,activeTab, setActiveTab}) => {
 
     };
 
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch("https://kewi.ps/admin/categories"); // Replace with actual API
+                const data = await response.json();
+                setCategories(data);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+            // setOpenedBtn(false);
+        };
+        fetchCategories()
+    }, []);
     return(
         <>
             <Navbar user={true}>
@@ -109,15 +123,17 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen,activeTab, setActiveTab}) => {
 
                             <div className="collapse navbar-collapse" id="navbarNavDropdown">
                                 <ul className={`navbar-nav d-flex ${style.navbarNav}`}>
-                                    <li className={`nav-item dropdown ${isDark ? style.navItemDark : style.navItem} position-relative`}>
-                                        <a className="nav-link dropdown-toggle" href="#" role="button"
-                                           data-bs-toggle="dropdown"
-                                           aria-expanded="false"
-                                           onClick={() => setIsOpen(!isOpen)}
+                                    <li
+                                        className={`nav-item dropdown position-relative ${style.navItemLinks} ${isDark ? style.navItemDark : style.navItem}`}
+                                    >
+                                        <a
+                                            className={`nav-link dropdown-toggle ${style.dropDownNavBar}`}
+                                            href="#"
+                                            role="button"
                                         >
                                             الحقائب
                                         </a>
-                                        <ul className={`p-2 ${isOpen ? 'd-block' : 'd-none'} ${style.navDropDown} position-absolute`}>
+                                        <ul className={`p-2 position-absolute ${style.navDropDown}`}>
                                             <li className={style.dropDownItemLi}>
                                                 <Link
                                                     to={`/category/67fd7361d3d9f99f95edff41?catName=${encodeURIComponent("حقائب اليد")}`}
@@ -172,9 +188,29 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen,activeTab, setActiveTab}) => {
                                         <Link to={`/category/6804dfd569ff9ce587677f0c?catName=${encodeURIComponent("قريبا")}`}
                                               className="nav-link">قريبا</Link>
                                     </li>
-                                    <li className={`nav-item ${isDark ? style.navItemDark : style.navItem}`}>
-                                        <Link to={`/category/6804df8869ff9ce587677eba?catName=${encodeURIComponent("المنتجات")}`}
-                                              className="nav-link">اخرى</Link>
+                                    <li
+                                        className={`nav-item dropdown position-relative ${style.navItemOther} ${isDark ? style.navItemDark : style.navItem}`}
+                                    >
+                                        <a
+                                            className={`nav-link dropdown-toggle ${style.dropDownNavBarOther}`}
+                                            href="#"
+                                            role="button"
+                                        >
+                                            اخرى
+                                        </a>
+
+                                        <ul className={`p-2 position-absolute ${style.navDropDownOther}`}>
+                                            {category?.filter(cat => cat.other).map(cat => (
+                                                <li key={cat._id} className={style.dropDownItemLi}>
+                                                    <Link
+                                                        to={`/category/${cat._id}?catName=${encodeURIComponent(cat.name)}`}
+                                                        className={style.dropDownItem}
+                                                    >
+                                                        {cat.name}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
                                     </li>
                                 </ul>
                             </div>

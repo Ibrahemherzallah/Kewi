@@ -6,10 +6,16 @@ import Button from "../../components/button/button.jsx";
 import {CartContext} from "../../context/cartContext.jsx";
 import {UserContext} from "../../context/userContext.jsx";
 import {ThemeContext} from "../../context/themeContext.jsx";
+import useUserData from "../../hooks/useUserDate.jsx";
 
 const UserDetailsModal = () => {
 
-    const [cities,setCities] = useState([{name:"الضفة الغربية",region:'w'},{name: "الداخل",region:'d'},{name:"القدس",region:'q'}]);
+    const [cities,setCities] = useState(
+        [
+            {name:"الضفة الغربية",region:'w'},
+            {name: "الداخل",region:'d'},
+            {name:"القدس",region:'q'}
+        ]);
     const [selectedCity,setSelectedCity] = useState(null);
     const [selectedRegion,setSelectedRegion] = useState(null);
     const [notes,setNotes] = useState(null);
@@ -25,20 +31,32 @@ const UserDetailsModal = () => {
     const {isDark,setISDark} = useContext(ThemeContext);
     const [showToast, setShowToast] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
+    const [isInSite, setIsInSite] = useState(false);
+    const userData = useUserData(user._id);
+    useEffect(() => {
+        if(userData && userData.isWholesaler){
+            setCName(userData.userName);
+            setCNumber(userData.phone);
+            setCAddress(userData.address);
+        }
+    });
+    console.log("the userData is ", userData);
+    console.log("the user is ", user);
 
     const validateForm = () => {
-        if (!selectedCity) {
-            setError("يجب ادخال المدينة");
-            return false;
-        }
-        if (!selectedType) {
-            setError("يجب ادخال نوع التوصيل");
-            return false;
-        }
-        if (!deliveryPrice) {
-            setError("لم يتم تحديد سعر التوصيل");
-            return false;
+        if(!isInSite){
+            if (!selectedCity) {
+                setError("يجب ادخال المدينة");
+                return false;
+            }
+            if (!selectedType) {
+                setError("يجب ادخال نوع التوصيل");
+                return false;
+            }
+            if (!deliveryPrice) {
+                setError("لم يتم تحديد سعر التوصيل");
+                return false;
+            }
         }
         if (cNumber.length < 10) {
             setError("الرقم المدخل خاطئ");
@@ -46,7 +64,6 @@ const UserDetailsModal = () => {
         }
         return true; // ✅ All validations passed
     }
-    console.log("The products is : " ,products)
 
     const handleSend = async (e) => {
         e.preventDefault();
@@ -86,7 +103,7 @@ const UserDetailsModal = () => {
                 cName,//
                 cNumber,//
                 cAddress,//
-                cCity: selectedCity,//
+                cCity: selectedCity || "زبون المحل",//
                 delivery: selectedType,//
                 notes,//
                 products: productList,
@@ -116,6 +133,12 @@ const UserDetailsModal = () => {
                         quantity: item.numOfItems,
                     }),
                 });
+
+                // ⛔ Check if backend returned error
+                if (!stockResponse.ok) {
+                    const errorData = await stockResponse.json().catch(() => ({}));
+                    throw new Error(errorData.message || `فشل في تحديث مخزون المنتج ${item.name}`);
+                }
             }
 
             // Send one WhatsApp message
@@ -160,7 +183,8 @@ const UserDetailsModal = () => {
             modal.hide();
         } catch (err) {
             console.error("Error sending data or updating stock:", err);
-            setError("حدث خطأ أثناء إرسال البيانات");
+            // show backend error message (e.g. "كمية غير كافية من منتج test")
+            setError(err.message || "حدث خطأ أثناء إرسال البيانات");
         } finally {
             setIsLoading(false);
         }
@@ -204,18 +228,27 @@ const UserDetailsModal = () => {
                             <div className="modal-body">
                                 {error && <div className="alert alert-danger">{error}</div>}
                                 <div className={`d-flex justify-content-between`}>
-                                    <InputArabic usage={'modal'} placeholder={'قم بادخال الرقم'} isRequired={true} required label={"الرقم"} size={'sm'} onChange={(e)=>{setCNumber(e.target.value)}}></InputArabic>
-                                    <InputArabic usage={'modal'} placeholder={'قم بادخال الاسم'} isRequired={true} required label={"الاسم الكامل"} size={'sm'} onChange={(e)=>{setCName(e.target.value)}}></InputArabic>
+                                    <InputArabic usage={'modal'} placeholder={'قم بادخال الرقم'} isRequired={true} required label={"الرقم"} size={'sm'} value={cNumber} onChange={(e)=>{setCNumber(e.target.value)}}></InputArabic>
+                                    <InputArabic usage={'modal'} placeholder={'قم بادخال الاسم'} isRequired={true} required label={"الاسم الكامل"} value={cName} size={'sm'} onChange={(e)=>{setCName(e.target.value)}}></InputArabic>
                                 </div>
                                 <div className={`d-flex justify-content-between mt-4`}>
-                                    <UserModalDropDown options={cities} usage={'modal'} isRequired={true} label={"المنطقة"} size={'small'} setSelected={setSelectedCity} ></UserModalDropDown>
-                                    <InputArabic usage={'modal'} placeholder={'قم بادخال المدينة'} isRequired={true} label={"المدينة"} size={'sm'} required onChange={(e)=>{setCAddress(e.target.value)}}></InputArabic>
+                                    <UserModalDropDown options={cities} usage={'modal'} isRequired={true} label={"المنطقة"} size={'small'} setSelected={setSelectedCity} able={isInSite}></UserModalDropDown>
+                                    <InputArabic usage={'modal'} placeholder={'قم بادخال المدينة'} isRequired={true} label={"المدينة"} size={'sm'} required value={isInSite ? 'جنين' : cAddress} onChange={(e)=>{setCAddress(e.target.value)}} able={isInSite}></InputArabic>
                                 </div>
                                 <div className={`d-flex justify-content-between mt-4`}>
                                     <div className={`w-50 d-flex align-items-end justify-content-between px-4 pb-1`}><span className={`ps-3`}>{deliveryPrice ? `₪ ${deliveryPrice}` : '₪0.00'} </span><span className={`fw-bold fs-6`}>سعر التوصيل</span> </div>
-                                    <UserModalDropDown options={deliveryType} usage={'modal'} isRequired={true} label={"نوع التوصيل"} size={'xsmall'} setSelected={setSelectedType}></UserModalDropDown>
+                                    <UserModalDropDown options={deliveryType} usage={'modal'} isRequired={true} label={"نوع التوصيل"} size={'xsmall'} setSelected={setSelectedType} able={isInSite}></UserModalDropDown>
                                 </div>
-                                <div className={`d-flex justify-content-between mt-4`}>
+                                {
+                                    userData && !userData.isWholesaler && (
+                                        <div className={`form-check form-switch ps-0 gap-3 justify-content-end align-items-center d-flex pt-3 ${style.soldOutDiv}`}>
+                                            <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked={isInSite} onChange={()=> setIsInSite(!isInSite)} />
+                                            <span>في المتجر ؟</span>
+                                        </div>
+                                    )
+                                }
+
+                                <div className={`d-flex justify-content-between mt-2`}>
                                     <InputArabicTextarea placeholder={'أية ملاحظات ؟'} isRequired={false} label={'ملاحظات'} usage={'modal'} size={'xl'} type={'textarea'} style={{ height: '4rem' }} value={notes} onChange={(e=> setNotes(e.target.value))} />
                                 </div>
                             </div>

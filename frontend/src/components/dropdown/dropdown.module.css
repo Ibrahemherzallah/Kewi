@@ -124,6 +124,13 @@ span {
     background-color: var(--li-hover);
 }
 
+.dropdown:disabled {
+    background-color: #f0f0f0;
+    color: #888;
+    cursor: not-allowed;
+    opacity: 0.7;
+    border-color: #ccc;
+}
 
 @media screen and (max-width: 800px) {
     .medium {

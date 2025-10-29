@@ -65,7 +65,7 @@ export const UserDropDown = ({ size, options, dropdownType,selected,setSelected}
 
 
 
-export const UserModalDropDown = ({ size, label, isRequired, options = [], setSelected }) => {
+export const UserModalDropDown = ({ size, label, isRequired, options = [], setSelected, able }) => {
     const isDeliveryType = options?.[0]?.duration !== undefined;
 
     return (
@@ -77,6 +77,7 @@ export const UserModalDropDown = ({ size, label, isRequired, options = [], setSe
                 className={`mt-1 ${style.dropdown}`}
                 defaultValue=""
                 onChange={e => setSelected(e.target.value)}
+                disabled={able}
             >
                 <option value="" disabled>
                     {isDeliveryType ? '-- اختر نوع التوصيل --' : '-- اختر المدينة --'}
