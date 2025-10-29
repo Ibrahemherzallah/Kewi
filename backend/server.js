@@ -16,6 +16,10 @@ import helmet from 'helmet';
 import path from 'path'
 import { fileURLToPath } from 'url';
 
+// ✅ ADD THESE IMPORTS
+import { renderWithMeta } from './seo.renderer.js';
+import { homeMeta, productMeta, categoryMeta } from './metaTemplates.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
@@ -47,7 +51,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: process.env.NODE_ENV === 'production' }
 }));
-const isProd = process.env.NODE_ENV === 'production';
+
 app.use(
     helmet({
         contentSecurityPolicy: {
@@ -72,17 +76,15 @@ app.use(express.json({ limit: '20mb' }));
 app.use(express.urlencoded({ extended: true, limit: '20mb' }));
 
 const staticPath = path.join(__dirname, 'static');
-app.use(express.static(staticPath));
-app.use('/admin', orderRoutes);
-app.use('/admin', brandRoutes);
-app.use('/admin', categoryRoutes);
-app.use('/admin', productRoutes);
-app.use('/admin', wholesalerRoutes);
-app.use('/admin', usersRoutes);
-app.use('/auth', authRoutes);
 
-app.use('/user', homeRoutes);
+// ✅ MOVE STATIC BELOW SEO ROUTES (IMPORTANT!)
+// app.use(express.static(staticPath)); ❌ REMOVE FROM HERE
 
+// =====================================================
+// ✅ SEO ROUTES MUST COME BEFORE STATIC & CATCH-ALL
+// =====================================================
+
+// Home Page SEO
 app.get('/', async (req, res) => {
     try {
         const html = await renderWithMeta(staticPath, homeMeta());
@@ -93,11 +95,10 @@ app.get('/', async (req, res) => {
     }
 });
 
-// Product page: /product/:id
+// Product Page SEO
 app.get('/product/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        // Fetch product from your own API
         const apiUrl = `${req.protocol}://${req.get('host')}/admin/products/${id}`;
         const r = await fetch(apiUrl);
         const product = await r.json();
@@ -111,10 +112,11 @@ app.get('/product/:id', async (req, res) => {
     }
 });
 
-// Category page: /category/:id  (your API returns a product list)
+// Category Page SEO
 app.get('/category/:id', async (req, res) => {
     const { id } = req.params;
-    const catNameFromQuery = req.query?.catName; // you already pass ?catName= in your links
+    const catNameFromQuery = req.query?.catName;
+
     try {
         const apiUrl = `${req.protocol}://${req.get('host')}/admin/products/category/${id}`;
         const r = await fetch(apiUrl);
@@ -138,12 +140,25 @@ app.get('/category/:id', async (req, res) => {
     }
 });
 
+// ✅ NOW SERVE STATIC FILES
+app.use(express.static(staticPath));
 
-app.get('*',(req,res) => {
+// ✅ API ROUTES (order does not matter after SEO)
+app.use('/admin', orderRoutes);
+app.use('/admin', brandRoutes);
+app.use('/admin', categoryRoutes);
+app.use('/admin', productRoutes);
+app.use('/admin', wholesalerRoutes);
+app.use('/admin', usersRoutes);
+app.use('/auth', authRoutes);
+app.use('/user', homeRoutes);
+
+// ✅ CATCH-ALL MUST BE LAST
+app.get('*', (req, res) => {
     res.sendFile(path.join(staticPath,'index.html'));
-})
+});
 
-app.listen(PORT , ()=> {
+app.listen(PORT, () => {
     connectDB();
     console.log(`Server is running on http://localhost:${PORT}`);
 });
