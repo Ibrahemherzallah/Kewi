@@ -26,7 +26,7 @@ const purchaseSchema = new mongoose.Schema({
   deliveryType: {
     type: String,
     enum: ['مستعجل', 'عادي'],
-    required: true,
+    required: false,
   },
   notes: {
     type: String,

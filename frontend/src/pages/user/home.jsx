@@ -11,7 +11,6 @@ import 'aos/dist/aos.css';
 
 const Home = () => {
 
-  const {user} = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("cart"); // cart | reserved

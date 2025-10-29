@@ -91,6 +91,17 @@
 }
 
 .navDropDown {
+  display: none;
+  width: 10rem;
+  background-color: var(--bg-color);
+  border: 1.5px solid var(--hr-color) ;
+  border-radius: 0.5rem;
+  list-style: unset;
+  z-index: 999;
+}
+
+.navDropDownOther {
+  display: none;
   width: 10rem;
   background-color: var(--bg-color);
   border: 1.5px solid var(--hr-color) ;
@@ -163,6 +174,14 @@
   color: var(--nav-text);
   font-size: 2rem;
   cursor: pointer;
+}
+
+.navItemLinks:hover .navDropDown {
+  display: block;
+}
+
+.navItemOther:hover .navDropDownOther {
+  display: block;
 }
 
 @media screen and (max-width: 990px) {

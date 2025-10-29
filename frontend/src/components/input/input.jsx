@@ -30,11 +30,11 @@ export const InputTextarea = ({placeholder,label,isRequired=false,size,variant,u
     )
 }
 
-export const InputArabic = ({placeholder,label,isRequired=false,size,variant,usage,type,...props}) => {
+export const InputArabic = ({placeholder,label,isRequired=false,size,variant,usage,type,able,...props}) => {
     return (
         <div className={`${style[variant]} ${style[size]} ${style.inputArabic}`}>
             <span className={'fw-medium'}>{label} {isRequired && <span className={style.required}>*</span> } </span><br/>
-            <input className={ `mt-1 ${style.input} ${style[usage]}`} placeholder={placeholder} type={type} {...props}/>
+            <input className={ `mt-1 ${style.input} ${style[usage]}`} placeholder={placeholder} type={type} disabled={able} {...props}/>
         </div>
     )
 }

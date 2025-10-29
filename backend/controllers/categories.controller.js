@@ -7,30 +7,29 @@ import { bucket } from "../utils/firebaseConfig.js";
 
 export const addCategory = async (req, res) => {
     try {
-        const { name, description } = req.body;
+        const { name, description, other } = req.body;
 
         const category = await Category.findOne({ name });
         if (category) {
-            console.log("category exists");
             return res.status(400).json({ error: "category exists" });
         }
 
         const newCategory = new Category({
             name,
-            image: "",
             description,
+            image: "",
+            other: other ?? false, // handle if not provided
         });
 
         await newCategory.save();
 
         if (req.files && req.files.length > 0) {
-            const imageUrl = await uploadCategoryImage(req.files[0]); // Upload the first image
+            const imageUrl = await uploadCategoryImage(req.files[0]);
             newCategory.image = imageUrl;
             await newCategory.save();
         }
 
         res.status(201).json(newCategory);
-        console.log("Category and image stored successfully");
     } catch (err) {
         console.error("Error:", err);
         res.status(500).json({ error: err.message });
@@ -51,39 +50,37 @@ export const updateCategory = async (req, res) => {
     try {
         const { id } = req.params;
 
-        // Validate ObjectId
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ error: "Invalid category ID format" });
         }
 
+        const { name, description, other } = req.body;
 
-        const { name, description } = req.body;
-
-        // Check if the new name is already used by another category
         const existingCategory = await Category.findOne({ name });
         if (existingCategory && existingCategory._id.toString() !== id) {
             return res.status(400).json({ error: "Category name already exists" });
         }
 
-        // Extract product data
         const updatedData = {
-            name: req.body.name,
-            description: req.body.description,
+            name,
+            description,
+            other, // include the new boolean field
         };
 
-        // Handle images if provided
         if (req.files && req.files[0]) {
-            const imageUrl = await uploadCategoryImage(req.files[0]); // Ensure we send only the first file
+            const imageUrl = await uploadCategoryImage(req.files[0]);
             updatedData.image = imageUrl;
         }
 
-        const updatedProduct = await Category.findByIdAndUpdate(id, updatedData, { new: true });
+        const updatedCategory = await Category.findByIdAndUpdate(id, updatedData, {
+            new: true,
+        });
 
-        if (!updatedProduct) {
+        if (!updatedCategory) {
             return res.status(404).json({ message: "Category not found" });
         }
 
-        res.status(200).json(updatedProduct);
+        res.status(200).json(updatedCategory);
     } catch (error) {
         console.error("Error updating Category:", error);
         res.status(500).json({ error: error.message });

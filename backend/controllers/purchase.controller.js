@@ -72,12 +72,15 @@ export const updateStock = async (req, res) => {
         if (!product) {
             return res.status(404).json({ message: 'المنتج غير موجود' });
         }
-
+        let remainingStock = product.stockNumber - quantity
+        if (remainingStock < 0){
+            return res.status(404).json({ message: `كمية غير كافية من منتج ${product.name}` });
+        }
+        else if (remainingStock === 0){
+            product.isSoldOut = true;
+        }
         product.stockNumber -= quantity;
 
-        if (product.stockNumber < 0) {
-            product.stockNumber = 0;
-        }
 
         await product.save();
 
