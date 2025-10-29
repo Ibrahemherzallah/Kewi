@@ -83,6 +83,62 @@ app.use('/auth', authRoutes);
 
 app.use('/user', homeRoutes);
 
+app.get('/', async (req, res) => {
+    try {
+        const html = await renderWithMeta(staticPath, homeMeta());
+        res.status(200).send(html);
+    } catch (e) {
+        console.error('SEO home error:', e);
+        res.sendFile(path.join(staticPath, 'index.html'));
+    }
+});
+
+// Product page: /product/:id
+app.get('/product/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        // Fetch product from your own API
+        const apiUrl = `${req.protocol}://${req.get('host')}/admin/products/${id}`;
+        const r = await fetch(apiUrl);
+        const product = await r.json();
+
+        const meta = productMeta(product);
+        const html = await renderWithMeta(staticPath, meta);
+        res.status(200).send(html);
+    } catch (e) {
+        console.error('SEO product error:', e);
+        res.sendFile(path.join(staticPath, 'index.html'));
+    }
+});
+
+// Category page: /category/:id  (your API returns a product list)
+app.get('/category/:id', async (req, res) => {
+    const { id } = req.params;
+    const catNameFromQuery = req.query?.catName; // you already pass ?catName= in your links
+    try {
+        const apiUrl = `${req.protocol}://${req.get('host')}/admin/products/category/${id}`;
+        const r = await fetch(apiUrl);
+        const products = await r.json();
+
+        const first = Array.isArray(products) ? products[0] : null;
+        const catName =
+            catNameFromQuery ||
+            first?.category?.name ||
+            'التصنيفات';
+
+        const firstImage =
+            (first?.images && first.images[0]) ? first.images[0] : null;
+
+        const meta = categoryMeta({ catName, firstImage, id });
+        const html = await renderWithMeta(staticPath, meta);
+        res.status(200).send(html);
+    } catch (e) {
+        console.error('SEO category error:', e);
+        res.sendFile(path.join(staticPath, 'index.html'));
+    }
+});
+
+
 app.get('*',(req,res) => {
     res.sendFile(path.join(staticPath,'index.html'));
 })
