@@ -64,7 +64,7 @@ export const addPurchase = async (req, res) => {
 
 
 export const updateStock = async (req, res) => {
-    const { id, quantity } = req.body; // id = product id, quantity = number to decrease
+    const { id, quantity } = req.body;
 
     try {
         const product = await Product.findById(id);

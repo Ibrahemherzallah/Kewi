@@ -134,10 +134,11 @@ const UserDetailsModal = () => {
                     }),
                 });
 
-                // ⛔ Check if backend returned error
+                const data = await stockResponse.json().catch(() => ({})); // read JSON safely
+
                 if (!stockResponse.ok) {
-                    const errorData = await stockResponse.json().catch(() => ({}));
-                    throw new Error(errorData.message || `فشل في تحديث مخزون المنتج ${item.name}`);
+                    // ❌ Stop the loop and show error to user
+                    throw new Error(data.message || `فشل في تحديث مخزون المنتج ${item.name}`);
                 }
             }
 
