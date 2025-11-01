@@ -7,6 +7,7 @@ import {CartContext} from "../../context/cartContext.jsx";
 import {UserContext} from "../../context/userContext.jsx";
 import {ThemeContext} from "../../context/themeContext.jsx";
 import useUserData from "../../hooks/useUserDate.jsx";
+import {useTranslation} from "react-i18next";
 
 const UserDetailsModal = () => {
 
@@ -32,7 +33,9 @@ const UserDetailsModal = () => {
     const [showToast, setShowToast] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isInSite, setIsInSite] = useState(false);
-    const userData = useUserData(user._id);
+    const userData = useUserData(user?._id);
+    const { t,i18n } = useTranslation();
+    const isArabic = i18n.language === "ar";
     useEffect(() => {
         if(userData && userData.isWholesaler){
             setCName(userData.userName);
@@ -123,9 +126,8 @@ const UserDetailsModal = () => {
             const result = await response.json();
             console.log("تم إرسال البيانات بنجاح:", result);
 
-            // Update stock
             for (let item of products) {
-                await fetch("https://kewi.ps/user/product/update-stock", {
+                const stockResponse = await fetch("https://kewi.ps/user/product/update-stock", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -217,11 +219,11 @@ const UserDetailsModal = () => {
 
     return (
         <>
-            <div className="modal fade" id="exampleModal9" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className={`modal fade ${isArabic ? style.ltr : style.rtl}`} id="exampleModal9" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
                 <div className="modal-dialog modal-dialog-centered">
                     <div className={`modal-content ${isDark ? "bg-dark text-white" : "" }`}>
                         <div className={`modal-header ${style.modalHeader}`}>
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">المعلومات المطلوبة</h1>
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">{t("purchaseModal.header")}</h1>
                             <button type="button" className="btn-close m-0" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                         </div>
@@ -229,39 +231,39 @@ const UserDetailsModal = () => {
                             <div className="modal-body">
                                 {error && <div className="alert alert-danger">{error}</div>}
                                 <div className={`d-flex justify-content-between`}>
-                                    <InputArabic usage={'modal'} placeholder={'قم بادخال الرقم'} isRequired={true} required label={"الرقم"} size={'sm'} value={cNumber} onChange={(e)=>{setCNumber(e.target.value)}}></InputArabic>
-                                    <InputArabic usage={'modal'} placeholder={'قم بادخال الاسم'} isRequired={true} required label={"الاسم الكامل"} value={cName} size={'sm'} onChange={(e)=>{setCName(e.target.value)}}></InputArabic>
+                                    <InputArabic usage={'modal'} placeholder={`${t("purchaseModal.numberPlaceholder")}`} isRequired={true} required label={`${t("purchaseModal.number")}`} size={'sm'} value={cNumber} onChange={(e)=>{setCNumber(e.target.value)}}></InputArabic>
+                                    <InputArabic usage={'modal'} placeholder={`${t("purchaseModal.namePlaceholder")}`} isRequired={true} required label={`${t("purchaseModal.fullName")}`} value={cName} size={'sm'} onChange={(e)=>{setCName(e.target.value)}}></InputArabic>
                                 </div>
                                 <div className={`d-flex justify-content-between mt-4`}>
-                                    <UserModalDropDown options={cities} usage={'modal'} isRequired={true} label={"المنطقة"} size={'small'} setSelected={setSelectedCity} able={isInSite}></UserModalDropDown>
-                                    <InputArabic usage={'modal'} placeholder={'قم بادخال المدينة'} isRequired={true} label={"المدينة"} size={'sm'} required value={isInSite ? 'جنين' : cAddress} onChange={(e)=>{setCAddress(e.target.value)}} able={isInSite}></InputArabic>
+                                    <UserModalDropDown options={cities} usage={'modal'} isRequired={true} label={`${t("purchaseModal.area")}`} size={'small'} setSelected={setSelectedCity} able={isInSite}></UserModalDropDown>
+                                    <InputArabic usage={'modal'} placeholder={`${t("purchaseModal.cityPlaceholder")}`} isRequired={true} label={`${t("purchaseModal.city")}`} size={'sm'} required value={isInSite ? 'جنين' : cAddress} onChange={(e)=>{setCAddress(e.target.value)}} able={isInSite}></InputArabic>
                                 </div>
                                 <div className={`d-flex justify-content-between mt-4`}>
-                                    <div className={`w-50 d-flex align-items-end justify-content-between px-4 pb-1`}><span className={`ps-3`}>{deliveryPrice ? `₪ ${deliveryPrice}` : '₪0.00'} </span><span className={`fw-bold fs-6`}>سعر التوصيل</span> </div>
-                                    <UserModalDropDown options={deliveryType} usage={'modal'} isRequired={true} label={"نوع التوصيل"} size={'xsmall'} setSelected={setSelectedType} able={isInSite}></UserModalDropDown>
+                                    <div className={`w-50 d-flex align-items-end justify-content-between px-4 pb-1`}><span className={`ps-3`}>{deliveryPrice ? `₪ ${deliveryPrice}` : '₪0.00'} </span><span className={`fw-bold fs-6`}>{t("purchaseModal.deliveryPrice")}</span> </div>
+                                    <UserModalDropDown options={deliveryType} usage={'modal'} isRequired={true} label={`${t("purchaseModal.deliveryType")}`} size={'xsmall'} setSelected={setSelectedType} able={isInSite}></UserModalDropDown>
                                 </div>
                                 {
                                     userData && !userData.isWholesaler && (
                                         <div className={`form-check form-switch ps-0 gap-3 justify-content-end align-items-center d-flex pt-3 ${style.soldOutDiv}`}>
                                             <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked={isInSite} onChange={()=> setIsInSite(!isInSite)} />
-                                            <span>في المتجر ؟</span>
+                                            <span>{t("purchaseModal.inMarket")}</span>
                                         </div>
                                     )
                                 }
 
                                 <div className={`d-flex justify-content-between mt-2`}>
-                                    <InputArabicTextarea placeholder={'أية ملاحظات ؟'} isRequired={false} label={'ملاحظات'} usage={'modal'} size={'xl'} type={'textarea'} style={{ height: '4rem' }} value={notes} onChange={(e=> setNotes(e.target.value))} />
+                                    <InputArabicTextarea placeholder={`${t("purchaseModal.notePlaceholder")}`} isRequired={false} label={`${t("purchaseModal.notes")}`} usage={'modal'} size={'xl'} type={'textarea'} style={{ height: '4rem' }} value={notes} onChange={(e=> setNotes(e.target.value))} />
                                 </div>
                             </div>
-                            <p className={`text-center ${style.note}`}><span className={`fw-bold`}>ملاحظة : </span> بمجرد الضغط على زر الارسال سيتم ارسال الطلب الى شركة التوصيل وسيتم ايصال الطرد في أقرب وقت ممكن </p>
+                            <p className={`text-center ${style.note}`}><span className={`fw-bold`}>{t("purchaseModal.note")} : </span> {t("purchaseModal.warningSentence")} </p>
                             <div className=" d-flex justify-content-center py-3">
                                 <Button variant={'primary'} size={'xs'} type='submit'>{isLoading ? (
                                     <>
                                         <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                        جاري الإرسال...
+                                        ${t("purchaseModal.sending")}
                                     </>
                                 ) : (
-                                    'ارسال'
+                                    t("purchaseModal.send")
                                 )}</Button>
                             </div>
                         </form>

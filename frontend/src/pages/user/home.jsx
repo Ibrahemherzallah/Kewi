@@ -7,6 +7,7 @@ import {UserContext} from "../../context/userContext.jsx";
 import Layout from "./layout.jsx";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import {useTranslation} from "react-i18next";
 
 
 const Home = () => {
@@ -41,30 +42,30 @@ const Home = () => {
   const scrollToCategories = () => {
     categoriesRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
-
+  const { t,i18n } = useTranslation();
+  const isArabic = i18n.language === "ar";
   return (
       <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} activeTab={activeTab} setActiveTab={setActiveTab}>
         <section className={`${style.heroSection}`}>
           <div className={`${style.heroContainer}`}>
-            <h1 className={'fw-semibold'}>مرحباً بك في كيوي</h1>
-            <p>اكتشفي أحدث الحقائب والإكسسوارات بتصاميم عصرية وأسعار مميزة</p>
+            <h1 className={'fw-semibold'}>{t("hero.title")}</h1>
+            <p>{t("hero.subtitle")}</p>
             <div className={`${style.heroButtons}`}>
               <button onClick={scrollToFeatured} className={`${style.btnRed}`}>
-                تسوق الآن
+                {t("hero.shopNow")}
               </button>
               <button onClick={scrollToCategories} className={`${style.btnWhite}`}>
-                استعرض الفئات
+                {t("hero.browseCats")}
               </button>
             </div>
           </div>
         </section>
 
-        <div ref={categoriesRef} className={`${style.homePageCategoryDiv}`} data-aos="fade-up">
+        <div ref={categoriesRef} className={`${style.homePageCategoryDiv} ${isArabic ? style.ltr : ''}`} data-aos="fade-up">
           <div className="d-flex align-items-center my-3 gap-5" data-aos="fade-up">
             <hr style={{ flex: 1, borderTop: "2px solid #ccc" }} />
             <Typography component="h1" style={{ whiteSpace: "nowrap", color: "var(--hint-text)" }}>
-              تسوق  حسب  الفئة
+              {t("home.shoppingByCat")}
             </Typography>
             <hr style={{ flex: 1, borderTop: "2px solid #ccc" }} />
           </div>
@@ -75,7 +76,7 @@ const Home = () => {
           <div className="d-flex align-items-center my-3 gap-5" data-aos="fade-up">
             <hr style={{ flex: 1, borderTop: "2px solid #ccc" }} />
             <Typography component="h1" style={{ whiteSpace: "nowrap", color: "var(--hint-text)" }}>
-              أخر ما وصلنا
+              {t("home.lastProducts")}
             </Typography>
             <hr style={{ flex: 1, borderTop: "2px solid #ccc" }} />
           </div>

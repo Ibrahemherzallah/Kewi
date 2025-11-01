@@ -7,12 +7,14 @@ import Button from "../../components/button/button.jsx";
 import emptyCart from "../../assets/empty-cart.png";
 import { UserContext } from "../../context/userContext.jsx";
 import { CartReserve } from "../../context/cartReserve.jsx";
+import {useTranslation} from "react-i18next";
 
 const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab}) => {
     const { products } = useContext(CartContext);
     const { reserved } = useContext(CartReserve);
     const { user } = useContext(UserContext);
     const [numOfItems, setNumOfItems] = useState(1);
+    const { t } = useTranslation();
 
     // Calculate total for cart
     const totalPrice = products.reduce((total, product) => {
@@ -44,7 +46,7 @@ const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab}) => {
                     ×
                 </button>
                 <div className={style.content}>
-                    <h3 className="pt-3 ps-3 fw-semibold">سلة المشتريات</h3>
+                    <h3 className="pt-3 ps-3 fw-semibold">{t("sideBar.header")}</h3>
 
                     {/* Tabs */}
                     <div className={`${style.tabs} d-flex justify-content-center my-3`}>
@@ -52,13 +54,13 @@ const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab}) => {
                             className={`${style.tabButton} ${activeTab === "cart" ? style.activeTab : ""}`}
                             onClick={() => setActiveTab("cart")}
                         >
-                            🛒 المنتجات
+                            🛒 {t("sideBar.products")}
                         </button>
                         <button
                             className={`${style.tabButton} ${activeTab === "reserved" ? style.activeTab : ""}`}
                             onClick={() => setActiveTab("reserved")}
                         >
-                            📦 المحجوز
+                            📦 {t("sideBar.reserved")}
                         </button>
                     </div>
                 </div>
@@ -82,7 +84,7 @@ const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab}) => {
                                     style={{ width: "10rem", height: "10rem" }}
                                     alt="empty-cart"
                                 />
-                                <p className="mt-4 fw-semibold fs-5">السلة فارغة</p>
+                                <p className="mt-4 fw-semibold fs-5">{t("sideBar.emptyCart")}</p>
                             </div>
                         ))}
 
@@ -103,7 +105,7 @@ const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab}) => {
                                     style={{ width: "10rem", height: "10rem" }}
                                     alt="empty-cart"
                                 />
-                                <p className="mt-4 fw-semibold fs-5">لا يوجد منتجات محجوزة</p>
+                                <p className="mt-4 fw-semibold fs-5">{t("sideBar.noReserves")}</p>
                             </div>
                         ))}
                 </div>
@@ -114,7 +116,7 @@ const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab}) => {
                         <hr className={style.sideBarHr} />
                         <div className={`d-flex justify-content-between px-4 ${style.sidebarTotalPrice}`}>
                             <p>₪{totalPrice.toFixed(2)}</p>
-                            <p>الاجمالي</p>
+                            <p>{t("sideBar.total")}</p>
                         </div>
                         <div className="mx-4 mt-3">
                             <Button
@@ -124,7 +126,7 @@ const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab}) => {
                                 data-bs-toggle="modal"
                                 data-bs-target="#exampleModal9"
                             >
-                                اتمام الشراء
+                                {t("sideBar.donePurchase")}
                             </Button>
                         </div>
                     </div>

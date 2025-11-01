@@ -8,3 +8,13 @@
     color:red;
     font-size: 0.7rem;
 }
+
+.rtl {
+    direction: rtl !important;
+    text-align: right;
+}
+
+.ltr {
+    direction: ltr !important;
+    text-align: left;
+}

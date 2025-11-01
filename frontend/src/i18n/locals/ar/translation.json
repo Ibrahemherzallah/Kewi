@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "home": "Home",
+    "bags": "Bags",
+    "handBags": "Hand Bags",
+    "backBags": "Back Bags",
+    "travelBags": "Travel Bags",
+    "wallet": "Wallet",
+    "perfume": "Perfumes",
+    "accessories": "Accessories",
+    "offers": "Offers",
+    "soon": "Soon",
+    "other": "Other",
+    "login": "Login"
+  },
+  "hero": {
+    "title": "Welcome to KEWI",
+    "subtitle": "Discover the latest bags & accessories with modern designs and great prices.",
+    "shopNow": "Shop now",
+    "browseCats": "Browse categories"
+  },
+  "home": {
+    "shoppingByCat": "Shopping By Cart",
+    "lastProducts": "Last Products"
+  },
+  "categoryProduct": {
+    "shopping": "Shop the most beautiful",
+    "whatShop": "products"
+  },
+  "sideBar": {
+    "header": "Shopping Cart",
+    "products": "Products",
+    "reserved": "Reserved",
+    "total": "Total",
+    "donePurchase": "Purchase completed",
+    "noReserves": "No products are reserved",
+    "emptyCart": "The Cart Is Empty"
+  },
+  "purchaseModal": {
+    "header": "Required Info",
+    "number": "Number",
+    "numberPlaceholder": "Plz enter the Number",
+    "fullName": "Full Name",
+    "namePlaceholder": "Plz enter full name",
+    "area": "Area",
+    "chooseArea": "Choose City",
+    "city": "City",
+    "cityPlaceholder": "Plz enter city",
+    "deliveryPrice": "Delivery Price",
+    "deliveryType": "Delivery Type",
+    "chooseDeliveryType": "Choose Delivery Type",
+    "inMarket": "In Market?",
+    "notes": "Notes",
+    "notePlaceholder": "Any Notes?",
+    "note": "Note",
+    "send": "Send",
+    "sending": "Sending...",
+    "warningSentence": "Once you press the send button, the order will be sent to the delivery company and the package will be delivered as soon as possible."
+  },
+  "dropDowns": {
+    "clearFilters": "Clear Filters",
+    "orderBy": "Sort By"
+  },
+  "loading": {
+    "loading": "Loading products..."
+  },
+  "footer": {
+    "whoWee": "Who We Are",
+    "whoWeeText": "We are a store specializing in importing and distributing high-quality bags since 2018.",
+    "quickLinks": "Quick Links",
+    "customerService": "Customer Service",
+    "contactUs": "Contact Us",
+    "contactUsingNumber": "Or By Number :",
+    "contactInfo": "Contact Info",
+    "contactText": "Subscribe to receive special offers and updates"
+  },
+  "cart": {
+    "deliveryPrice": "Delivery price",
+    "fromMarket": "From market — no delivery"
+  }
+}

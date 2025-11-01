@@ -184,6 +184,53 @@
   display: block;
 }
 
+
+
+
+.loginLink {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  padding: 4px 0;
+  transition: 0.25s ease;
+
+}
+
+.loginLink:hover {
+  border-bottom: 2px solid var(--primary);
+}
+
+
+
+
+
+
+.loginBtnFilled {
+  background: var(--primary);
+  color: white !important;
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: 0.3s;
+  text-decoration: none;
+  text-wrap: nowrap;
+}
+
+
+
+.loginBtnFilled:hover {
+  opacity: 0.85;
+}
+
+.darkLogin {
+  background: #ffffff;
+  color: #222 !important;
+}
+
 @media screen and (max-width: 990px) {
 
   .navbarNav {
@@ -237,8 +284,18 @@
   .personIconNavBar {
     font-size: 1.45rem;
   }
-
-
+  .loginBtnFilled {
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    transition: 0.3s;
+    text-decoration: none;
+    text-wrap: nowrap;
+  }
+  .navIcons {
+    gap: 0.15rem;
+  }
   .navItem {
     font-size: 0.85rem !important;
   }

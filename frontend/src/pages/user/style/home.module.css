@@ -18,6 +18,15 @@
   padding-inline: 5rem;
   direction: rtl;
 }
+.rtl {
+  direction: rtl !important;
+  text-align: right;
+}
+
+.ltr {
+  direction: ltr !important;
+  text-align: left;
+}
 .productPageImages {
   object-fit: cover;
   height: 500px;
