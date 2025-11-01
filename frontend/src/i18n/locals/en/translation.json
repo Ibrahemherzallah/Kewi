@@ -1,0 +1,81 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "bags": "الحقائب",
+    "handBags": "حقائب يد",
+    "backBags": "حقائب ظهر",
+    "travelBags": "حقائب سفر",
+    "wallet": "جزدان يد",
+    "perfume": "العطور",
+    "accessories": "الإكسسوارات",
+    "offers": "العروض",
+    "soon": "قريبا",
+    "other": "أخرى",
+    "login": "تسجيل دخول"
+  },
+  "hero": {
+    "title": "مرحباً بك في كيوي",
+    "subtitle": "اكتشفي أحدث الحقائب والإكسسوارات بتصاميم عصرية وأسعار مميزة.",
+    "shopNow": "تسوقي الآن",
+    "browseCats": "استعرضي الفئات"
+  },
+  "home": {
+    "shoppingByCat": "تسوق حسب الفئة",
+    "lastProducts": "أخر ما وصلنا"
+  },
+  "categoryProduct": {
+    "shopping": "تسوقي اجمل",
+    "whatShop": "المنتجات"
+  },
+  "sideBar": {
+    "header": "سلة المشتريات",
+    "products": "المنتجات",
+    "reserved": "المحجوز",
+    "total": "الاجمالي",
+    "donePurchase": "اتمام الشراء",
+    "noReserves": "لا يوجد منتجات محجوزة",
+    "emptyCart": "السلة فارغة"
+  },
+  "purchaseModal": {
+    "header": "المعلومات المطلوبة",
+    "number": "الرقم",
+    "numberPlaceholder": "قم بادخال الرقم",
+    "fullName": "الاسم الكامل",
+    "namePlaceholder": "قم بادخال المدينة",
+    "area": "المنطقة",
+    "chooseArea": "اختر المدينة",
+    "city": "المدينة",
+    "cityPlaceholder": "قم بادخال المدينة",
+    "deliveryPrice": "سعر التوصيل",
+    "deliveryType": "نوع التوصيل",
+    "chooseDeliveryType": "اختر نوع التوصيل",
+    "inMarket": "في المتجر؟",
+    "notes": "ملاحظات",
+    "notePlaceholder": "أية ملاحظات ؟",
+    "note": "ملاحظة",
+    "send": "ارسال",
+    "sending": "جاري الإرسال...",
+    "warningSentence": "بمجرد الضغط على زر الارسال سيتم ارسال الطلب الى شركة التوصيل وسيتم ايصال الطرد في أقرب وقت ممكن"
+  },
+  "dropDowns": {
+    "clearFilters": "مسح الفلاتر",
+    "orderBy": "ترتيب حسب"
+  },
+  "loading": {
+    "loading": "جاري تحميل المنتجات..."
+  },
+  "footer": {
+    "whoWee": "من نحن",
+    "whoWeeText": "نحن متجر متخصص في استيراد وتوزيع الشنط عالية الجودة منذ 2018 .",
+    "quickLinks": "روابط سريعة",
+    "customerService": "خدمة العملاء",
+    "contactUs": "تواصل معنا",
+    "contactUsingNumber": "أو من خلال الرقم :",
+    "contactInfo": "معلومات التواصل",
+    "contactText": "اشترك للحصول على عروض خاصة وتحديثات"
+  },
+  "cart": {
+    "deliveryPrice": "سعر التوصيل",
+    "fromMarket": "من السوق — لا يوجد توصيل"
+  }
+}

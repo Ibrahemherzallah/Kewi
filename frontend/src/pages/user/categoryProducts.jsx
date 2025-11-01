@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {useParams} from "react-router";
 import noProduct from '../../assets/nproduct.webp';
+import {useTranslation} from "react-i18next";
 
 const CategoryProducts = () => {
     const sizes = ['كبير', 'صغير','وسط'];
@@ -15,7 +16,6 @@ const CategoryProducts = () => {
     const { id } = useParams();
     const [products, setProducts] = useState([]);
     const navigate = useNavigate();
-    // const location = useLocation();
     const location = useLocation();
     const [selectedBrand , setSelectedBrand] = useState(undefined);
     const [selectedSize, setSelectedSize] = useState(undefined);
@@ -27,7 +27,8 @@ const CategoryProducts = () => {
     const [allBrands, setAllBrands] = useState([]);
     const queryParams = new URLSearchParams(location.search);
     const catName = queryParams.get("catName");
-
+    const { t, i18n } = useTranslation();
+    const isArabic = i18n.language === "ar";
     // helper to update URL without reloading
     const updateQuery = (key, value) => {
         const params = new URLSearchParams(location.search);
@@ -104,15 +105,15 @@ const CategoryProducts = () => {
     },[])
     return (
         <Layout isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} activeTab={activeTab} setActiveTab={setActiveTab}>
-            <div className={`d-flex justify-content-between ${style.categoryProductsHeader}`}>
+            <div className={`d-flex justify-content-between ${style.categoryProductsHeader} ${isArabic ? style.ltr : style.rtl} `}>
                 {
                     <h2 className={`mt-3 mb-5 ${style.categoryHeader}`}>
                         {catName}
-                        <Typography component={'p'} style={{marginTop:'0.5rem'}}>تسوقي ارقى {catName ===  'اخرى' || catName === 'قريبا' ? "المنتجات" : catName}   💎 </Typography>
+                        <Typography component={'p'} style={{marginTop:'0.5rem'}}>{t("categoryProduct.shopping")} {catName ===  'اخرى' || catName ===  'قريبا' || catName === 'Soon' || catName === 'Other' ? `${t("categoryProduct.whatShop")}` : catName}   </Typography>
                     </h2>
                 }
 
-                { catName === 'حقائب اليد' ?
+                { catName === 'حقائب اليد' ||  catName === 'حقائب يد'?
                     <div className={`d-flex mt-3 justify-content-between ${style.dropdownsDiv}`}>
                         <UserDropDown options={brands} dropdownType={"النوع"} size={'medium'}
                                       setSelected={(value) => {
@@ -161,7 +162,7 @@ const CategoryProducts = () => {
             {/* LOADING / ERROR / PRODUCTS */}
             {loading ? (
                 <p style={{ textAlign: "center", fontSize: "18px", fontWeight: "600", color: "#666",height: "40rem" }}>
-                    جاري تحميل المنتجات...
+                    {t("loading.loading")}
                 </p>
             ) : error ? (
                 <p style={{ textAlign: "center", fontSize: "18px", fontWeight: "600", color: "red" }}>

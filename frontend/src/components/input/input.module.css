@@ -97,7 +97,15 @@ span {
 .inputArabic {
     direction: rtl;
 }
+.rtl {
+    direction: rtl !important;
+    text-align: right;
+}
 
+.ltr {
+    direction: ltr !important;
+    text-align: left;
+}
 .textArea {
     height: 6rem !important;
 }

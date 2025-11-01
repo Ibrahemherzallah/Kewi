@@ -17,6 +17,8 @@ import {CartContext} from "../context/cartContext.jsx";
 import logoTextWhite from "../assets/logoTextWhite2.png";
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import LanguageSwitcher from "../components/LanguageSwitcher.jsx";
+import {useTranslation} from "react-i18next";
 
 
 const UserNavBar = ({isSidebarOpen,setSidebarOpen,activeTab, setActiveTab}) => {
@@ -27,6 +29,7 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen,activeTab, setActiveTab}) => {
   const {isDark, setIsDark} = useContext(ThemeContext);
   const {products,setProducts} = useContext(CartContext);
   const [category,setCategories] = useState();
+    const { t } = useTranslation();
     const handleLogout = () => {
         fetch('https://kewi.ps/auth/logout', {
             method: 'POST',
@@ -71,11 +74,21 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen,activeTab, setActiveTab}) => {
                         </Link>
                     </NavBrand>
                     <NavIcons>
+                        <LanguageSwitcher className={`${style.loginLink} ms-2`} />
+                        {
+                            !user &&  <Link
+                                to="/login"
+                                className={`${style.loginBtnFilled} ${isDark ? style.darkLogin : ''}`}
+                            >
+                                {t("nav.login")}
+                            </Link>
+                        }
 
                         <IconBtn onClick={() => {
                             setIsDark(!isDark)
                         }}><FontAwesomeIcon icon={isDark ? faMoon : faSun} className={`${style.modeIcon}`}
                                             style={{color: 'var(--nav-text)'}}/></IconBtn>
+
                         { user?.isWholesaler &&
                             <div className="dropdown">
                                     <FontAwesomeIcon className={`${style.personIconNavBar}`} icon={faUserTie} type="button" data-bs-toggle="dropdown" aria-expanded="false" />
@@ -111,7 +124,7 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen,activeTab, setActiveTab}) => {
                     <nav className={`navbar navbar-expand-lg bg-{var(--bg-color)} ${style.bootstrapNav}`}>
                         <div className="container-fluid p-0">
                             <Link className={`nav-item navbar-brand m-0 ${isDark ? style.navItemDark : style.navItem}`}
-                                  to={'/'}>الرئيسية</Link>
+                                  to={'/'}>{t("nav.home")}</Link>
                             <button className={`navbar-toggler ${style.navbarToggler}`} type="button"
                                     data-bs-toggle="collapse"
                                     data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
@@ -131,62 +144,62 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen,activeTab, setActiveTab}) => {
                                             href="#"
                                             role="button"
                                         >
-                                            الحقائب
+                                            {t("nav.bags")}
                                         </a>
                                         <ul className={`p-2 position-absolute ${style.navDropDown}`}>
                                             <li className={style.dropDownItemLi}>
                                                 <Link
-                                                    to={`/category/67fd7361d3d9f99f95edff41?catName=${encodeURIComponent("حقائب اليد")}`}
+                                                    to={`/category/67fd7361d3d9f99f95edff41?catName=${encodeURIComponent(t("nav.handBags"))}`}
                                                     className={style.dropDownItem}
                                                 >
-                                                    حقائب يد
+                                                    {t("nav.handBags")}
                                                 </Link>
                                             </li>
 
                                             <li className={style.dropDownItemLi}>
                                                 <Link
-                                                    to={`/category/6803f9b235efe305218f99e7?catName=${encodeURIComponent("حقائب ظهر")}`}
+                                                    to={`/category/6803f9b235efe305218f99e7?catName=${encodeURIComponent(t("nav.backBags"))}`}
                                                     className={style.dropDownItem}
                                                 >
-                                                    حقائب ظهر
+                                                    {t("nav.backBags")}
                                                 </Link>
                                             </li>
 
                                             <li className={style.dropDownItemLi}>
                                                 <Link
-                                                    to={`/category/680fd54f4dde5779298c2701?catName=${encodeURIComponent("حقائب سفر")}`}
+                                                    to={`/category/680fd54f4dde5779298c2701?catName=${encodeURIComponent(t("nav.travelBags"))}`}
                                                     className={style.dropDownItem}
                                                 >
-                                                    حقائب سفر
+                                                    {t("nav.travelBags")}
                                                 </Link>
                                             </li>
 
                                             <li className={style.dropDownItemLi}>
                                                 <Link
-                                                    to={`/category/680fd7654dde5779298c273e?catName=${encodeURIComponent("جزدان يد")}`}
+                                                    to={`/category/680fd7654dde5779298c273e?catName=${encodeURIComponent(t("nav.wallet"))}`}
                                                     className={style.dropDownItem}
                                                 >
-                                                    جزدان يد
+                                                    {t("nav.wallet")}
                                                 </Link>
                                             </li>
                                         </ul>
                                     </li>
                                     <li className={`nav-item ${isDark ? style.navItemDark : style.navItem}`}>
                                         <Link
-                                            to={`/category/6803f9c535efe305218f99f2?catName=${encodeURIComponent("العطور")}`}
-                                            className="nav-link" aria-current="page" href="#">العطور</Link>
+                                            to={`/category/6803f9c535efe305218f99f2?catName=${encodeURIComponent(t("nav.perfume"))}`}
+                                            className="nav-link" aria-current="page" href="#">{t("nav.perfume")}</Link>
                                     </li>
                                     <li className={`nav-item ${isDark ? style.navItemDark : style.navItem}`}>
-                                        <Link to={`/category/67ff75611520f910df910f88?catName=${encodeURIComponent("الاكسسوارات")}`}
-                                              className="nav-link">الاكسسوارات</Link>
+                                        <Link to={`/category/67ff75611520f910df910f88?catName=${encodeURIComponent(t("nav.accessories"))}`}
+                                              className="nav-link">{t("nav.accessories")}</Link>
                                     </li>
                                     <li className={`nav-item ${isDark ? style.navItemDark : style.navItem}`}>
-                                        <Link to={`/category/6803fb1535efe305218f9a10?catName=${encodeURIComponent("العروض")}`}
-                                              className="nav-link">العروض</Link>
+                                        <Link to={`/category/6803fb1535efe305218f9a10?catName=${encodeURIComponent(t("nav.offers"))}`}
+                                              className="nav-link">{t("nav.offers")}</Link>
                                     </li>
                                     <li className={`nav-item ${isDark ? style.navItemDark : style.navItem}`}>
-                                        <Link to={`/category/6804dfd569ff9ce587677f0c?catName=${encodeURIComponent("قريبا")}`}
-                                              className="nav-link">قريبا</Link>
+                                        <Link to={`/category/6804dfd569ff9ce587677f0c?catName=${encodeURIComponent(t("nav.soon"))}`}
+                                              className="nav-link">{t("nav.soon")}</Link>
                                     </li>
                                     <li
                                         className={`nav-item dropdown position-relative ${style.navItemOther} ${isDark ? style.navItemDark : style.navItem}`}
@@ -196,7 +209,7 @@ const UserNavBar = ({isSidebarOpen,setSidebarOpen,activeTab, setActiveTab}) => {
                                             href="#"
                                             role="button"
                                         >
-                                            اخرى
+                                            {t("nav.other")}
                                         </a>
 
                                         <ul className={`p-2 position-absolute ${style.navDropDownOther}`}>

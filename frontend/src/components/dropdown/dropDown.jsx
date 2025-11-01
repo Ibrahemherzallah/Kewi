@@ -2,6 +2,8 @@ import style from "./dropdown.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import {useState} from "react";
+import {useTranslation} from "react-i18next";
+
 
 export const DropDown = ({size,label,isRequired,options,selected,setSelected}) => {
     return(
@@ -37,6 +39,7 @@ export const DropDown = ({size,label,isRequired,options,selected,setSelected}) =
 
 
 export const UserDropDown = ({ size, options, dropdownType,selected,setSelected}) => {
+    const { t } = useTranslation();
     const [show, setShow] = useState(false);
     return (
         <div className={`${style[size]}`} style={{ position: 'relative' }}>
@@ -50,7 +53,7 @@ export const UserDropDown = ({ size, options, dropdownType,selected,setSelected}
                 style={{ display: show ? "block" : "none" }}
             >
                 <li className="p-2" onClick={() => { setSelected(null); setShow(false); }}>
-                    مسح الفلاتر
+                    {t("dropDowns.clearFilters")}
                 </li>
                 {options.map((option, index) => (
                     <li key={index} className="p-2" onClick={() => { setSelected(option); setShow(false); }}>
@@ -67,6 +70,7 @@ export const UserDropDown = ({ size, options, dropdownType,selected,setSelected}
 
 export const UserModalDropDown = ({ size, label, isRequired, options = [], setSelected, able }) => {
     const isDeliveryType = options?.[0]?.duration !== undefined;
+    const { t } = useTranslation();
 
     return (
         <div className={`${style[size]}`}>
@@ -80,7 +84,7 @@ export const UserModalDropDown = ({ size, label, isRequired, options = [], setSe
                 disabled={able}
             >
                 <option value="" disabled>
-                    {isDeliveryType ? '-- اختر نوع التوصيل --' : '-- اختر المدينة --'}
+                    {isDeliveryType ? `-- ${t("purchaseModal.chooseDeliveryType")} --` : `-- ${t("purchaseModal.chooseArea")} --`}
                 </option>
 
                 {options?.map((option, index) => (
