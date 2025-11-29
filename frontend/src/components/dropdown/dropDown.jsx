@@ -53,7 +53,7 @@ export const UserDropDown = ({ size, options, dropdownType,selected,setSelected}
                 style={{ display: show ? "block" : "none" }}
             >
                 <li className="p-2" onClick={() => { setSelected(null); setShow(false); }}>
-                    {t("dropDowns.clearFilters")}
+                    مسح الفلاتر
                 </li>
                 {options.map((option, index) => (
                     <li key={index} className="p-2" onClick={() => { setSelected(option); setShow(false); }}>

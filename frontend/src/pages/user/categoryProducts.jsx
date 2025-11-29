@@ -113,7 +113,7 @@ const CategoryProducts = () => {
                     </h2>
                 }
 
-                { catName === 'حقائب اليد' ||  catName === 'حقائب يد'?
+                { catName === 'حقائب اليد' ||  catName === 'حقائب يد' || catName === "Hand Bags"?
                     <div className={`d-flex mt-3 justify-content-between ${style.dropdownsDiv}`}>
                         <UserDropDown options={brands} dropdownType={"النوع"} size={'medium'}
                                       setSelected={(value) => {
@@ -170,7 +170,7 @@ const CategoryProducts = () => {
                 </p>
             ) : (
                 <div className={`mb-5 ${filteredProducts.length === 0 ? `d-flex justify-content-center` : ''} ${style.categoryProducts}`}>
-                    {catName === 'حقائب اليد'
+                    {catName === 'حقائب اليد' ||  catName === 'حقائب يد' || catName === "Hand Bags"
                         ? filteredBags?.map((item, index) => (
                             <CardItem key={index} isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen}  activeTab={activeTab} setActiveTab={setActiveTab} item={item} />
                         ))

@@ -244,7 +244,7 @@ const UserDetailsModal = () => {
                                 </div>
                                 {
                                     userData && !userData.isWholesaler && (
-                                        <div className={`form-check form-switch ps-0 gap-3 justify-content-end align-items-center d-flex pt-3 ${style.soldOutDiv}`}>
+                                        <div className={`form-check form-switch ps-0 gap-5 justify-content-end align-items-center d-flex pt-3 ${style.soldOutDiv}`}>
                                             <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked={isInSite} onChange={()=> setIsInSite(!isInSite)} />
                                             <span>{t("purchaseModal.inMarket")}</span>
                                         </div>
