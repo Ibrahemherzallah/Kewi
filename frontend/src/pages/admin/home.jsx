@@ -222,8 +222,8 @@ const AdminDash = () => {
                             <Skeleton height={100} count={5} />
                         </div>
                     ) : (
-                        <div className={`${style.scrollWrapper}`}>
-                            <div className={`tab-content ${style.mainContentDiv}`}>
+                        <>
+                            <div className="tab-content">
                                 {activeTab === "products" && (
                                     <div className={`tab-pane fade show active ${style.productsTab}`}>
                                         <div className={`d-flex justify-content-between pb-2 mb-4 ${style.contents}`}>
@@ -284,7 +284,8 @@ const AdminDash = () => {
                                     </div>
                                 )}
                             </div>
-                        </div>
+
+                        </>
                     )
 
                 }
